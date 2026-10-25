@@ -137,3 +137,8 @@ Below the hero (menu item ABOUT PROJECT scrolls to it, `#about`). A light "drawi
 * **Our other projects:** one continuous route of straight segments only — down the main line to a project, sideways out to it (a square node marks the turn), down along its edge, back sideways to the main line, down to the next project, and so on. No curves and no diagonals anywhere in the sketch; the extra marks (scale ticks, extension lines past the pictures' corners, a dimension line with square end ticks) are straight too and never run ahead of the route's tip.
 * **Gradient lines:** the sketch is stroked with a vertical gradient — faint at the top (28 %), full strength at the bottom — and the About ink line goes from faint to full ink along its length.
 * **Fix:** picture contours no longer show stray corner marks before they draw (the contour is now a pixel-true rectangle).
+
+### Update — straight corner, repository
+
+* The decoration on the dark corner sheet no longer bends on a quarter arc: the top dimension line turns the corner **straight down** as a second, shorter dimension line with the same ticks and the same end slash.
+* The project lives in the GitHub repository `bodya-dis/forra` (branch `main`).
