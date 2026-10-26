@@ -497,6 +497,56 @@
   .pv3.static .pv3-field { position: static; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 32px; }
   .pv3.static .pv3-card { position: relative; visibility: visible; transform: none !important; --cap: 1; }
   .pv3.static .pv3-bg { display: none; }
+
+  /* =====================================================================
+     DIMENSIONS — 3-D motion typography after Our projects, on paper. Scroll-driven and pinned:
+     1 · a cube of type turns in space — every face set with the studio's words, repeated like a print;
+     2 · the camera moves in: the cube grows past the frame and a tilted plane takes its place —
+         a photo on a sheet in perspective, with the slogan sliding across it.
+     Uses only the site's existing words and facts.
+     ===================================================================== */
+  .dim { --paper: #ecebe6; --ink: #292a2d; --muted: #66645f; --hair: rgba(41,42,45,.22); --acc: #8f5a2c; --pad: clamp(16px, 2.6vw, 50px);
+    position: relative; background: var(--paper); color: var(--ink); font-family: 'Poppins', system-ui, sans-serif; overflow: hidden; }
+  .dim * { box-sizing: border-box; }
+  .dim-frame { position: relative; height: 100vh; height: 100svh; perspective: 1200px; perspective-origin: 50% 50%; background: var(--paper); isolation: isolate; }
+  @media (max-width: 899px) { .dim-plane { width: 86vw !important; } .dim-run { font-size: 22vw !important; } }
+  .dim-meta { position: absolute; left: var(--pad); right: var(--pad); top: clamp(28px, 5vh, 56px); display: flex; justify-content: space-between; z-index: 3;
+    font-weight: 600; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .dim-meta::after { content: ""; position: absolute; left: 0; right: 0; top: calc(100% + 12px); height: 1px; background: var(--hair); }
+  .dim-foot { position: absolute; left: var(--pad); right: var(--pad); bottom: clamp(24px, 4vh, 44px); display: flex; justify-content: space-between; z-index: 3;
+    font-weight: 600; font-size: 10.5px; line-height: 2; letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
+  .dim-foot span:last-child { text-align: right; }
+
+  /* the cube */
+  .dim-cube { --S: min(52vh, 440px, 70vw); position: absolute; left: 50%; top: 50%; width: var(--S); height: var(--S); margin: calc(var(--S) / -2) 0 0 calc(var(--S) / -2);
+    transform-style: preserve-3d; will-change: transform; }
+  .dim-face { position: absolute; inset: 0; background: var(--ink); color: var(--paper); overflow: hidden; backface-visibility: hidden;
+    display: flex; flex-direction: column; justify-content: space-between; padding: calc(var(--S) * .06); border: 1px solid rgba(236,235,230,.12); }
+  .dim-face.f1 { transform: translateZ(calc(var(--S) / 2)); }
+  .dim-face.f2 { transform: rotateY(90deg) translateZ(calc(var(--S) / 2)); }
+  .dim-face.f3 { transform: rotateY(180deg) translateZ(calc(var(--S) / 2)); }
+  .dim-face.f4 { transform: rotateY(-90deg) translateZ(calc(var(--S) / 2)); }
+  .dim-face.f5 { transform: rotateX(90deg) translateZ(calc(var(--S) / 2)); }
+  .dim-face.f6 { transform: rotateX(-90deg) translateZ(calc(var(--S) / 2)); }
+  .dim-face .big { font-weight: 600; font-size: calc(var(--S) * .118); line-height: .98; letter-spacing: -.04em; }
+  .dim-face .row { display: flex; justify-content: space-between; gap: 10px; font-weight: 600; font-size: calc(var(--S) * .026); letter-spacing: .1em; text-transform: uppercase; opacity: .75; }
+  .dim-face .print { font-weight: 600; font-size: calc(var(--S) * .05); line-height: 1.05; letter-spacing: -.02em; opacity: .28; white-space: nowrap; }
+  .dim-face .acc { color: #d29a64; }
+  .dim-face.light { background: var(--paper); color: var(--ink); border-color: var(--hair); }
+
+  /* the plane */
+  .dim-plane { position: absolute; left: 50%; top: 50%; width: min(64vw, 900px); aspect-ratio: 16 / 10; margin: 0; transform-style: preserve-3d; will-change: transform, opacity; opacity: 0; }
+  .dim-plane img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .dim-plane .cap { position: absolute; left: 0; right: 0; top: calc(100% + 12px); display: flex; justify-content: space-between; font-weight: 600; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .dim-run { position: absolute; left: 0; top: 50%; z-index: 2; margin: 0; white-space: nowrap; will-change: transform; opacity: 0; pointer-events: none;
+    font-family: 'Anta', sans-serif; font-weight: 400; font-size: clamp(64px, 11vw, 200px); line-height: .9; letter-spacing: -.04em; text-transform: uppercase; color: #fff; mix-blend-mode: difference; }   /* reads dark on paper, light over the photo */
+  .dim-run b { font-weight: 400; }
+
+  /* reduced motion / no GSAP: the cube shown still, the plane and slogan below it */
+  .dim.static .dim-frame { height: auto; padding: 120px var(--pad) 100px; perspective: none; }
+  .dim.static .dim-cube { position: relative; left: auto; top: auto; margin: 0 auto 60px; transform: rotateX(-18deg) rotateY(-32deg); }
+  .dim.static .dim-plane { position: relative; left: auto; top: auto; margin: 0 auto; opacity: 1; }
+  .dim.static .dim-run { position: relative; top: auto; opacity: 1; white-space: normal; margin-top: 40px; font-size: clamp(40px, 8vw, 120px); }
 </style>
 </head>
 <body>
@@ -669,6 +719,24 @@
       <figure class="pv3-card" tabindex="0" aria-label="Larch Studio: A workshop and guest house in larch and concrete, set into the slope. Will be ready soon."><span class="im"><img src="assets/prj-07.webp" loading="lazy" alt="Larch Studio (placeholder picture)" data-temp class="on"><img src="assets/about-living.webp" loading="lazy" alt="" data-temp><img src="assets/about-materials.webp" loading="lazy" alt="" data-temp><span class="pv3-info"><p data-temp>A workshop and guest house in larch and concrete, set into the slope.</p><span class="pv3-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span></span></span><figcaption><span class="n">07</span><span class="t" data-temp>Larch Studio</span><span class="pv3-tag soon">Will be ready soon</span></figcaption></figure>
     </div>
     <p class="pv3-copy">© 2026 FORRA Residence. Project names, texts and pictures are placeholders.</p>
+  </div>
+</section>
+<!-- DIMENSIONS — 3-D motion typography: a cube of type turns, then the camera flies into a tilted plane with the slogan -->
+<section class="dim" id="dimensions" aria-label="FORRA Residence — in three dimensions">
+  <div class="dim-frame">
+    <div class="dim-meta"><span>/ 04 · Dimensions</span><span>FORRA Residence</span></div>
+    <div class="dim-cube" aria-hidden="true">
+      <div class="dim-face f1"><div class="row"><span>FORRA</span><span>/ 01</span></div><div class="big">We don't design places to live.</div><div class="row"><span>Carpathians</span><span>Hirne Village</span></div></div>
+      <div class="dim-face f2 light"><div class="row"><span>Site</span><span>/ 02</span></div><div class="big">We design houses.</div><div class="row"><span>Light</span><span>Material · Form</span></div></div>
+      <div class="dim-face f3"><div class="row"><span>House size</span><span>/ 03</span></div><div class="big"><span class="acc">200</span> m²</div><div class="print">200 m² · 200 m² · 200 m²<br>200 m² · 200 m² · 200 m²<br>200 m² · 200 m² · 200 m²</div></div>
+      <div class="dim-face f4 light"><div class="row"><span>Completion</span><span>/ 04</span></div><div class="big">12 Dec. 2027</div><div class="row"><span>Price</span><span>80.000 $</span></div></div>
+      <div class="dim-face f5"><div class="print">FORRA FORRA FORRA<br>RESIDENCE RESIDENCE<br>FORRA FORRA FORRA<br>RESIDENCE RESIDENCE<br>FORRA FORRA FORRA</div><div class="row"><span>Est. 2026</span><span>/ 05</span></div></div>
+      <div class="dim-face f6 light"><div class="print">SITE · LIGHT · MATERIAL<br>FORM · SITE · LIGHT<br>MATERIAL · FORM · SITE</div><div class="row"><span>Drawn · built · lived in</span><span>/ 06</span></div></div>
+    </div>
+    <figure class="dim-plane"><img src="assets/about-house.webp" alt="FORRA Residence at dusk among the pines below the mountains"><figcaption class="cap"><span>FORRA Residence</span><span>Carpathians, Hirne Village, Ukraine</span></figcaption></figure>
+    <p class="dim-run" aria-hidden="true">We don't design places to live <b>—</b> we design houses <b>—</b> We don't design places to live <b>—</b></p>
+    <p class="sr-only">We don't design places to live. We design houses. FORRA Residence: 200 m², completion 12 December 2027, 80.000 $.</p>
+    <div class="dim-foot" aria-hidden="true"><span>Site<br>Light<br>Material<br>Form</span><span>Drawn<br>built<br>lived in</span></div>
   </div>
 </section>
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"><svg viewBox="0 0 22 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="square"><path d="M11 1 L21 11 M11 1 L1 11"/><path d="M4 8.5 V23 H18 V8.5"/><path d="M9 23 V16.5 H13 V23"/></svg></div>
@@ -1279,6 +1347,7 @@
       root.classList.remove('lock');
       aboutH.init();
       pv3.init();
+      dim3.init();
       flushScroll();
     });
   }
@@ -1628,6 +1697,35 @@
       const tw = gsap.to(state, { p: 1, ease: 'none', onUpdate: () => render(state.p) });
       st = ScrollTrigger.create({ trigger: sec, pin: true, start: 'top top', end: () => '+=' + Math.round(innerHeight * 2.2),
         scrub: .8, animation: tw, invalidateOnRefresh: true, refreshPriority: -3, onRefresh: () => { layout(); render(state.p); } });
+    }
+    return { init };
+  })();
+
+  // Dimensions — cube of type turns with the scroll, then the camera flies in to a tilted plane with the slogan
+  const dim3 = (() => {
+    const sec = $('#dimensions');
+    if (!sec) return { init() {} };
+    const cube = sec.querySelector('.dim-cube'), plane = sec.querySelector('.dim-plane'), run = sec.querySelector('.dim-run');
+    let st = null;
+    function init() {
+      if (st) return;
+      if (REDUCE || !window.ScrollTrigger) { sec.classList.add('static'); return; }
+      gsap.set(plane, { xPercent: -50, yPercent: -50 });
+      const tl = gsap.timeline({ defaults: { ease: 'none' } });
+      // 1 · the cube turns: three quarter-turns, tumbling a little on the other axis, so every face passes the front
+      tl.fromTo(cube, { rotationX: -22, rotationY: 28, z: -200, scale: .8 }, { rotationX: 14, rotationY: -250, z: 0, scale: 1, duration: 5.5, ease: 'power1.inOut' }, 0)
+      // 2 · the camera moves in: the cube grows past the frame and fades
+        .to(cube, { rotationY: -300, rotationX: 0, z: 900, duration: 1.6, ease: 'power2.in' }, 5.5)
+        .to(cube, { opacity: 0, duration: .5 }, 6.6)
+      // the plane arrives from depth, tilted, and settles into a gentle three-quarter view
+        .fromTo(plane, { opacity: 0, z: -1400, rotationY: -55, rotationX: 18 }, { opacity: 1, z: 0, rotationY: -18, rotationX: 6, duration: 2, ease: 'power2.out' }, 6.4)
+      // the slogan slides across the frame, in front of the plane
+        .fromTo(run, { opacity: 0, x: () => innerWidth * .9 }, { opacity: 1, x: () => -(run.scrollWidth - innerWidth * .2), duration: 4.2 }, 7.2)
+        .to(plane, { rotationY: 12, rotationX: 0, z: -120, duration: 4.2 }, 7.2)
+        .to({}, { duration: .4 });
+      tl.set(run, { yPercent: -50 }, 0);
+      st = ScrollTrigger.create({ trigger: sec, pin: true, start: 'top top', end: () => '+=' + Math.round(innerHeight * 3.2),
+        scrub: .9, animation: tl, invalidateOnRefresh: true, refreshPriority: -4 });
     }
     return { init };
   })();

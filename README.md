@@ -181,3 +181,12 @@ The 3-D stack trial (version B) has been removed. In its place, still **below** 
 
 * **Corner sheet:** keeps its drawn dimension line and the statement that lights up word by word; adds a small photo of the house set into the indent of the first line, with a hairline caption «FORRA Residence / 003» (it opens upward as the sheet arrives).
 * **Our projects, restyled** (same content, same single-file walk into rows): heading in light Poppins 300 on a hairline, small «/ 03» label; square photos without rounding or shadow; each caption on a hairline — a small «·02» index, the name in large light type, the status after «↳» in small capitals.
+
+### New section — Dimensions (`#dimensions`, after Our projects)
+
+3-D motion typography in the spirit of the supplied reference («3D Movie with Stacked Dimensions»), on the paper background, scroll-driven and pinned for 3.2 window heights:
+
+1. **A cube of type turns in space** — six faces, alternately ink and paper, set with the site's own words and facts: «We don't design places to live.», «We design houses.», «200 m²» (with a repeated print), «12 Dec. 2027 / 80.000 $», «FORRA RESIDENCE» repeated, «Site · Light · Material · Form».
+2. **The camera moves in** — the cube grows past the frame and fades; a photo on a sheet arrives from depth, tilted, and settles into a three-quarter view; the slogan «We don't design places to live — we design houses —» slides across in huge type (difference blend: dark on paper, light over the photo).
+
+Screen readers get the slogan and facts as plain text. Reduced motion / no GSAP: the cube shown still at an angle, the photo and slogan below. Timeline in the `dim3` script.
