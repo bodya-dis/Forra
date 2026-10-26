@@ -414,12 +414,13 @@
   .ns-deco .soft { stroke-opacity: .45; }
   .ns-meta { position: absolute; left: var(--pad); right: var(--pad); top: calc(max(56px, 10vh) + 34px); display: flex; justify-content: space-between;
     font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--lt2); }
-  .ns-statement { position: absolute; left: var(--pad); right: var(--pad); top: 50%; transform: translateY(-50%); margin: 0; max-width: 1180px;
-    font-family: 'Poppins', sans-serif; font-weight: 600; font-size: clamp(26px, 3.1vw, 52px); line-height: 1.18; letter-spacing: -.025em;
+  .ns-statement { position: absolute; left: var(--pad); right: var(--pad); top: 50%; transform: translateY(-50%); margin: 0; max-width: min(1180px, 74%);
+    font-family: 'Poppins', sans-serif; font-weight: 600; font-size: clamp(26px, 3.1vw, 52px); line-height: 1.08; letter-spacing: -.025em;
     text-indent: 18%; color: var(--lt); }
   .ns-statement .w { color: rgba(236,235,230,.22); }
   /* designer element: a small photo set into the indent of the statement's first line, with a hairline caption */
-  .ns-pic { position: absolute; left: var(--pad); top: 50%; width: min(14vw, 210px); margin: 0; transform: translateY(calc(-100% - 2.4vw)); }
+  .ns-pic { position: absolute; right: var(--pad); top: calc(max(56px, 10vh) + 70px); width: min(13vw, 200px); margin: 0; }
+  @media (max-width: 899px) { .ns-pic { display: none; } }
   .ns-pic img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
   .ns-pic figcaption { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line);
     font-weight: 600; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--lt2); }
@@ -439,17 +440,16 @@
   .pv3-head { position: absolute; left: var(--pad); right: var(--pad); top: clamp(28px, 6vh, 64px); display: flex; align-items: baseline; gap: 24px; z-index: 2; }
   .pv3-head h2 { margin: 0; font-family: 'Poppins', sans-serif; font-weight: 300; font-size: clamp(40px, 4.8vw, 88px); line-height: .9; letter-spacing: -.055em; }
   .pv3-head { padding-bottom: 14px; border-bottom: 1px solid var(--line); align-items: flex-end; }
-  .pv3-head .lbl { font-weight: 600; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--lt2); align-self: flex-start; }
+  .pv3-head .lbl { white-space: nowrap; font-weight: 600; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--lt2); align-self: flex-start; }
   .pv3-head .grow { flex: 1; }
   .pv3-head .count { white-space: nowrap; font-weight: 600; font-size: 12px; letter-spacing: .08em; color: var(--lt2); }
   .pv3-head .count b { color: var(--lt); font-weight: 600; }
   /* background: a dash-dotted circle with dash-dotted axes, like the centre lines on a drawing, and — very faint — the
      outline of a gabled house in the corner. The projects walk along this circle. */
   .pv3-bg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-  .pv3-bg .c { fill: none; stroke: rgba(236,235,230,.28); stroke-width: 1; stroke-dasharray: 18 6 2 6; }
-  .pv3-bg .c2 { fill: none; stroke: rgba(236,235,230,.1); stroke-width: 1; }
-  .pv3-bg .ax { stroke: rgba(236,235,230,.12); stroke-width: 1; stroke-dasharray: 18 6 2 6; }
-  .pv3-bg .house { fill: none; stroke: rgba(236,235,230,.09); stroke-width: 1; }
+  .pv3-bg path { fill: none; stroke: rgba(236,235,230,.42); stroke-width: 1; stroke-dasharray: 1 1; stroke-dashoffset: 1; }
+  .pv3-bg path.soft { stroke: rgba(236,235,230,.26); }
+  .pv3-bg path.ax { stroke: rgba(236,235,230,.14); }
   .pv3-ring { display: none; }
   .pv3-field { position: absolute; inset: 0; }
   .pv3-card { position: absolute; left: 0; top: 0; margin: 0; transform-origin: 0 0; will-change: transform; visibility: hidden; outline: none; }
@@ -509,7 +509,7 @@
     position: relative; background: var(--paper); color: var(--ink); font-family: 'Poppins', system-ui, sans-serif; overflow: hidden; }
   .dim * { box-sizing: border-box; }
   .dim-frame { position: relative; height: 100vh; height: 100svh; perspective: 1200px; perspective-origin: 50% 50%; background: var(--paper); isolation: isolate; }
-  @media (max-width: 899px) { .dim-plane { width: 86vw !important; } .dim-run { font-size: 22vw !important; } }
+  @media (max-width: 899px) { .dim-plane { width: 86vw !important; } .dim-run { font-size: 14vw !important; } }
   .dim-meta { position: absolute; left: var(--pad); right: var(--pad); top: clamp(28px, 5vh, 56px); display: flex; justify-content: space-between; z-index: 3;
     font-weight: 600; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
   .dim-meta::after { content: ""; position: absolute; left: 0; right: 0; top: calc(100% + 12px); height: 1px; background: var(--hair); }
@@ -535,18 +535,49 @@
   .dim-face.light { background: var(--paper); color: var(--ink); border-color: var(--hair); }
 
   /* the plane */
-  .dim-plane { position: absolute; left: 50%; top: 50%; width: min(64vw, 900px); aspect-ratio: 16 / 10; margin: 0; transform-style: preserve-3d; will-change: transform, opacity; opacity: 0; }
-  .dim-plane img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .dim-plane .cap { position: absolute; left: 0; right: 0; top: calc(100% + 12px); display: flex; justify-content: space-between; font-weight: 600; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-  .dim-run { position: absolute; left: 0; top: 50%; z-index: 2; margin: 0; white-space: nowrap; will-change: transform; opacity: 0; pointer-events: none;
-    font-family: 'Anta', sans-serif; font-weight: 400; font-size: clamp(64px, 11vw, 200px); line-height: .9; letter-spacing: -.04em; text-transform: uppercase; color: #fff; mix-blend-mode: difference; }   /* reads dark on paper, light over the photo */
-  .dim-run b { font-weight: 400; }
+  .dim-plane { position: absolute; left: 50%; top: 45%; width: min(52vw, 760px, 90vh); aspect-ratio: 16 / 10; margin: 0; transform-style: preserve-3d; will-change: transform, opacity; opacity: 0; }
+  .dim-plane img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .6s ease; }
+  .dim-plane img.on { opacity: 1; }
+  .dim-plane .cap { position: absolute; left: 0; right: 0; top: calc(100% + 14px); display: flex; justify-content: space-between; align-items: baseline; font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .dim-plane .cap #dimCapT { display: none; }
+  .dim-plane .cap #dimCapT-old { font-family: 'Poppins', sans-serif; font-weight: 300; font-size: clamp(20px, 1.8vw, 30px); letter-spacing: -.03em; text-transform: none; color: var(--ink); }
+  .dim-run { position: absolute; left: 0; top: 86%; z-index: 2; margin: 0; white-space: nowrap; will-change: transform; opacity: 0; pointer-events: none;
+    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: clamp(40px, 6vw, 110px); line-height: 1; letter-spacing: -.05em; color: rgba(41,42,45,.2); }   /* on paper only — never over the photo */
+  .dim-run span { transition: color .4s ease; } .dim-run span.on { color: var(--ink); }
+  .dim-run b { font-weight: 300; color: var(--acc); }
 
   /* reduced motion / no GSAP: the cube shown still, the plane and slogan below it */
   .dim.static .dim-frame { height: auto; padding: 120px var(--pad) 100px; perspective: none; }
   .dim.static .dim-cube { position: relative; left: auto; top: auto; margin: 0 auto 60px; transform: rotateX(-18deg) rotateY(-32deg); }
   .dim.static .dim-plane { position: relative; left: auto; top: auto; margin: 0 auto; opacity: 1; }
   .dim.static .dim-run { position: relative; top: auto; opacity: 1; white-space: normal; margin-top: 40px; font-size: clamp(40px, 8vw, 120px); }
+
+  /* =====================================================================
+     LOCATION — after Dimensions. A line-drawn globe turns inside a technical frame; a ring of type runs round it;
+     small labels in the margins and a row of page dots. Halfway through, the sheet inverts — paper to ink.
+     Scroll-driven and pinned. No coordinates are shown (none were supplied).
+     ===================================================================== */
+  .loc { --bg: #ecebe6; --fg: #292a2d; --mute: #66645f; --pad: clamp(16px, 2.6vw, 50px); position: relative; color: var(--fg); background: var(--bg);
+    font-family: 'Poppins', system-ui, sans-serif; overflow: hidden; transition: background .7s ease, color .7s ease; }
+  .loc.ink { --bg: #161718; --fg: #ecebe6; --mute: #a9a7a1; }
+  .loc * { box-sizing: border-box; }
+  .loc-frame { position: relative; height: 100vh; height: 100svh; }
+  .loc-dots { position: absolute; left: 50%; top: clamp(28px, 6vh, 64px); transform: translateX(-50%); display: flex; gap: 10px; z-index: 2; }
+  .loc-dots i { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--fg); transition: background .3s ease; }
+  .loc-dots i.on { background: var(--fg); }
+  .loc-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .loc-svg .fr { fill: none; stroke: var(--fg); stroke-width: 1; opacity: .55; }
+  .loc-svg .fr.dash { stroke-dasharray: 3 5; opacity: .45; }
+  .loc-svg .ring { font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; fill: var(--fg); }
+  .loc canvas { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+  .loc-lbl { position: absolute; z-index: 2; margin: 0; font-weight: 600; font-size: 11px; line-height: 1.55; letter-spacing: .06em; text-transform: uppercase; color: var(--mute); }
+  .loc-lbl b { color: var(--fg); font-weight: 600; }
+  .loc-lbl.l { left: var(--pad); top: 50%; transform: translateY(-50%); }
+  .loc-lbl.r { right: var(--pad); top: 50%; transform: translateY(-50%); text-align: right; }
+  .loc-lbl.b { left: 0; right: 0; bottom: clamp(20px, 4vh, 40px); display: flex; justify-content: space-between; padding: 10px var(--pad) 0; border-top: 1px solid currentColor; }
+  .loc-say { position: absolute; left: 50%; top: calc(50% + min(31vh, 270px) + 26px); transform: translateX(-50%); margin: 0; text-align: center; z-index: 2;
+    font-weight: 300; font-size: clamp(22px, 2.2vw, 38px); letter-spacing: -.03em; line-height: 1.1; white-space: nowrap; }
+  @media (max-width: 899px) { .loc-lbl.l, .loc-lbl.r { display: none; } .loc-say { white-space: normal; width: 86vw; } }
 </style>
 </head>
 <body>
@@ -695,7 +726,7 @@
   <div class="ns-cover" id="nsCover" aria-hidden="true">
     <svg class="ns-deco" aria-hidden="true"></svg>
     <div class="ns-meta"><span>About our work</span><span>©2026</span></div>
-    <figure class="ns-pic" aria-hidden="true"><img src="assets/about-house.webp" alt=""><figcaption><span>FORRA Residence</span><span>/ 003</span></figcaption></figure>
+    <figure class="ns-pic" aria-hidden="true"><img src="assets/about-house.webp" alt=""></figure>
     <p class="ns-statement" id="nsStatement"><span class="w">Every</span> <span class="w">house</span> <span class="w">we</span> <span class="w">draw</span> <span class="w">begins</span> <span class="w">with</span> <span class="w">its</span> <span class="w">site.</span> <span class="w">We</span> <span class="w">study</span> <span class="w">the</span> <span class="w">slope,</span> <span class="w">the</span> <span class="w">light</span> <span class="w">and</span> <span class="w">the</span> <span class="w">forest</span> <span class="w">first,</span> <span class="w">and</span> <span class="w">let</span> <span class="w">the</span> <span class="w">building</span> <span class="w">settle</span> <span class="w">into</span> <span class="w">them</span> <span class="w">—</span> <span class="w">so</span> <span class="w">that</span> <span class="w">it</span> <span class="w">feels</span> <span class="w">as</span> <span class="w">if</span> <span class="w">it</span> <span class="w">had</span> <span class="w">always</span> <span class="w">been</span> <span class="w">there.</span></p>
     <div class="ns-notes" aria-hidden="true"><span>Site<br>Light<br>Material<br>Form</span><span>Carpathians<br>Hirne Village</span><span>Drawn<br>built<br>lived in</span></div>
   </div>
@@ -726,17 +757,36 @@
   <div class="dim-frame">
     <div class="dim-meta"><span>/ 04 · Dimensions</span><span>FORRA Residence</span></div>
     <div class="dim-cube" aria-hidden="true">
-      <div class="dim-face f1"><div class="row"><span>FORRA</span><span>/ 01</span></div><div class="big">We don't design places to live.</div><div class="row"><span>Carpathians</span><span>Hirne Village</span></div></div>
-      <div class="dim-face f2 light"><div class="row"><span>Site</span><span>/ 02</span></div><div class="big">We design houses.</div><div class="row"><span>Light</span><span>Material · Form</span></div></div>
-      <div class="dim-face f3"><div class="row"><span>House size</span><span>/ 03</span></div><div class="big"><span class="acc">200</span> m²</div><div class="print">200 m² · 200 m² · 200 m²<br>200 m² · 200 m² · 200 m²<br>200 m² · 200 m² · 200 m²</div></div>
+      <div class="dim-face f1"><div class="row"><span>FORRA</span><span>/ 01</span></div><div class="big">A house shaped by the slope.</div><div class="row"><span>Carpathians</span><span>Hirne Village</span></div></div>
+      <div class="dim-face f2 light"><div class="row"><span>Light</span><span>/ 02</span></div><div class="big">Glass to the peaks, stone to the ground.</div><div class="row"><span>Orientation</span><span>Views</span></div></div>
+      <div class="dim-face f3"><div class="row"><span>House size</span><span>/ 03</span></div><div class="big"><span class="acc">200</span> m²</div><div class="row"><span>Open rooms</span><span>Terraces</span></div></div>
       <div class="dim-face f4 light"><div class="row"><span>Completion</span><span>/ 04</span></div><div class="big">12 Dec. 2027</div><div class="row"><span>Price</span><span>80.000 $</span></div></div>
-      <div class="dim-face f5"><div class="print">FORRA FORRA FORRA<br>RESIDENCE RESIDENCE<br>FORRA FORRA FORRA<br>RESIDENCE RESIDENCE<br>FORRA FORRA FORRA</div><div class="row"><span>Est. 2026</span><span>/ 05</span></div></div>
-      <div class="dim-face f6 light"><div class="print">SITE · LIGHT · MATERIAL<br>FORM · SITE · LIGHT<br>MATERIAL · FORM · SITE</div><div class="row"><span>Drawn · built · lived in</span><span>/ 06</span></div></div>
+      <div class="dim-face f5"><div class="row"><span>Process</span><span>/ 05</span></div><div class="big">Drawn by hand, measured on site.</div><div class="row"><span>Est. 2026</span><span>Studio</span></div></div>
+      <div class="dim-face f6 light"><div class="row"><span>Material</span><span>/ 06</span></div><div class="big">Timber, stone and glass.</div><div class="row"><span>Warm</span><span>Lasting</span></div></div>
     </div>
-    <figure class="dim-plane"><img src="assets/about-house.webp" alt="FORRA Residence at dusk among the pines below the mountains"><figcaption class="cap"><span>FORRA Residence</span><span>Carpathians, Hirne Village, Ukraine</span></figcaption></figure>
-    <p class="dim-run" aria-hidden="true">We don't design places to live <b>—</b> we design houses <b>—</b> We don't design places to live <b>—</b></p>
-    <p class="sr-only">We don't design places to live. We design houses. FORRA Residence: 200 m², completion 12 December 2027, 80.000 $.</p>
+    <figure class="dim-plane">
+      <img class="on" src="assets/about-house.webp" alt="The house at dusk among the pines">
+      <img src="assets/about-site.webp" alt="The mountain valley at sunrise">
+      <img src="assets/about-plan.webp" alt="Ground floor plan">
+      <img src="assets/about-materials.webp" alt="Samples of walnut, travertine, dark stone and bronze">
+      <img src="assets/about-living.webp" alt="Living room with panoramic glazing">
+      <figcaption class="cap"><span id="dimCapN">01 / 05</span><span id="dimCapT">The house</span></figcaption>
+    </figure>
+    <p class="dim-run" id="dimRun" aria-hidden="true"><span class="on">The house</span> <b>·</b> <span>The site</span> <b>·</b> <span>The plan</span> <b>·</b> <span>The materials</span> <b>·</b> <span>The rooms</span></p>
+    <p class="sr-only">FORRA Residence: a house shaped by the slope, with glass to the peaks and stone to the ground. 200 m², completion 12 December 2027, 80.000 $. Timber, stone and glass.</p>
     <div class="dim-foot" aria-hidden="true"><span>Site<br>Light<br>Material<br>Form</span><span>Drawn<br>built<br>lived in</span></div>
+  </div>
+</section>
+<!-- LOCATION — a line-drawn globe in a technical frame, a ring of type, page dots; the sheet inverts halfway -->
+<section class="loc" id="location-globe" aria-labelledby="locSay">
+  <div class="loc-frame">
+    <div class="loc-dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+    <svg class="loc-svg" id="locSvg" aria-hidden="true"></svg>
+    <canvas id="locGlobe" aria-hidden="true"></canvas>
+    <p class="loc-lbl l">/ 05<br><b>Location</b><br>Carpathians<br>Hirne Village, Ukraine</p>
+    <p class="loc-lbl r">FORRA Residence<br><b>200 m²</b><br>Completion<br>12 Dec. 2027</p>
+    <h2 class="loc-say" id="locSay">Far from the noise, close to the peaks.</h2>
+    <div class="loc-lbl b" aria-hidden="true"><span>©2026</span><span>FORRA Residence</span><span>/ 05</span></div>
   </div>
 </section>
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"><svg viewBox="0 0 22 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="square"><path d="M11 1 L21 11 M11 1 L1 11"/><path d="M4 8.5 V23 H18 V8.5"/><path d="M9 23 V16.5 H13 V23"/></svg></div>
@@ -1348,6 +1398,7 @@
       aboutH.init();
       pv3.init();
       dim3.init();
+      loc.init();
       flushScroll();
     });
   }
@@ -1587,7 +1638,6 @@
         .fromTo(deco.querySelectorAll('path'), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: .9, ease: 'none', stagger: .12 }, 1.2)
         .fromTo(cover.querySelectorAll('.ns-meta span, .ns-notes span'), { opacity: 0 }, { opacity: 1, duration: .6, stagger: .08 }, 1.3)
         .fromTo(cover.querySelector('.ns-pic img'), { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: .8, ease: 'power3.inOut' }, 1.3)
-        .fromTo(cover.querySelector('.ns-pic figcaption'), { opacity: 0 }, { opacity: 1, duration: .5 }, 1.8)
         .fromTo(cover.querySelector('.ns-statement'), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .6, ease: 'power2.out' }, 1.4)
         // the statement lights up word by word as the scroll goes on: from dim to full strength
         .fromTo(cover.querySelectorAll('.ns-statement .w'), { color: 'rgba(236,235,230,.22)' }, { color: 'rgba(236,235,230,1)', duration: .25, ease: 'none', stagger: .05 }, 1.7);
@@ -1631,7 +1681,7 @@
     const N = cards.length, GAP = .11;                    // spacing of the file along the path
     const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
     const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    let geo = null, st = null;
+    let geo = null, st = null, geo_lines = [];
     function layout() {
       const W = frame.clientWidth, H = frame.clientHeight, narrow = W < 900;
       const cols = narrow ? 2 : 3, rows = Math.ceil(N / cols), pad = narrow ? 16 : Math.max(48, Math.min(72, W * .045));
@@ -1645,8 +1695,25 @@
       cards.forEach(c => c.style.width = cw + 'px');
       // the dash-dotted circle the projects walk on (the blueprint behind is the section's background image)
       bg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-      bg.innerHTML = `<circle class="c" cx="${cx}" cy="${cy}" r="${R}"/>
-`;
+      // an architectural line drawing fills the empty frame before the projects come; it clears as they arrive.
+      // Straight lines only: a plan outline, inner walls, axis lines and dimension lines with ticks.
+      const pw = Math.min(W * .62, 980), ph = Math.min(H * .5, 440), px0 = (W - pw) / 2, py0 = H * .58 - ph / 2, L = [];
+      const ln = (x1, y1, x2, y2, c = '') => L.push(`<path class="${c}" pathLength="1" d="M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}"/>`);
+      // outer walls
+      ln(px0, py0, px0 + pw, py0); ln(px0 + pw, py0, px0 + pw, py0 + ph); ln(px0 + pw, py0 + ph, px0, py0 + ph); ln(px0, py0 + ph, px0, py0);
+      // inner walls with gaps for doors
+      ln(px0 + pw * .38, py0, px0 + pw * .38, py0 + ph * .42); ln(px0 + pw * .38, py0 + ph * .58, px0 + pw * .38, py0 + ph);
+      ln(px0 + pw * .38, py0 + ph * .5, px0 + pw * .7, py0 + ph * .5); ln(px0 + pw * .8, py0 + ph * .5, px0 + pw, py0 + ph * .5);
+      ln(px0 + pw * .7, py0, px0 + pw * .7, py0 + ph * .22); ln(px0 + pw * .7, py0 + ph * .34, px0 + pw * .7, py0 + ph * .5);
+      // window marks on the long wall
+      for (let k = 0; k < 4; k++) { const x = px0 + pw * (.06 + k * .075); ln(x, py0 + ph - 5, x + pw * .05, py0 + ph - 5, 'soft'); }
+      // axis lines through the plan
+      ln(px0 - 60, py0 + ph / 2, px0 + pw + 60, py0 + ph / 2, 'ax'); ln(W / 2, py0 - 60, W / 2, py0 + ph + 60, 'ax');
+      // dimension lines with end ticks
+      const dy = py0 - 28; ln(px0, dy, px0 + pw, dy, 'soft'); ln(px0, dy - 7, px0, dy + 7, 'soft'); ln(px0 + pw, dy - 7, px0 + pw, dy + 7, 'soft'); ln(px0 + pw * .38, dy - 5, px0 + pw * .38, dy + 5, 'soft'); ln(px0 + pw * .7, dy - 5, px0 + pw * .7, dy + 5, 'soft');
+      const dx = px0 + pw + 28; ln(dx, py0, dx, py0 + ph, 'soft'); ln(dx - 7, py0, dx + 7, py0, 'soft'); ln(dx - 7, py0 + ph, dx + 7, py0 + ph, 'soft'); ln(dx - 5, py0 + ph * .5, dx + 5, py0 + ph * .5, 'soft');
+      bg.innerHTML = L.join('');
+      geo_lines = [...bg.querySelectorAll('path')];
       geo = { W, H, cw, ch, slots, R, cx, cy, k0: small / cw };
     }
     // the path: in from the left along the circle's bottom tangent (first 35 %), then half way round the circle
@@ -1658,6 +1725,12 @@
     }
     function render(p) {
       if (!geo) return;
+      // the drawing: drawn in over the first 12 % of the scroll, cleared (undrawn, last stroke first) as the projects arrive
+      const NL = geo_lines.length;
+      geo_lines.forEach((e, k) => {
+        const inn = clamp((p - k / NL * .1) / .05), out = clamp((p - .16 - (NL - 1 - k) / NL * .14) / .06);
+        e.style.strokeDashoffset = (1 - inn + out).toFixed(3);
+      });
       // one clock for the whole file: each card walks in and half way round, then peels off into its place in the rows
       const SET = .45, walk = clamp(p / .96) * (1 + GAP * (N - 1) + SET);
       let n = 0;
@@ -1705,27 +1778,103 @@
   const dim3 = (() => {
     const sec = $('#dimensions');
     if (!sec) return { init() {} };
-    const cube = sec.querySelector('.dim-cube'), plane = sec.querySelector('.dim-plane'), run = sec.querySelector('.dim-run');
-    let st = null;
+    const cube = sec.querySelector('.dim-cube'), plane = sec.querySelector('.dim-plane'), run = $('#dimRun'), foot = sec.querySelector('.dim-foot');
+    const imgs = [...plane.querySelectorAll('img')], words = [...run.querySelectorAll('span')], capN = $('#dimCapN'), capT = $('#dimCapT');
+    const NAMES = words.map(w => w.textContent);
+    let st = null, cur = 0;
+    function show(k) {
+      if (k === cur) return; cur = k;
+      imgs.forEach((im, i) => im.classList.toggle('on', i === k)); words.forEach((w, i) => w.classList.toggle('on', i === k));
+      capN.textContent = String(k + 1).padStart(2, '0') + ' / ' + String(imgs.length).padStart(2, '0'); capT.textContent = NAMES[k];
+    }
     function init() {
       if (st) return;
       if (REDUCE || !window.ScrollTrigger) { sec.classList.add('static'); return; }
       gsap.set(plane, { xPercent: -50, yPercent: -50 });
+      const state = { k: 0 };
       const tl = gsap.timeline({ defaults: { ease: 'none' } });
-      // 1 · the cube turns: three quarter-turns, tumbling a little on the other axis, so every face passes the front
+      // 1 · the cube turns so every face passes the front
       tl.fromTo(cube, { rotationX: -22, rotationY: 28, z: -200, scale: .8 }, { rotationX: 14, rotationY: -250, z: 0, scale: 1, duration: 5.5, ease: 'power1.inOut' }, 0)
-      // 2 · the camera moves in: the cube grows past the frame and fades
+      // 2 · the camera moves in: the cube grows past the frame and fades; the corner notes step aside
         .to(cube, { rotationY: -300, rotationX: 0, z: 900, duration: 1.6, ease: 'power2.in' }, 5.5)
         .to(cube, { opacity: 0, duration: .5 }, 6.6)
-      // the plane arrives from depth, tilted, and settles into a gentle three-quarter view
-        .fromTo(plane, { opacity: 0, z: -1400, rotationY: -55, rotationX: 18 }, { opacity: 1, z: 0, rotationY: -18, rotationX: 6, duration: 2, ease: 'power2.out' }, 6.4)
-      // the slogan slides across the frame, in front of the plane
-        .fromTo(run, { opacity: 0, x: () => innerWidth * .9 }, { opacity: 1, x: () => -(run.scrollWidth - innerWidth * .2), duration: 4.2 }, 7.2)
-        .to(plane, { rotationY: 12, rotationX: 0, z: -120, duration: 4.2 }, 7.2)
-        .to({}, { duration: .4 });
-      tl.set(run, { yPercent: -50 }, 0);
-      st = ScrollTrigger.create({ trigger: sec, pin: true, start: 'top top', end: () => '+=' + Math.round(innerHeight * 3.2),
+        .to(foot, { opacity: 0, duration: .5 }, 6.2)
+      // the sheet arrives from depth, tilted, and settles
+        .fromTo(plane, { opacity: 0, z: -1400, rotationY: -55, rotationX: 18 }, { opacity: 1, z: 0, rotationY: -14, rotationX: 5, duration: 2, ease: 'power2.out' }, 6.4)
+      // 3 · the pictures turn over one by one; the line of words below slides so the current word sits under the sheet
+        .fromTo(run, { opacity: 0 }, { opacity: 1, duration: .6 }, 7.6)
+        .fromTo(state, { k: 0 }, { k: imgs.length - 1, duration: 5, onUpdate: () => {
+            const k = Math.round(state.k); show(k);
+            const w = words[k]; gsap.to(run, { x: innerWidth / 2 - (w.offsetLeft + w.offsetWidth / 2), duration: .8, ease: 'power3.out', overwrite: 'auto' });
+          } }, 8)
+        .to(plane, { rotationY: 10, rotationX: 0, duration: 5 }, 8)
+        .to({}, { duration: .5 });
+      gsap.set(run, { yPercent: -50, x: () => innerWidth / 2 - (words[0].offsetLeft + words[0].offsetWidth / 2) });
+      st = ScrollTrigger.create({ trigger: sec, pin: true, start: 'top top', end: () => '+=' + Math.round(innerHeight * 4),
         scrub: .9, animation: tl, invalidateOnRefresh: true, refreshPriority: -4 });
+    }
+    return { init };
+  })();
+
+  // Location — line-drawn globe: meridians and parallels in orthographic projection, turned by the scroll,
+  // with a tilted ring of type around it; page dots and a paper→ink inversion halfway.
+  const loc = (() => {
+    const sec = $('#location-globe');
+    if (!sec) return { init() {} };
+    const cv = $('#locGlobe'), svg = $('#locSvg'), dots = [...sec.querySelectorAll('.loc-dots i')], say = $('#locSay');
+    const LINES = ['Far from the noise, close to the peaks.', 'Morning light over the valley.', 'A short walk to the forest.', 'Quiet, the whole year round.', 'Home, in the Carpathians.'];
+    const ctx = cv.getContext('2d');
+    let R = 200, st = null, W = 0, H = 0, lastK = -1, txt = null, ringLen = 1;
+    function layout() {
+      W = sec.clientWidth; H = innerHeight; R = Math.min(W * .3, H * .31, 270);
+      const dpr = Math.min(2, devicePixelRatio || 1), S = R * 2 + 8;
+      cv.width = S * dpr; cv.height = S * dpr; cv.style.width = cv.style.height = S + 'px'; ctx.setTransform(dpr, 0, 0, dpr, S / 2, S / 2);
+      // technical frame: corner brackets, two dashed rules above and below the globe, a centre cross
+      const cx = W / 2, cy = H / 2, fx = Math.min(W * .36, R * 1.75), fy = R * 1.12, b = 18, P = [];
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([sx, sy]) => { const x = cx + sx * fx, y = cy + sy * fy; P.push(`<path class="fr" d="M${x} ${y - sy * -b} L${x} ${y} L${x - sx * b} ${y}"/>`); });
+      P.push(`<path class="fr dash" d="M${cx - fx} ${cy - fy} L${cx + fx} ${cy - fy} M${cx - fx} ${cy + fy} L${cx + fx} ${cy + fy}"/>`);
+      P.push(`<path class="fr" d="M${cx - fx * .55} ${cy - fy - 70} L${cx - fx * .55} ${cy - fy} M${cx + fx * .55} ${cy - fy - 70} L${cx + fx * .55} ${cy - fy} M${cx - fx * .55} ${cy + fy} L${cx - fx * .55} ${cy + fy + 70} M${cx + fx * .55} ${cy + fy} L${cx + fx * .55} ${cy + fy + 70}"/>`);
+      // the ring of type: an ellipse around the globe, tilted
+      const rx = R * 1.18, ry = R * .3;
+      P.push(`<defs><path id="locRing" d="M${cx - rx} ${cy} A${rx} ${ry} 0 1 0 ${cx + rx} ${cy} A${rx} ${ry} 0 1 0 ${cx - rx} ${cy}"/></defs>`);
+      P.push(`<g transform="rotate(-14 ${cx} ${cy})"><text class="ring" style="font-size:${Math.max(11, R * .055)}px"><textPath id="locTP" href="#locRing">FORRA RESIDENCE · CARPATHIANS · HIRNE VILLAGE · UKRAINE · FORRA RESIDENCE · CARPATHIANS · HIRNE VILLAGE · UKRAINE · </textPath></text></g>`);
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.innerHTML = P.join('');
+      txt = $('#locTP'); ringLen = svg.querySelector('#locRing').getTotalLength();
+    }
+    // orthographic projection of the sphere, tilted towards the viewer by `tilt`, turned by `lon0`
+    function draw(lon0, tilt) {
+      const S = R * 2 + 8, fg = getComputedStyle(sec).color;
+      ctx.clearRect(-S / 2, -S / 2, S, S);
+      ctx.strokeStyle = fg; ctx.lineWidth = 1;
+      const ct = Math.cos(tilt), stt = Math.sin(tilt);
+      const proj = (lat, lon) => { const cl = Math.cos(lat), x = cl * Math.sin(lon - lon0), y0 = Math.sin(lat), z0 = cl * Math.cos(lon - lon0);
+        return [x * R, -(y0 * ct - z0 * stt) * R, y0 * stt + z0 * ct]; };
+      const stroke = (pts) => { let on = false; ctx.beginPath(); for (const [x, y, z] of pts) { if (z >= 0) { on ? ctx.lineTo(x, y) : ctx.moveTo(x, y); on = true; } else on = false; } ctx.stroke(); };
+      ctx.globalAlpha = .9; ctx.beginPath(); ctx.arc(0, 0, R, 0, Math.PI * 2); ctx.stroke();
+      ctx.globalAlpha = .55;
+      for (let lat = -75; lat <= 75; lat += 15) { const pts = []; for (let lon = 0; lon <= 360; lon += 4) pts.push(proj(lat * Math.PI / 180, lon * Math.PI / 180)); stroke(pts); }
+      for (let lon = 0; lon < 360; lon += 15) { const pts = []; for (let lat = -90; lat <= 90; lat += 4) pts.push(proj(lat * Math.PI / 180, lon * Math.PI / 180)); stroke(pts); }
+      // the site: a small square with a cross, on the front of the globe
+      const [mx, my, mz] = proj(48 * Math.PI / 180, 24 * Math.PI / 180);
+      if (mz > 0) { ctx.globalAlpha = 1; ctx.fillStyle = '#c4874e'; ctx.fillRect(mx - 5, my - 5, 10, 10); ctx.beginPath(); ctx.moveTo(mx - 16, my); ctx.lineTo(mx + 16, my); ctx.moveTo(mx, my - 16); ctx.lineTo(mx, my + 16); ctx.strokeStyle = '#c4874e'; ctx.stroke(); }
+      ctx.globalAlpha = 1;
+    }
+    function render(p) {
+      draw(-1.2 + p * Math.PI * 1.6, .38 - p * .12);
+      if (txt) txt.setAttribute('startOffset', (-(p * ringLen * .5)).toFixed(1));
+      const k = Math.min(LINES.length - 1, Math.floor(p * LINES.length * .999));
+      dots.forEach((d, i) => d.classList.toggle('on', i === k));
+      if (k !== lastK) { lastK = k; say.textContent = LINES[k]; }
+      sec.classList.toggle('ink', p > .5);
+    }
+    function init() {
+      layout(); render(0);
+      addEventListener('resize', () => { layout(); render(st ? st.progress : 0); });
+      if (st || REDUCE || !window.ScrollTrigger) return;
+      st = ScrollTrigger.create({ trigger: sec, pin: true, start: 'top top', end: () => '+=' + Math.round(innerHeight * 2.6), scrub: .8, invalidateOnRefresh: true,
+        refreshPriority: -5, onUpdate: self => render(self.progress), onRefresh: self => { layout(); render(self.progress); } });
+      // the ink inversion repaints the globe with the new colour once the transition has run
+      sec.addEventListener('transitionend', () => render(st.progress));
     }
     return { init };
   })();
