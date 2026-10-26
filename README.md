@@ -163,3 +163,10 @@ The 3-D stack trial (version B) has been removed. In its place, still **below** 
 * Reduced motion / no GSAP: the rows straight away.
 * To drop the trial, delete the block marked `TRIAL — OUR OTHER PROJECTS, VERSION C` (HTML, CSS and the `pv3` script).
 * **Update (trial C):** background drawing — a dash-dotted circle (the one the projects walk on) with dash-dotted axes and a faint inner circle, plus a very faint outline of a gabled house in the bottom-right corner (desktop). Pictures are wider on desktop (16:10) and the rows fill the width, so there is little empty space at the sides. Each project has an invented name, a one-line description and a status tag — «Already completed» (green dot), «Will be ready soon» (warm dot) or «Will finish in 2027/2028» (blue dot). **Hover or keyboard focus** on a settled project turns over its photos every 1.4 s (three per project, with progress dashes) and raises the description over the picture; leaving shows the first photo again. All names, texts and pictures are placeholders (`data-temp`).
+
+### Update — page order, «Our projects», architectural background
+
+* **Removed:** the previous «Our other projects» section with the drawn line and branches (and its `prjSketch` script).
+* **Order now:** About Project → the corner sheet, which fully covers the window → **Our projects** (`#projects`, the menu's OUR PROJECTS item): the single-file walk round the circle that settles into rows, with statuses and the hover photo carousel (formerly trial C — see above for details).
+* **Heading:** «Our projects» (on the corner sheet and on the section).
+* **Background:** both the corner sheet and Our projects sit on an architectural background — the floor plan turned into a dark blueprint (light lines on near-black, `assets/arch-bg.jpg`), fixed to the window so the sheet and the section meet without a seam; only the faint dash-dotted walking circle is drawn over it. The sheet's index lists the project names.
