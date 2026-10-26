@@ -142,3 +142,13 @@ Below the hero (menu item ABOUT PROJECT scrolls to it, `#about`). A light "drawi
 
 * The decoration on the dark corner sheet no longer bends on a quarter arc: the top dimension line turns the corner **straight down** as a second, shorter dimension line with the same ticks and the same end slash.
 * The project lives in the GitHub repository `bodya-dis/forra` (branch `main`).
+
+### Trial — Our other projects, version B (`#projectsB`)
+
+A second, trial version of the projects section, placed **below** the current one (which is unchanged). Delete the block marked `TRIAL — OUR OTHER PROJECTS, VERSION B` (HTML, CSS and the `pv2` script) to drop it.
+
+* **Look:** a vertical stack of project photos in 3-D on a dark background. The photo in the centre lies flat and sharp; the ones above and below tilt away (up to 30°), shrink, blur (up to 6 px) and darken.
+* **Motion:** scroll-driven only — the section pins and about 70 % of a window height of scrolling moves the next project into the centre (scrubbed 0.9 s), so every change can be followed. The big number and the project name on the left change with the centred project.
+* **Margins:** small letter-spaced words (Site / Light / Material / Form, FORRA Studio, More than a house, Drawn built lived in), thin rules, and the line «© 2026 FORRA Residence. Project pictures are placeholders.»
+* **Content:** six placeholder projects (`assets/prj-02…07.webp`, `data-temp`) — the pictures come from the image set you supplied; replace them and the names when the real projects are ready.
+* **Phones:** the same stack, wider; the number and name sit under it. Reduced motion / no GSAP: a plain list of flat photos.
