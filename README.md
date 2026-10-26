@@ -176,3 +176,8 @@ The 3-D stack trial (version B) has been removed. In its place, still **below** 
 * **Corner sheet:** the downward branch is gone — only the top dimension line with ticks and end slashes remains. The title and index were removed from the sheet (so «Our projects» appears once, on the section itself). Instead the sheet carries a statement — «Every house we draw begins with its site. …» — that **lights up word by word as you scroll**, from dim to full strength; small labels «About our work / ©2026» at the top and spaced notes along the bottom (Site · Light · Material · Form, Carpathians / Hirne Village, Drawn built lived in).
 * **Background:** the blueprint image was removed (`arch-bg.jpg` deleted); the sheet and Our projects are plain near-black `#161718`, with only the faint dash-dotted walking circle.
 * **Our projects side decoration (desktop):** letter-spaced notes set vertically along both edges (FORRA Studio — Carpathians; Site · Light · Material · Form — Est. 2026) and «Drawn · built · lived in» at the bottom right; the rows keep clear of them.
+
+### Update — modern project list, designer touch on the sheet
+
+* **Corner sheet:** keeps its drawn dimension line and the statement that lights up word by word; adds a small photo of the house set into the indent of the first line, with a hairline caption «FORRA Residence / 003» (it opens upward as the sheet arrives).
+* **Our projects, restyled** (same content, same single-file walk into rows): heading in light Poppins 300 on a hairline, small «/ 03» label; square photos without rounding or shadow; each caption on a hairline — a small «·02» index, the name in large light type, the status after «↳» in small capitals.
