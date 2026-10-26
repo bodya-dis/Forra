@@ -499,20 +499,50 @@
   .pv3-head .grow { flex: 1; }
   .pv3-head .count { white-space: nowrap; font-weight: 600; font-size: 12px; letter-spacing: .08em; color: var(--lt2); }
   .pv3-head .count b { color: var(--lt); font-weight: 600; }
-  .pv3-ring { position: absolute; border: 1px dashed var(--line); border-radius: 50%; pointer-events: none; opacity: 0; }
+  /* background: a dash-dotted circle with dash-dotted axes, like the centre lines on a drawing, and — very faint — the
+     outline of a gabled house in the corner. The projects walk along this circle. */
+  .pv3-bg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .pv3-bg .c { fill: none; stroke: rgba(236,235,230,.28); stroke-width: 1; stroke-dasharray: 18 6 2 6; }
+  .pv3-bg .c2 { fill: none; stroke: rgba(236,235,230,.1); stroke-width: 1; }
+  .pv3-bg .ax { stroke: rgba(236,235,230,.12); stroke-width: 1; stroke-dasharray: 18 6 2 6; }
+  .pv3-bg .house { fill: none; stroke: rgba(236,235,230,.09); stroke-width: 1; }
+  .pv3-ring { display: none; }
   .pv3-field { position: absolute; inset: 0; }
-  .pv3-card { position: absolute; left: 0; top: 0; margin: 0; transform-origin: 0 0; will-change: transform; visibility: hidden; }
-  .pv3-card .im { display: block; overflow: hidden; border-radius: 10px; background: #111; box-shadow: 0 20px 40px -18px rgba(0,0,0,.7); }
-  .pv3-card img { display: block; width: 100%; aspect-ratio: 4 / 3; height: auto; object-fit: cover; }
-  .pv3-card figcaption { display: flex; gap: 12px; align-items: baseline; padding-top: 12px; opacity: var(--cap, 0); }
+  .pv3-card { position: absolute; left: 0; top: 0; margin: 0; transform-origin: 0 0; will-change: transform; visibility: hidden; outline: none; }
+  .pv3-card .im { position: relative; display: block; overflow: hidden; border-radius: 10px; background: #111; box-shadow: 0 20px 40px -18px rgba(0,0,0,.7); }
+  .pv3-card img { display: block; width: 100%; aspect-ratio: var(--ar, 4 / 3); height: auto; object-fit: cover; transition: opacity .7s ease, transform 1.2s cubic-bezier(.2,.7,.2,1); }
+  .pv3-card img + img { position: absolute; inset: 0; height: 100%; opacity: 0; }
+  .pv3-card img.on { opacity: 1; }
+  .pv3-card .im img:first-child:not(.on) { opacity: 0; }
+  @media (min-width: 900px) { .pv3 { --ar: 16 / 10; } }      /* desktop: wider pictures fill the width */
+  /* hover / focus once the card has settled: the project's photos turn over and the description rises */
+  .pv3-info { position: absolute; left: 0; right: 0; bottom: 0; padding: 48px 18px 16px; background: linear-gradient(transparent, rgba(0,0,0,.78));
+    color: var(--lt); transform: translateY(102%); transition: transform .55s cubic-bezier(.2,.7,.2,1); }
+  .pv3-info p { margin: 0; max-width: 46ch; font-size: 14px; line-height: 1.45; }
+  .pv3-dots { display: flex; gap: 6px; margin-top: 12px; }
+  .pv3-dots i { width: 18px; height: 2px; background: rgba(255,255,255,.35); transition: background .3s ease; }
+  .pv3-dots i.on { background: #fff; }
+  .pv3-card.ready:hover .pv3-info, .pv3-card.ready:focus-visible .pv3-info { transform: none; }
+  .pv3-card.ready:hover .im img.on, .pv3-card.ready:focus-visible .im img.on { transform: scale(1.03); }
+  .pv3-card.ready:focus-visible .im { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--lt); }
+  .pv3-tag { margin-left: auto; display: inline-flex; align-items: center; gap: 7px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 100px;
+    font-weight: 600; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--lt2); white-space: nowrap; }
+  .pv3-tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--st, var(--lt2)); }
+  .pv3-tag.done { --st: #8fbf8a; } .pv3-tag.soon { --st: var(--acc); } .pv3-tag.year { --st: #9fb6d6; }
+  .pv3-card figcaption { display: flex; gap: 12px; align-items: center; padding-top: 12px; opacity: var(--cap, 0); }
   .pv3-card .n { font-weight: 600; font-size: 12px; letter-spacing: .08em; color: var(--acc); }
   .pv3-card .t { font-weight: 600; font-size: clamp(14px, 1.1vw, 18px); letter-spacing: -.01em; }
   .pv3-copy { position: absolute; left: var(--pad); bottom: 18px; z-index: 2; margin: 0; font-size: 11px; color: var(--lt2); }
   /* no GSAP / reduced motion: the rows straight away */
+  @media (max-width: 899px) {
+    .pv3-card figcaption { flex-wrap: wrap; row-gap: 6px; }
+    .pv3-card .t { flex: 1 1 60%; font-size: 13px; }
+    .pv3-tag { margin-left: 0; order: 3; padding: 3px 8px; font-size: 9.5px; }
+  }
   .pv3.static .pv3-frame { height: auto; padding: 140px var(--pad) 80px; }
   .pv3.static .pv3-field { position: static; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 32px; }
   .pv3.static .pv3-card { position: relative; visibility: visible; transform: none !important; --cap: 1; }
-  .pv3.static .pv3-ring { display: none; }
+  .pv3.static .pv3-bg { display: none; }
 </style>
 </head>
 <body>
@@ -709,16 +739,16 @@
 <section class="pv3" id="projectsC" aria-label="Our other projects — trial version">
   <div class="pv3-frame">
     <div class="pv3-head"><h2>Our other projects</h2><span class="grow"></span><span class="count" aria-hidden="true"><b id="pv3Now">00</b> / 06</span></div>
-    <div class="pv3-ring" id="pv3Ring" aria-hidden="true"></div>
+    <svg class="pv3-bg" id="pv3Bg" aria-hidden="true"></svg>
     <div class="pv3-field">
-      <figure class="pv3-card"><span class="im"><img src="assets/prj-02.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 02" data-temp></span><figcaption><span class="n">02</span><span class="t" data-temp>Project 02</span></figcaption></figure>
-      <figure class="pv3-card"><span class="im"><img src="assets/prj-03.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 03" data-temp></span><figcaption><span class="n">03</span><span class="t" data-temp>Project 03</span></figcaption></figure>
-      <figure class="pv3-card"><span class="im"><img src="assets/prj-04.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 04" data-temp></span><figcaption><span class="n">04</span><span class="t" data-temp>Project 04</span></figcaption></figure>
-      <figure class="pv3-card"><span class="im"><img src="assets/prj-05.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 05" data-temp></span><figcaption><span class="n">05</span><span class="t" data-temp>Project 05</span></figcaption></figure>
-      <figure class="pv3-card"><span class="im"><img src="assets/prj-06.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 06" data-temp></span><figcaption><span class="n">06</span><span class="t" data-temp>Project 06</span></figcaption></figure>
-      <figure class="pv3-card"><span class="im"><img src="assets/prj-07.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 07" data-temp></span><figcaption><span class="n">07</span><span class="t" data-temp>Project 07</span></figcaption></figure>
+      <figure class="pv3-card" tabindex="0" aria-label="Smerekova Lodge: A timber retreat that steps down a pine slope, built around one long window. Already completed."><span class="im"><img src="assets/prj-02.webp" loading="lazy" alt="Smerekova Lodge (placeholder picture)" data-temp class="on"><img src="assets/about-site.webp" loading="lazy" alt="" data-temp><img src="assets/about-living.webp" loading="lazy" alt="" data-temp><span class="pv3-info"><p data-temp>A timber retreat that steps down a pine slope, built around one long window.</p><span class="pv3-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span></span></span><figcaption><span class="n">02</span><span class="t" data-temp>Smerekova Lodge</span><span class="pv3-tag done">Already completed</span></figcaption></figure>
+      <figure class="pv3-card" tabindex="0" aria-label="Kamin House: A stone base with glass above: a family house gathered around a central hearth. Will finish in 2027."><span class="im"><img src="assets/prj-03.webp" loading="lazy" alt="Kamin House (placeholder picture)" data-temp class="on"><img src="assets/about-materials.webp" loading="lazy" alt="" data-temp><img src="assets/room-living.jpg" loading="lazy" alt="" data-temp><span class="pv3-info"><p data-temp>A stone base with glass above: a family house gathered around a central hearth.</p><span class="pv3-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span></span></span><figcaption><span class="n">03</span><span class="t" data-temp>Kamin House</span><span class="pv3-tag year">Will finish in 2027</span></figcaption></figure>
+      <figure class="pv3-card" tabindex="0" aria-label="Polonyna Pavilions: Three small pavilions on a mountain meadow, joined by a covered walk. Will be ready soon."><span class="im"><img src="assets/prj-04.webp" loading="lazy" alt="Polonyna Pavilions (placeholder picture)" data-temp class="on"><img src="assets/about-terrace.webp" loading="lazy" alt="" data-temp><img src="assets/bg.jpg" loading="lazy" alt="" data-temp><span class="pv3-info"><p data-temp>Three small pavilions on a mountain meadow, joined by a covered walk.</p><span class="pv3-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span></span></span><figcaption><span class="n">04</span><span class="t" data-temp>Polonyna Pavilions</span><span class="pv3-tag soon">Will be ready soon</span></figcaption></figure>
+      <figure class="pv3-card" tabindex="0" aria-label="Tysa Riverside: A low, wide house on the river bank, with terraces at the water’s level. Will finish in 2028."><span class="im"><img src="assets/prj-05.webp" loading="lazy" alt="Tysa Riverside (placeholder picture)" data-temp class="on"><img src="assets/room-bedroom.jpg" loading="lazy" alt="" data-temp><img src="assets/about-plan.webp" loading="lazy" alt="" data-temp><span class="pv3-info"><p data-temp>A low, wide house on the river bank, with terraces at the water’s level.</p><span class="pv3-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span></span></span><figcaption><span class="n">05</span><span class="t" data-temp>Tysa Riverside</span><span class="pv3-tag year">Will finish in 2028</span></figcaption></figure>
+      <figure class="pv3-card" tabindex="0" aria-label="Kryvyi Ridge Cabin: A compact cabin whose bedroom frames the ridge at sunrise. Already completed."><span class="im"><img src="assets/prj-06.webp" loading="lazy" alt="Kryvyi Ridge Cabin (placeholder picture)" data-temp class="on"><img src="assets/room-bath.jpg" loading="lazy" alt="" data-temp><img src="assets/about-site.webp" loading="lazy" alt="" data-temp><span class="pv3-info"><p data-temp>A compact cabin whose bedroom frames the ridge at sunrise.</p><span class="pv3-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span></span></span><figcaption><span class="n">06</span><span class="t" data-temp>Kryvyi Ridge Cabin</span><span class="pv3-tag done">Already completed</span></figcaption></figure>
+      <figure class="pv3-card" tabindex="0" aria-label="Larch Studio: A workshop and guest house in larch and concrete, set into the slope. Will be ready soon."><span class="im"><img src="assets/prj-07.webp" loading="lazy" alt="Larch Studio (placeholder picture)" data-temp class="on"><img src="assets/about-living.webp" loading="lazy" alt="" data-temp><img src="assets/about-materials.webp" loading="lazy" alt="" data-temp><span class="pv3-info"><p data-temp>A workshop and guest house in larch and concrete, set into the slope.</p><span class="pv3-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span></span></span><figcaption><span class="n">07</span><span class="t" data-temp>Larch Studio</span><span class="pv3-tag soon">Will be ready soon</span></figcaption></figure>
     </div>
-    <p class="pv3-copy">© 2026 FORRA Residence. Project pictures are placeholders.</p>
+    <p class="pv3-copy">© 2026 FORRA Residence. Project names, texts and pictures are placeholders.</p>
   </div>
 </section>
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"><svg viewBox="0 0 22 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="square"><path d="M11 1 L21 11 M11 1 L1 11"/><path d="M4 8.5 V23 H18 V8.5"/><path d="M9 23 V16.5 H13 V23"/></svg></div>
@@ -1707,22 +1737,28 @@
   const pv3 = (() => {
     const sec = $('#projectsC');
     if (!sec) return { init() {} };
-    const frame = sec.querySelector('.pv3-frame'), cards = [...sec.querySelectorAll('.pv3-card')], ring = $('#pv3Ring'), now = $('#pv3Now');
+    const frame = sec.querySelector('.pv3-frame'), cards = [...sec.querySelectorAll('.pv3-card')], bg = $('#pv3Bg'), now = $('#pv3Now');
     const N = cards.length, GAP = .11;                    // spacing of the file along the path
     const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
     const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     let geo = null, st = null;
     function layout() {
       const W = frame.clientWidth, H = frame.clientHeight, narrow = W < 900;
-      const cols = narrow ? 2 : 3, rows = Math.ceil(N / cols), pad = Math.max(16, Math.min(64, W * .034));
-      const top = narrow ? 150 : Math.max(130, H * .2), gap = narrow ? 14 : Math.max(20, W * .02), capH = 40;
+      const cols = narrow ? 2 : 3, rows = Math.ceil(N / cols), pad = Math.max(16, Math.min(48, W * .026));
+      const top = narrow ? 140 : Math.max(118, H * .145), gap = narrow ? 14 : Math.max(18, W * .016), capH = narrow ? 78 : 46;
+      const ar = narrow ? .75 : .625;                                       // desktop pictures are wider (16:10): little empty space at the sides
       let cw = (W - pad * 2 - gap * (cols - 1)) / cols;
-      cw = Math.min(cw, ((H - top - 50) / rows - capH - gap) * 4 / 3);      // rows must fit the window
-      const ch = cw * .75, gridW = cw * cols + gap * (cols - 1), x0 = (W - gridW) / 2;
+      cw = Math.min(cw, ((H - top - 44) / rows - capH - gap) / ar);         // rows must fit the window
+      const ch = cw * ar, gridW = cw * cols + gap * (cols - 1), x0 = (W - gridW) / 2;
       const slots = cards.map((c, i) => ({ x: x0 + (i % cols) * (cw + gap), y: top + Math.floor(i / cols) * (ch + capH + gap) }));
       const R = Math.min(W, H) * (narrow ? .3 : .26), cx = W / 2, cy = H * .56, small = narrow ? 92 : 128;
       cards.forEach(c => c.style.width = cw + 'px');
-      Object.assign(ring.style, { left: cx - R + 'px', top: cy - R + 'px', width: R * 2 + 'px', height: R * 2 + 'px' });
+      // background drawing: the dash-dotted circle the projects walk on, its axes, a faint inner circle, a faint house outline
+      bg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      const hx = W - pad - 150, hy = H - 70;
+      bg.innerHTML = `<circle class="c" cx="${cx}" cy="${cy}" r="${R}"/><circle class="c2" cx="${cx}" cy="${cy}" r="${R * .62}"/>
+        <line class="ax" x1="${cx - R - 60}" y1="${cy}" x2="${cx + R + 60}" y2="${cy}"/><line class="ax" x1="${cx}" y1="${cy - R - 60}" x2="${cx}" y2="${cy + R + 60}"/>
+        ${narrow ? '' : `<path class="house" d="M${hx} ${hy} L${hx} ${hy - 70} L${hx + 75} ${hy - 140} L${hx + 150} ${hy - 70} L${hx + 150} ${hy} Z M${hx + 60} ${hy} L${hx + 60} ${hy - 40} L${hx + 90} ${hy - 40} L${hx + 90} ${hy} M${hx - 20} ${hy} L${hx + 170} ${hy}"/>`}`;
       geo = { W, H, cw, ch, slots, R, cx, cy, k0: small / cw };
     }
     // the path: in from the left along the circle's bottom tangent (first 35 %), then half way round the circle
@@ -1736,7 +1772,6 @@
       if (!geo) return;
       // one clock for the whole file: each card walks in and half way round, then peels off into its place in the rows
       const SET = .45, walk = clamp(p / .96) * (1 + GAP * (N - 1) + SET);
-      ring.style.opacity = (clamp(p / .1) * (1 - clamp((p - .7) / .2)) * .9).toFixed(3);
       let n = 0;
       cards.forEach((c, i) => {
         const u = walk - i * GAP;                                    // goose order: each one a step behind the previous
@@ -1750,13 +1785,24 @@
         c.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${k.toFixed(4)})`;
         c.style.setProperty('--cap', clamp((settle - .7) / .3).toFixed(3));
         c.style.zIndex = String(10 + i);
+        c.classList.toggle('ready', settle > .98);
         if (settle > .98) n++;
       });
       now.textContent = String(n).padStart(2, '0');
     }
+    // hover / focus: the project's photos turn over every 1.4 s; leaving puts the first one back
+    cards.forEach(c => {
+      const imgs = [...c.querySelectorAll('.im img')], dots = [...c.querySelectorAll('.pv3-dots i')];
+      let k = 0, timer = 0;
+      const show = j => { k = j; imgs.forEach((im, i) => im.classList.toggle('on', i === j)); dots.forEach((d, i) => d.classList.toggle('on', i === j)); };
+      const start = () => { if (timer || !c.classList.contains('ready') && !sec.classList.contains('static')) return; timer = setInterval(() => show((k + 1) % imgs.length), REDUCE ? 2400 : 1400); };
+      const stop = () => { clearInterval(timer); timer = 0; show(0); };
+      c.addEventListener('pointerenter', start); c.addEventListener('pointerleave', stop);
+      c.addEventListener('focus', start); c.addEventListener('blur', stop);
+    });
     function init() {
       if (st) return;
-      if (REDUCE || !window.ScrollTrigger) { sec.classList.add('static'); return; }
+      if (REDUCE || !window.ScrollTrigger) { sec.classList.add('static'); cards.forEach(c => c.classList.add('ready')); return; }
       layout();
       const state = { p: 0 };
       render(0);
