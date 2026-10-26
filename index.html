@@ -405,33 +405,29 @@
      ===================================================================== */
   .ns-cover { --r: 0px; --dk: #121314; --lt: #ecebe6; --lt2: #b3b0a9; --line: rgba(236,235,230,.22); --acc: #d29a64;
     position: absolute; inset: 0; z-index: 6; visibility: hidden; pointer-events: none;
-    background: linear-gradient(rgba(26,27,28,.25), rgba(26,27,28,.55)), url(assets/arch-bg.jpg) 50% 50% / cover fixed, #1a1b1c;
+    background: #161718;
     clip-path: circle(var(--r) at 100% 100%); }
   .ns-arc { position: absolute; z-index: 7; right: calc(var(--r) * -1); bottom: calc(var(--r) * -1); width: calc(var(--r) * 2); height: calc(var(--r) * 2);
     border: 1px solid #d29a64; border-radius: 50%; visibility: hidden; pointer-events: none; box-shadow: 0 0 0 6px rgba(210,154,100,.12); }
   .ns-deco { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
   .ns-deco path { fill: none; stroke: var(--lt); stroke-width: 1; stroke-dasharray: 1 1; stroke-dashoffset: 1; }
   .ns-deco .soft { stroke-opacity: .45; }
-  .ns-cover .ns-text { position: absolute; left: var(--pad); right: 50%; bottom: clamp(48px, 10vh, 120px); color: var(--lt); }
-  .ns-cover .ns-idx { display: block; font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--lt2); margin-bottom: 18px; }
-  .ns-cover h2 { margin: 0; font-family: 'Anta', sans-serif; font-weight: 400; font-size: clamp(52px, min(7.3vw, 13vh), 140px); line-height: .9; letter-spacing: -.04em; text-transform: uppercase; }
-  .ns-cover h2 .ln { display: block; }
-  .ns-cover p { margin: 22px 0 0; max-width: 42ch; font-size: 16px; line-height: 1.5; color: var(--lt2); }
-  /* right half: the index of the projects, ruled like a drawing schedule — the screen is never empty */
-  .ns-list { position: absolute; right: var(--pad); width: min(40%, 620px); bottom: clamp(48px, 10vh, 120px); margin: 0; padding: 0; list-style: none; color: var(--lt); }
-  .ns-list li { position: relative; display: grid; grid-template-columns: 3.2em 1fr auto; align-items: baseline; padding: clamp(14px, 2.2vh, 24px) 0; }
-  .ns-list li::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line); transform: scaleX(var(--rule, 0)); transform-origin: 0 50%; }
-  .ns-list .n { font-weight: 600; font-size: 12px; letter-spacing: .08em; color: var(--acc); }
-  .ns-list .t { font-family: 'Anta', sans-serif; font-size: clamp(22px, 2.2vw, 40px); line-height: 1; letter-spacing: -.03em; text-transform: uppercase; }
-  .ns-list .s { font-weight: 600; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--lt2); }
-  .ns-list .lbl { position: absolute; bottom: 100%; left: 0; font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--lt2); padding-bottom: 10px; }
+  .ns-meta { position: absolute; left: var(--pad); right: var(--pad); top: calc(max(56px, 10vh) + 34px); display: flex; justify-content: space-between;
+    font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--lt2); }
+  .ns-statement { position: absolute; left: var(--pad); right: var(--pad); top: 50%; transform: translateY(-50%); margin: 0; max-width: 1180px;
+    font-family: 'Poppins', sans-serif; font-weight: 600; font-size: clamp(26px, 3.1vw, 52px); line-height: 1.18; letter-spacing: -.025em;
+    text-indent: 18%; color: var(--lt); }
+  .ns-statement .w { color: rgba(236,235,230,.22); }
+  .ns-notes { position: absolute; left: var(--pad); right: var(--pad); bottom: clamp(36px, 7vh, 80px); display: flex; justify-content: space-between; align-items: flex-end;
+    font-weight: 600; font-size: 10.5px; line-height: 2; letter-spacing: .32em; text-transform: uppercase; color: var(--lt2); }
+  .ns-notes span:last-child { text-align: right; }
 
   /* =====================================================================
      OUR PROJECTS — follows the corner sheet that closes About Project; on an architectural (blueprint) background.
      Scroll-driven: the projects come in one after another in single file, take a short walk half way round a circle,
      then leave it and settle into rows, growing to full size. Titles and pictures are placeholders (data-temp).
      ===================================================================== */
-  .pv3 { --bg: #1a1b1c; background-image: linear-gradient(rgba(26,27,28,.25), rgba(26,27,28,.55)), url(assets/arch-bg.jpg); background-size: cover; background-position: 50% 50%; background-attachment: fixed; --lt: #ecebe6; --lt2: #a9a7a1; --line: rgba(236,235,230,.22); --acc: #d29a64; --pad: clamp(16px, 3.4vw, 64px);
+  .pv3 { --bg: #161718; --lt: #ecebe6; --lt2: #a9a7a1; --line: rgba(236,235,230,.22); --acc: #d29a64; --pad: clamp(16px, 3.4vw, 64px);
     position: relative; background-color: var(--bg); color: var(--lt); font-family: 'Poppins', system-ui, sans-serif; overflow: hidden; }
   .pv3 * { box-sizing: border-box; }
   .pv3-frame { position: relative; height: 100vh; height: 100svh; }
@@ -473,6 +469,15 @@
   .pv3-card figcaption { display: flex; gap: 12px; align-items: center; padding-top: 12px; opacity: var(--cap, 0); }
   .pv3-card .n { font-weight: 600; font-size: 12px; letter-spacing: .08em; color: var(--acc); }
   .pv3-card .t { font-weight: 600; font-size: clamp(14px, 1.1vw, 18px); letter-spacing: -.01em; }
+  /* side decoration: small letter-spaced notes in the margins, set vertically along both edges */
+  .pv3-side { position: absolute; z-index: 1; top: 50%; margin: 0; white-space: nowrap; pointer-events: none;
+    font-weight: 600; font-size: 10.5px; letter-spacing: .42em; text-transform: uppercase; color: var(--lt2); }
+  .pv3-side.l { left: calc(var(--pad) / 2); transform: translate(-50%, -50%) rotate(-90deg); }
+  .pv3-side.r { right: calc(var(--pad) / 2); transform: translate(50%, -50%) rotate(90deg); }
+  .pv3-side i { display: inline-block; width: 46px; height: 1px; margin: 0 16px; vertical-align: middle; background: var(--line); }
+  .pv3-note { position: absolute; z-index: 1; margin: 0; pointer-events: none; font-weight: 600; font-size: 10.5px; line-height: 2; letter-spacing: .32em; text-transform: uppercase; color: var(--lt2); }
+  .pv3-note.br { right: var(--pad); bottom: 14px; text-align: right; }
+  @media (max-width: 899px) { .pv3-side, .pv3-note { display: none; } }
   .pv3-copy { position: absolute; left: var(--pad); bottom: 18px; z-index: 2; margin: 0; font-size: 11px; color: var(--lt2); }
   /* no GSAP / reduced motion: the rows straight away */
   @media (max-width: 899px) {
@@ -631,17 +636,9 @@
   <!-- the opening of the next section: a sheet from the bottom-right corner (desktop only, driven by the script) -->
   <div class="ns-cover" id="nsCover" aria-hidden="true">
     <svg class="ns-deco" aria-hidden="true"></svg>
-    <div class="ns-text">
-      <span class="ns-idx">/ 03</span>
-      <h2 id="prjTitle"><span class="ln">Our</span><span class="ln">projects</span></h2>
-      <p>Houses from the same studio, each one shaped by its own site.</p>
-    </div>
-    <ul class="ns-list" aria-hidden="true">
-      <li><span class="lbl">Index</span><span class="n">02</span><span class="t" data-temp>Smerekova Lodge</span><span class="s">Already completed</span></li>
-      <li><span class="n">03</span><span class="t" data-temp>Kamin House</span><span class="s">Will finish in 2027</span></li>
-      <li><span class="n">04</span><span class="t" data-temp>Polonyna Pavilions</span><span class="s">Will be ready soon</span></li>
-      <li><span class="n">05</span><span class="t" data-temp>Tysa Riverside</span><span class="s">Will finish in 2028</span></li>
-    </ul>
+    <div class="ns-meta"><span>About our work</span><span>©2026</span></div>
+    <p class="ns-statement" id="nsStatement"><span class="w">Every</span> <span class="w">house</span> <span class="w">we</span> <span class="w">draw</span> <span class="w">begins</span> <span class="w">with</span> <span class="w">its</span> <span class="w">site.</span> <span class="w">We</span> <span class="w">study</span> <span class="w">the</span> <span class="w">slope,</span> <span class="w">the</span> <span class="w">light</span> <span class="w">and</span> <span class="w">the</span> <span class="w">forest</span> <span class="w">first,</span> <span class="w">and</span> <span class="w">let</span> <span class="w">the</span> <span class="w">building</span> <span class="w">settle</span> <span class="w">into</span> <span class="w">them</span> <span class="w">—</span> <span class="w">so</span> <span class="w">that</span> <span class="w">it</span> <span class="w">feels</span> <span class="w">as</span> <span class="w">if</span> <span class="w">it</span> <span class="w">had</span> <span class="w">always</span> <span class="w">been</span> <span class="w">there.</span></p>
+    <div class="ns-notes" aria-hidden="true"><span>Site<br>Light<br>Material<br>Form</span><span>Carpathians<br>Hirne Village</span><span>Drawn<br>built<br>lived in</span></div>
   </div>
   <div class="ns-arc" id="nsArc" aria-hidden="true"></div>
 </section>
@@ -651,6 +648,9 @@
   <div class="pv3-frame">
     <div class="pv3-head"><h2 id="prjTitle2">Our projects</h2><span class="grow"></span><span class="count" aria-hidden="true"><b id="pv3Now">00</b> / 06</span></div>
     <svg class="pv3-bg" id="pv3Bg" aria-hidden="true"></svg>
+    <p class="pv3-side l" aria-hidden="true">FORRA Studio<i></i>Carpathians</p>
+    <p class="pv3-side r" aria-hidden="true">Site · Light · Material · Form<i></i>Est. 2026</p>
+    <p class="pv3-note br" aria-hidden="true">Drawn · built · lived in</p>
     <div class="pv3-field">
       <figure class="pv3-card" tabindex="0" aria-label="Smerekova Lodge: A timber retreat that steps down a pine slope, built around one long window. Already completed."><span class="im"><img src="assets/prj-02.webp" loading="lazy" alt="Smerekova Lodge (placeholder picture)" data-temp class="on"><img src="assets/about-site.webp" loading="lazy" alt="" data-temp><img src="assets/about-living.webp" loading="lazy" alt="" data-temp><span class="pv3-info"><p data-temp>A timber retreat that steps down a pine slope, built around one long window.</p><span class="pv3-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span></span></span><figcaption><span class="n">02</span><span class="t" data-temp>Smerekova Lodge</span><span class="pv3-tag done">Already completed</span></figcaption></figure>
       <figure class="pv3-card" tabindex="0" aria-label="Kamin House: A stone base with glass above: a family house gathered around a central hearth. Will finish in 2027."><span class="im"><img src="assets/prj-03.webp" loading="lazy" alt="Kamin House (placeholder picture)" data-temp class="on"><img src="assets/about-materials.webp" loading="lazy" alt="" data-temp><img src="assets/room-living.jpg" loading="lazy" alt="" data-temp><span class="pv3-info"><p data-temp>A stone base with glass above: a family house gathered around a central hearth.</p><span class="pv3-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span></span></span><figcaption><span class="n">03</span><span class="t" data-temp>Kamin House</span><span class="pv3-tag year">Will finish in 2027</span></figcaption></figure>
@@ -1494,29 +1494,23 @@
     let opening = null;
     function buildOpening() {
       const W = about.clientWidth, H = about.clientHeight, R = Math.hypot(W, H) * 1.02;
-      // decoration at the top of the sheet: a drawn dimension line with ticks and end slashes that turns the corner
-      // straight down as a second, shorter dimension line, plus a short guide
+      // decoration at the top of the sheet: one drawn dimension line with ticks and end slashes
       const deco = cover.querySelector('.ns-deco'), P = Math.max(16, Math.min(50, W * .026)), y = Math.max(56, H * .1);
       deco.setAttribute('viewBox', `0 0 ${W} ${H}`);
       let ticks = ''; for (let x = P, k = 0; x <= W - P; x += 48, k++) ticks += `M${x} ${y} L${x} ${y + (k % 4 ? 6 : 14)} `;
-      // the corner turns down as a second dimension line: straight, with the same ticks, ending in the same slash
-      let vt = ''; for (let yy = y + 48, k = 1; yy <= y + Math.min(240, H * .3); yy += 48, k++) vt += `M${W - P} ${yy} L${W - P - (k % 4 ? 6 : 14)} ${yy} `;
       deco.innerHTML = `<path pathLength="1" d="M${P} ${y} L${W - P} ${y}"/>
         <path pathLength="1" class="soft" d="${ticks}"/>
         <path pathLength="1" d="M${P - 6} ${y + 6} L${P + 6} ${y - 6} M${W - P - 6} ${y + 6} L${W - P + 6} ${y - 6}"/>
-        <path pathLength="1" d="M${W - P} ${y} L${W - P} ${y + Math.min(240, H * .3)}"/>
-        <path pathLength="1" class="soft" d="${vt}"/>
-        <path pathLength="1" d="M${W - P - 6} ${y + Math.min(240, H * .3) + 6} L${W - P + 6} ${y + Math.min(240, H * .3) - 6}"/>
-        <path pathLength="1" class="soft" d="M${P} ${y + 36} L${P + W * .22} ${y + 36}"/>`;
+`;
       const tl = gsap.timeline({ paused: true });
       tl.set([cover, arc], { visibility: 'visible' }, .001)
         .fromTo([cover, arc], { '--r': '0px' }, { '--r': R + 'px', duration: 1.8, ease: 'power2.inOut' }, 0)
         .fromTo(arc, { opacity: 1 }, { opacity: 0, duration: .3 }, 1.7)
         .fromTo(deco.querySelectorAll('path'), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: .9, ease: 'none', stagger: .12 }, 1.2)
-        .fromTo(cover.querySelectorAll('.ns-idx, h2 .ln, p'), { opacity: 0, y: 26, clipPath: 'inset(0 0 100% 0)' },
-          { opacity: 1, y: 0, clipPath: 'inset(0 0 -20% 0)', duration: .9, ease: 'expo.out', stagger: .1 }, 1.4)
-        .fromTo(cover.querySelectorAll('.ns-list li'), { '--rule': 0 }, { '--rule': 1, duration: .8, ease: 'power2.inOut', stagger: .15 }, 1.6)
-        .fromTo(cover.querySelectorAll('.ns-list li > span'), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .6, ease: 'expo.out', stagger: .05 }, 1.8);
+        .fromTo(cover.querySelectorAll('.ns-meta span, .ns-notes span'), { opacity: 0 }, { opacity: 1, duration: .6, stagger: .08 }, 1.3)
+        .fromTo(cover.querySelector('.ns-statement'), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .6, ease: 'power2.out' }, 1.4)
+        // the statement lights up word by word as the scroll goes on: from dim to full strength
+        .fromTo(cover.querySelectorAll('.ns-statement .w'), { color: 'rgba(236,235,230,.22)' }, { color: 'rgba(236,235,230,1)', duration: .25, ease: 'none', stagger: .05 }, 1.7);
       return tl;
     }
 
@@ -1560,7 +1554,7 @@
     let geo = null, st = null;
     function layout() {
       const W = frame.clientWidth, H = frame.clientHeight, narrow = W < 900;
-      const cols = narrow ? 2 : 3, rows = Math.ceil(N / cols), pad = Math.max(16, Math.min(48, W * .026));
+      const cols = narrow ? 2 : 3, rows = Math.ceil(N / cols), pad = narrow ? 16 : Math.max(48, Math.min(72, W * .045));
       const top = narrow ? 140 : Math.max(118, H * .145), gap = narrow ? 14 : Math.max(18, W * .016), capH = narrow ? 78 : 46;
       const ar = narrow ? .75 : .625;                                       // desktop pictures are wider (16:10): little empty space at the sides
       let cw = (W - pad * 2 - gap * (cols - 1)) / cols;

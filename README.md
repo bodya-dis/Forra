@@ -170,3 +170,9 @@ The 3-D stack trial (version B) has been removed. In its place, still **below** 
 * **Order now:** About Project → the corner sheet, which fully covers the window → **Our projects** (`#projects`, the menu's OUR PROJECTS item): the single-file walk round the circle that settles into rows, with statuses and the hover photo carousel (formerly trial C — see above for details).
 * **Heading:** «Our projects» (on the corner sheet and on the section).
 * **Background:** both the corner sheet and Our projects sit on an architectural background — the floor plan turned into a dark blueprint (light lines on near-black, `assets/arch-bg.jpg`), fixed to the window so the sheet and the section meet without a seam; only the faint dash-dotted walking circle is drawn over it. The sheet's index lists the project names.
+
+### Update — calmer corner sheet, plain background, side notes
+
+* **Corner sheet:** the downward branch is gone — only the top dimension line with ticks and end slashes remains. The title and index were removed from the sheet (so «Our projects» appears once, on the section itself). Instead the sheet carries a statement — «Every house we draw begins with its site. …» — that **lights up word by word as you scroll**, from dim to full strength; small labels «About our work / ©2026» at the top and spaced notes along the bottom (Site · Light · Material · Form, Carpathians / Hirne Village, Drawn built lived in).
+* **Background:** the blueprint image was removed (`arch-bg.jpg` deleted); the sheet and Our projects are plain near-black `#161718`, with only the faint dash-dotted walking circle.
+* **Our projects side decoration (desktop):** letter-spaced notes set vertically along both edges (FORRA Studio — Carpathians; Site · Light · Material · Form — Est. 2026) and «Drawn · built · lived in» at the bottom right; the rows keep clear of them.
