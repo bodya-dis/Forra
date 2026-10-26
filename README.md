@@ -152,3 +152,13 @@ A second, trial version of the projects section, placed **below** the current on
 * **Margins:** small letter-spaced words (Site / Light / Material / Form, FORRA Studio, More than a house, Drawn built lived in), thin rules, and the line «© 2026 FORRA Residence. Project pictures are placeholders.»
 * **Content:** six placeholder projects (`assets/prj-02…07.webp`, `data-temp`) — the pictures come from the image set you supplied; replace them and the names when the real projects are ready.
 * **Phones:** the same stack, wider; the number and name sit under it. Reduced motion / no GSAP: a plain list of flat photos.
+
+### Trial — Our other projects, version C (`#projectsC`) — replaces version B
+
+The 3-D stack trial (version B) has been removed. In its place, still **below** the unchanged main projects section:
+
+* **Motion (scroll only, pinned for 2.2 window heights):** the projects come in from the left **in single file**, small, one a step behind the other; each walks **half way round a circle** (a faint dashed ring marks it) and, as soon as its short walk is over, peels off and settles into its place in the **rows** (3 × 2 on desktop, 2 × 3 on phones), growing to full size; its number and name fade in last. The counter goes 00 → 06. Scrolling back reverses everything.
+* Spacing of the file: `GAP`; length of the settle: `SET` (in the `pv3` script).
+* Placeholders: «Project 02…07» and `assets/prj-02…07.webp` (`data-temp`), plus «© 2026 FORRA Residence. Project pictures are placeholders.»
+* Reduced motion / no GSAP: the rows straight away.
+* To drop the trial, delete the block marked `TRIAL — OUR OTHER PROJECTS, VERSION C` (HTML, CSS and the `pv3` script).

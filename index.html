@@ -486,55 +486,33 @@
   @media (prefers-reduced-motion: reduce) { .pc { transition: none; } .pc:hover, .pc:focus-visible { transform: none; } .prj.js .pc-meta { opacity: 1; transform: none; transition: none; } }
 
   /* =====================================================================
-     TRIAL — OUR OTHER PROJECTS, VERSION B (below the current section, which is unchanged).
-     A vertical stack of project photos: the one in the centre lies flat and sharp; the ones above and below tilt away
-     in 3-D, shrink, blur and darken. Scrolling moves the stack through the centre one project at a time.
-     Side typography in the margins. Titles and pictures are placeholders (data-temp).
+     TRIAL — OUR OTHER PROJECTS, VERSION C (below the current section, which is unchanged).
+     Scroll-driven: the projects come in one after another in single file, take a short walk half way round a circle,
+     then leave it and settle into rows, growing to full size. Titles and pictures are placeholders (data-temp).
      ===================================================================== */
-  .pv2 { --bg: #232324; --lt: #ecebe6; --lt2: #a9a7a1; --line: rgba(236,235,230,.35); --acc: #d29a64; --pad: clamp(16px, 3.4vw, 64px);
-    --cw: min(44vw, 580px, calc((100svh - 120px) * .85)); --ch: calc(var(--cw) * .75);
+  .pv3 { --bg: #1b1c1d; --lt: #ecebe6; --lt2: #a9a7a1; --line: rgba(236,235,230,.22); --acc: #d29a64; --pad: clamp(16px, 3.4vw, 64px);
     position: relative; background: var(--bg); color: var(--lt); font-family: 'Poppins', system-ui, sans-serif; overflow: hidden; }
-  .pv2 * { box-sizing: border-box; }
-  .pv2-frame { position: relative; height: 100vh; height: 100svh; }
-  .pv2-stack { position: absolute; left: 50%; top: 50%; width: var(--cw); height: var(--ch); margin: calc(var(--ch) / -2) 0 0 calc(var(--cw) / -2);
-    perspective: 1100px; perspective-origin: 50% 50%; }
-  .pv2-card { position: absolute; inset: 0; margin: 0; border-radius: 18px; overflow: hidden; background: #111;
-    box-shadow: 0 30px 60px -20px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.04); will-change: transform, filter; transform-origin: 50% 50%; }
-  .pv2-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .pv2-card::after { content: ""; position: absolute; inset: 0; background: #000; opacity: var(--dim, 0); pointer-events: none; }
-
-  /* margins: small spaced words, the big number and the name of the project in the centre */
-  .pv2-side { position: absolute; z-index: 2; pointer-events: none; }
-  .pv2-rule { display: block; width: 46px; height: 1px; background: var(--line); }
-  .pv2-spaced { margin: 0; font-weight: 600; font-size: 11px; line-height: 2; letter-spacing: .38em; text-transform: uppercase; color: var(--lt2); }
-  .pv2-tl { left: var(--pad); top: clamp(40px, 9vh, 100px); } .pv2-tl .pv2-rule { margin-bottom: 26px; }
-  .pv2-tr { right: var(--pad); top: clamp(40px, 9vh, 100px); text-align: right; } .pv2-tr .pv2-rule { margin: 22px 0 0 auto; }
-  .pv2-br { right: var(--pad); bottom: clamp(40px, 9vh, 100px); text-align: right; } .pv2-br .pv2-rule { margin: 26px 0 0 auto; }
-  .pv2-left { left: var(--pad); top: 50%; transform: translateY(-50%); width: calc((100% - var(--cw)) / 2 - var(--pad) - 24px); }
-  .pv2-num { display: block; font-family: 'Anta', sans-serif; font-size: clamp(56px, 7vw, 120px); line-height: .9; letter-spacing: -.04em; color: #b9b7b1; }
-  .pv2-left .pv2-rule { margin: 22px 0 26px; }
-  .pv2-name { margin: 0; font-family: 'Anta', sans-serif; font-weight: 400; font-size: clamp(30px, 3.6vw, 60px); line-height: .92; letter-spacing: -.03em; text-transform: uppercase; }
-  .pv2-left .pv2-spaced { margin-top: 26px; }
-  .pv2-swap { transition: opacity .35s ease, transform .45s cubic-bezier(.2,.7,.2,1); }
-  .pv2-swap.out { opacity: 0; transform: translateY(10px); }
-  .pv2-right { right: var(--pad); top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 32px; }
-  .pv2-right .bar { width: 1px; height: 170px; background: var(--line); }
-  .pv2-right .pv2-spaced { font-size: 14px; letter-spacing: .5em; line-height: 2.1; color: var(--lt); }
-  .pv2-copy { position: absolute; left: var(--pad); bottom: 18px; z-index: 2; margin: 0; font-size: 11px; color: var(--lt2); letter-spacing: .02em; }
-
-  /* phones: the margins fold away, the stack takes the width */
-  @media (max-width: 899px) {
-    .pv2 { --cw: min(84vw, calc((100svh - 260px) * 1.1)); }
-    .pv2-left { top: auto; bottom: 64px; transform: none; width: auto; right: var(--pad); display: flex; align-items: baseline; gap: 16px; }
-    .pv2-num { font-size: 44px; } .pv2-left .pv2-rule, .pv2-left .pv2-spaced { display: none; } .pv2-name { font-size: 26px; }
-    .pv2-right, .pv2-br { display: none; }
-    .pv2-tl { top: 28px; } .pv2-tr { top: 28px; }
-  }
-  /* no GSAP / reduced motion: a plain list of flat cards */
-  .pv2.static .pv2-frame { height: auto; padding: 120px var(--pad) 80px; }
-  .pv2.static .pv2-stack { position: static; margin: 0 auto; height: auto; perspective: none; display: grid; gap: 24px; }
-  .pv2.static .pv2-card { position: relative; aspect-ratio: 4 / 3; }
-  .pv2.static .pv2-side { display: none; }
+  .pv3 * { box-sizing: border-box; }
+  .pv3-frame { position: relative; height: 100vh; height: 100svh; }
+  .pv3-head { position: absolute; left: var(--pad); right: var(--pad); top: clamp(28px, 6vh, 64px); display: flex; align-items: baseline; gap: 24px; z-index: 2; }
+  .pv3-head h2 { margin: 0; font-family: 'Anta', sans-serif; font-weight: 400; font-size: clamp(30px, 3.4vw, 56px); line-height: .95; letter-spacing: -.03em; text-transform: uppercase; }
+  .pv3-head .grow { flex: 1; }
+  .pv3-head .count { white-space: nowrap; font-weight: 600; font-size: 12px; letter-spacing: .08em; color: var(--lt2); }
+  .pv3-head .count b { color: var(--lt); font-weight: 600; }
+  .pv3-ring { position: absolute; border: 1px dashed var(--line); border-radius: 50%; pointer-events: none; opacity: 0; }
+  .pv3-field { position: absolute; inset: 0; }
+  .pv3-card { position: absolute; left: 0; top: 0; margin: 0; transform-origin: 0 0; will-change: transform; visibility: hidden; }
+  .pv3-card .im { display: block; overflow: hidden; border-radius: 10px; background: #111; box-shadow: 0 20px 40px -18px rgba(0,0,0,.7); }
+  .pv3-card img { display: block; width: 100%; aspect-ratio: 4 / 3; height: auto; object-fit: cover; }
+  .pv3-card figcaption { display: flex; gap: 12px; align-items: baseline; padding-top: 12px; opacity: var(--cap, 0); }
+  .pv3-card .n { font-weight: 600; font-size: 12px; letter-spacing: .08em; color: var(--acc); }
+  .pv3-card .t { font-weight: 600; font-size: clamp(14px, 1.1vw, 18px); letter-spacing: -.01em; }
+  .pv3-copy { position: absolute; left: var(--pad); bottom: 18px; z-index: 2; margin: 0; font-size: 11px; color: var(--lt2); }
+  /* no GSAP / reduced motion: the rows straight away */
+  .pv3.static .pv3-frame { height: auto; padding: 140px var(--pad) 80px; }
+  .pv3.static .pv3-field { position: static; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 32px; }
+  .pv3.static .pv3-card { position: relative; visibility: visible; transform: none !important; --cap: 1; }
+  .pv3.static .pv3-ring { display: none; }
 </style>
 </head>
 <body>
@@ -727,28 +705,20 @@
     </ul>
   </div>
 </section>
-<!-- TRIAL — OUR OTHER PROJECTS, VERSION B. The current section above is unchanged; delete this block to drop the trial. -->
-<section class="pv2" id="projectsB" aria-label="Our other projects — trial version">
-  <div class="pv2-frame">
-    <div class="pv2-side pv2-tl"><span class="pv2-rule"></span><p class="pv2-spaced">Site<br>Light<br>Material<br>Form</p></div>
-    <div class="pv2-side pv2-tr"><p class="pv2-spaced">FORRA<br>Studio</p><span class="pv2-rule"></span></div>
-    <div class="pv2-side pv2-left" aria-live="polite">
-      <span class="pv2-num pv2-swap" id="pv2Num">02</span>
-      <span class="pv2-rule"></span>
-      <h2 class="pv2-name pv2-swap" id="pv2Name" data-temp>Project 02</h2>
-      <p class="pv2-spaced">Our other<br>projects</p>
+<!-- TRIAL — OUR OTHER PROJECTS, VERSION C. The current section above is unchanged; delete this block to drop the trial. -->
+<section class="pv3" id="projectsC" aria-label="Our other projects — trial version">
+  <div class="pv3-frame">
+    <div class="pv3-head"><h2>Our other projects</h2><span class="grow"></span><span class="count" aria-hidden="true"><b id="pv3Now">00</b> / 06</span></div>
+    <div class="pv3-ring" id="pv3Ring" aria-hidden="true"></div>
+    <div class="pv3-field">
+      <figure class="pv3-card"><span class="im"><img src="assets/prj-02.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 02" data-temp></span><figcaption><span class="n">02</span><span class="t" data-temp>Project 02</span></figcaption></figure>
+      <figure class="pv3-card"><span class="im"><img src="assets/prj-03.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 03" data-temp></span><figcaption><span class="n">03</span><span class="t" data-temp>Project 03</span></figcaption></figure>
+      <figure class="pv3-card"><span class="im"><img src="assets/prj-04.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 04" data-temp></span><figcaption><span class="n">04</span><span class="t" data-temp>Project 04</span></figcaption></figure>
+      <figure class="pv3-card"><span class="im"><img src="assets/prj-05.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 05" data-temp></span><figcaption><span class="n">05</span><span class="t" data-temp>Project 05</span></figcaption></figure>
+      <figure class="pv3-card"><span class="im"><img src="assets/prj-06.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 06" data-temp></span><figcaption><span class="n">06</span><span class="t" data-temp>Project 06</span></figcaption></figure>
+      <figure class="pv3-card"><span class="im"><img src="assets/prj-07.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 07" data-temp></span><figcaption><span class="n">07</span><span class="t" data-temp>Project 07</span></figcaption></figure>
     </div>
-    <div class="pv2-side pv2-right" aria-hidden="true"><span class="bar"></span><p class="pv2-spaced">More<br>than<br>a<br>house</p></div>
-    <div class="pv2-side pv2-br" aria-hidden="true"><p class="pv2-spaced">Drawn<br>built<br>lived<br>in</p><span class="pv2-rule"></span></div>
-    <div class="pv2-stack">
-      <figure class="pv2-card" data-n="02" data-name="Project 02"><img src="assets/prj-02.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 02" data-temp></figure>
-      <figure class="pv2-card" data-n="03" data-name="Project 03"><img src="assets/prj-03.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 03" data-temp></figure>
-      <figure class="pv2-card" data-n="04" data-name="Project 04"><img src="assets/prj-04.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 04" data-temp></figure>
-      <figure class="pv2-card" data-n="05" data-name="Project 05"><img src="assets/prj-05.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 05" data-temp></figure>
-      <figure class="pv2-card" data-n="06" data-name="Project 06"><img src="assets/prj-06.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 06" data-temp></figure>
-      <figure class="pv2-card" data-n="07" data-name="Project 07"><img src="assets/prj-07.webp" width="1200" height="1500" loading="lazy" alt="Placeholder picture for project 07" data-temp></figure>
-    </div>
-    <p class="pv2-copy">© 2026 FORRA Residence. Project pictures are placeholders.</p>
+    <p class="pv3-copy">© 2026 FORRA Residence. Project pictures are placeholders.</p>
   </div>
 </section>
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"><svg viewBox="0 0 22 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="square"><path d="M11 1 L21 11 M11 1 L1 11"/><path d="M4 8.5 V23 H18 V8.5"/><path d="M9 23 V16.5 H13 V23"/></svg></div>
@@ -1359,7 +1329,7 @@
       root.classList.remove('lock');
       aboutH.init();
       prjSketch.init();
-      pv2.init();
+      pv3.init();
       flushScroll();
     });
   }
@@ -1733,42 +1703,66 @@
     return { init };
   })();
 
-  // Trial B — vertical 3-D stack driven by the scroll
-  const pv2 = (() => {
-    const sec = $('#projectsB');
+  // Trial C — single file in, a short half-circle walk, then rows. Everything is a function of the scroll.
+  const pv3 = (() => {
+    const sec = $('#projectsC');
     if (!sec) return { init() {} };
-    const cards = [...sec.querySelectorAll('.pv2-card')], num = $('#pv2Num'), name = $('#pv2Name');
-    let st = null, active = -1;
-    function place(p) {
-      const ch = cards[0].offsetHeight;
+    const frame = sec.querySelector('.pv3-frame'), cards = [...sec.querySelectorAll('.pv3-card')], ring = $('#pv3Ring'), now = $('#pv3Now');
+    const N = cards.length, GAP = .11;                    // spacing of the file along the path
+    const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+    const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    let geo = null, st = null;
+    function layout() {
+      const W = frame.clientWidth, H = frame.clientHeight, narrow = W < 900;
+      const cols = narrow ? 2 : 3, rows = Math.ceil(N / cols), pad = Math.max(16, Math.min(64, W * .034));
+      const top = narrow ? 150 : Math.max(130, H * .2), gap = narrow ? 14 : Math.max(20, W * .02), capH = 40;
+      let cw = (W - pad * 2 - gap * (cols - 1)) / cols;
+      cw = Math.min(cw, ((H - top - 50) / rows - capH - gap) * 4 / 3);      // rows must fit the window
+      const ch = cw * .75, gridW = cw * cols + gap * (cols - 1), x0 = (W - gridW) / 2;
+      const slots = cards.map((c, i) => ({ x: x0 + (i % cols) * (cw + gap), y: top + Math.floor(i / cols) * (ch + capH + gap) }));
+      const R = Math.min(W, H) * (narrow ? .3 : .26), cx = W / 2, cy = H * .56, small = narrow ? 92 : 128;
+      cards.forEach(c => c.style.width = cw + 'px');
+      Object.assign(ring.style, { left: cx - R + 'px', top: cy - R + 'px', width: R * 2 + 'px', height: R * 2 + 'px' });
+      geo = { W, H, cw, ch, slots, R, cx, cy, k0: small / cw };
+    }
+    // the path: in from the left along the circle's bottom tangent (first 35 %), then half way round the circle
+    function onPath(u) {
+      const { W, R, cx, cy } = geo, a = .35;
+      if (u <= a) { const t = u / a; return [-geo.cw * geo.k0 - 40 + t * (cx + geo.cw * geo.k0 + 40), cy + R]; }
+      const t = (u - a) / (1 - a), ang = Math.PI / 2 + t * Math.PI;          // from the bottom, round the right side, to the top
+      return [cx + R * Math.cos(ang) * -1, cy + R * Math.sin(ang)];
+    }
+    function render(p) {
+      if (!geo) return;
+      // one clock for the whole file: each card walks in and half way round, then peels off into its place in the rows
+      const SET = .45, walk = clamp(p / .96) * (1 + GAP * (N - 1) + SET);
+      ring.style.opacity = (clamp(p / .1) * (1 - clamp((p - .7) / .2)) * .9).toFixed(3);
+      let n = 0;
       cards.forEach((c, i) => {
-        const d = i - p, a = Math.abs(d), sg = Math.sign(d);
-        // neighbours sit half a card away, further cards close up behind them; each tilts away from the centre
-        const y = sg * (Math.min(a, 1) * ch * .9 + Math.max(0, a - 1) * ch * .55);
-        const rx = -sg * Math.min(a, 1.6) * 30, sc = 1 - Math.min(a, 3) * .07;
-        c.style.transform = `translateY(${y.toFixed(1)}px) rotateX(${rx.toFixed(2)}deg) scale(${sc.toFixed(3)})`;
-        c.style.filter = a < .02 ? 'none' : `blur(${Math.min(a * 2.6, 6).toFixed(2)}px)`;
-        c.style.setProperty('--dim', Math.min(a * .28, .6).toFixed(3));
-        c.style.zIndex = String(100 - Math.round(a * 10));
-        c.style.visibility = a > 3.2 ? 'hidden' : 'visible';
+        const u = walk - i * GAP;                                    // goose order: each one a step behind the previous
+        const settle = ease(clamp((u - 1) / SET));                 // after its walk: off the circle and into its place
+        if (u <= 0 && settle === 0) { c.style.visibility = 'hidden'; return; }
+        c.style.visibility = 'visible';
+        const [px, py] = onPath(clamp(u));
+        const k = geo.k0 + (1 - geo.k0) * settle;
+        const sx = px - geo.cw * geo.k0 / 2, sy = py - geo.ch * geo.k0 / 2;  // small card centred on the path
+        const x = sx + (geo.slots[i].x - sx) * settle, y = sy + (geo.slots[i].y - sy) * settle;
+        c.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${k.toFixed(4)})`;
+        c.style.setProperty('--cap', clamp((settle - .7) / .3).toFixed(3));
+        c.style.zIndex = String(10 + i);
+        if (settle > .98) n++;
       });
-      const k = Math.max(0, Math.min(cards.length - 1, Math.round(p)));
-      if (k !== active) {
-        active = k;
-        [num, name].forEach(el => el.classList.add('out'));
-        setTimeout(() => { num.textContent = cards[k].dataset.n; name.textContent = cards[k].dataset.name; [num, name].forEach(el => el.classList.remove('out')); }, 180);
-      }
+      now.textContent = String(n).padStart(2, '0');
     }
     function init() {
       if (st) return;
       if (REDUCE || !window.ScrollTrigger) { sec.classList.add('static'); return; }
+      layout();
       const state = { p: 0 };
-      place(0);
-      const tw = gsap.to(state, { p: cards.length - 1, ease: 'none', onUpdate: () => place(state.p) });
-      // about 70 % of a window height of scrolling per project, so every change can be followed
-      st = ScrollTrigger.create({ trigger: sec, pin: true, start: 'top top', end: () => '+=' + Math.round(innerHeight * .7 * (cards.length - 1)),
-        scrub: .9, animation: tw, invalidateOnRefresh: true, refreshPriority: -3,
-        onRefresh: () => place(state.p) });
+      render(0);
+      const tw = gsap.to(state, { p: 1, ease: 'none', onUpdate: () => render(state.p) });
+      st = ScrollTrigger.create({ trigger: sec, pin: true, start: 'top top', end: () => '+=' + Math.round(innerHeight * 2.2),
+        scrub: .8, animation: tw, invalidateOnRefresh: true, refreshPriority: -3, onRefresh: () => { layout(); render(state.p); } });
     }
     return { init };
   })();
