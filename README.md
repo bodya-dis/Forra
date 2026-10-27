@@ -204,3 +204,10 @@ Screen readers get the slogan and facts as plain text. Reduced motion / no GSAP:
 * **REQUEST A CALL back exactly as drawn in the design:** a white pill (203 × 54) and, next to it, a separate white circle (54) with the phone — with its earlier hover (ink circle, ringing, inner frame on the pill) and the buzz on click.
 * **Menu hover is text-only:** no fill and no button look — the label turns white and a thin line grows under it.
 * **«Ещё раз» removed.** Above the floor-plan card a cue «SCROLL DOWN — to open the rooms» with a thin animated line appears when the intro ends and fades once the page is scrolled. Replay remains available from the console (`FORRA.playAll()`).
+
+## Update — hero follows the Figma «architect» frame again
+- Title, slogan and location are back in the design positions: FORRA top left, RESIDENCE on the second line, the slogan's first line indented, the location under RESIDENCE.
+- The menu uses outlined pills as in the design. On hover the label and outline turn white; there is no fill.
+- One glass panel at the bottom left holds Completion, House size and Price, then a divider, then REQUEST A CALL. The call button is a single pill with the phone as an ink circle inside it. On mobile the button sits full width under the figures, inside the same glass.
+- The plan card is back at its design position.
+- The scroll-down cue now sits low, between the glass panel and the card, with its line pointing down.
