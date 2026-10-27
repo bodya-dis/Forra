@@ -211,3 +211,10 @@ Screen readers get the slogan and facts as plain text. Reduced motion / no GSAP:
 - One glass panel at the bottom left holds Completion, House size and Price, then a divider, then REQUEST A CALL. The call button is a single pill with the phone as an ink circle inside it. On mobile the button sits full width under the figures, inside the same glass.
 - The plan card is back at its design position.
 - The scroll-down cue now sits low, between the glass panel and the card, with its line pointing down.
+
+## Update — hero matched to the revised Figma frame
+- FORRA and RESIDENCE use the design sizes and positions (215 px; FORRA x40 y118, RESIDENCE x728 y265). RESIDENCE is no longer pushed right on wide windows, so the two words stay together, with no gap, at any desktop size.
+- On desktop the whole hero now scales with the window width, so the proportions are the same on 1280, 1440, 1920 and 2560 px screens.
+- REQUEST A CALL is back under the slogan (x51 y460), as one pill with the phone circle inside it.
+- The glass panel is unchanged in style and holds only the three figures (x51 y900, 708 × 135).
+- SCROLL DOWN sits just above the plan card, with a small margin.
