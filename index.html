@@ -73,8 +73,9 @@
   .logo.is-hot { opacity: .72; }
 
   .pill { transition: color .25s ease, border-color .3s ease, background-color .3s ease; }
-  .pill.is-hot { color: var(--ink); border-color: #fff; }               /* the cursor's white fill sits behind the label */
-  .pill:focus-visible { background-color: #fff; border-color: #fff; color: var(--ink); }
+  .pill { color: rgba(255,255,255,.78); }
+  .pill.is-hot, .pill:hover, .pill:focus-visible { color: #fff; border-color: #fff; background-color: transparent; }   /* hover: the label turns full white and the outline brightens — no fill */
+  .pill:focus-visible { outline: 1px solid #fff; outline-offset: 3px; }
 
   /* REQUEST A CALL pill: a thin ink frame draws inward around the inside of the pill (double contour) while the call
      button is hovered; the phone circle keeps its ringing state. */
@@ -144,6 +145,17 @@
   .sep-a { height: 76px; }
   .sep-b { height: 82px; }
 
+  /* scroll cue above the plan card: tells that scrolling opens the pictures in the corner */
+  .scroll-cue { position: absolute; left: calc(1555px + var(--dx)); top: calc(740px + var(--dy)); width: 315px; display: flex; align-items: center; gap: 12px;
+    color: #fff; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; opacity: 0; visibility: hidden; pointer-events: none; }
+  .scroll-cue b { font-weight: 400; text-transform: none; letter-spacing: 0; color: rgba(255,255,255,.8); }
+  .scroll-cue span, .scroll-cue b { text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+  .scroll-cue i { position: relative; width: 1px; height: 30px; background: rgba(255,255,255,.35); overflow: hidden; }
+  .scroll-cue i::after { content: ""; position: absolute; left: 0; top: -40%; width: 1px; height: 40%; background: #fff; animation: forra-cue 1.6s cubic-bezier(.65,0,.35,1) infinite; }
+  @keyframes forra-cue { to { top: 100%; } }
+  @media (prefers-reduced-motion: reduce) { .scroll-cue i::after { animation: none; top: 30%; } }
+  .m .scroll-cue { left: calc(204px + var(--dx)); top: calc(552px + var(--dy)); width: 170px; gap: 8px; font-size: 10px; }
+  .m .scroll-cue b { display: none; }
   .card { position: absolute; left: calc(1555px + var(--dx)); top: calc(798px + var(--dy)); width: 315px; background: #fff; border-radius: 24px; padding: 12px 8px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
   .card-img { width: 100%; aspect-ratio: 1774 / 887; border-radius: 20px; overflow: hidden; }
   .card-img img { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -183,7 +195,8 @@
   html.lock, html.lock body { overflow: hidden; }
 
   /* «Ещё раз» — replays everything from the house film; same outline pill as the navigation */
-  .replay { position: absolute; left: calc(960px + var(--dx) / 2); top: calc(986px + var(--dy)); transform: translateX(-50%); display: flex; align-items: center; gap: 10px;
+  .replay { display: none !important; }
+  .replay-old { position: absolute; left: calc(960px + var(--dx) / 2); top: calc(986px + var(--dy)); transform: translateX(-50%); display: flex; align-items: center; gap: 10px;
     padding: 16px 24px; border: .5px solid var(--line); border-radius: 100px; background: transparent; color: var(--line); cursor: pointer;
     font-family: 'Montserrat', 'Poppins', sans-serif !important; font-size: 15px; line-height: .95; letter-spacing: -.3px; text-transform: uppercase; white-space: nowrap;
     opacity: 0; visibility: hidden; transition: border-color .2s, color .2s, background-color .2s; }
@@ -642,6 +655,7 @@
 
     <p class="small location ui" id="location">// Carpathians, Hirne Village, Ukraine</p>
 
+    <div class="scroll-cue ui" id="scrollCue" aria-hidden="true"><span>Scroll down</span><i></i><b>to open the rooms</b></div>
     <button class="replay" id="replay" type="button" aria-label="Ещё раз — показать анимацию с начала">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.7-4"/><path d="M2.5 2.2v3.2h3.2"/></svg>
       <span>Ещё раз</span>
@@ -1471,9 +1485,12 @@
 
   // «Ещё раз»: back to the top, tour reset, then the whole sequence from the house film.
   const replayBtn = $('#replay');
+  // «Ещё раз» is no longer shown; its place is taken by a scroll cue pointing at the plan card (the room tour opens from it)
+  const cue = $('#scrollCue');
   function showReplay(on) {
-    gsap.to(replayBtn, { autoAlpha: on ? 1 : 0, duration: on ? .5 : .2, ease: 'power1.out', overwrite: true });
+    gsap.to(cue, { autoAlpha: on && scrollY < 40 ? 1 : 0, duration: on ? .7 : .2, ease: 'power1.out', overwrite: true });
   }
+  addEventListener('scroll', () => { if (root.classList.contains('intro-done')) gsap.to(cue, { autoAlpha: scrollY < 40 ? 1 : 0, duration: .35, overwrite: true }); }, { passive: true });
   function restart() {
     if (!master) return;                                     // fonts still loading
     if (paused) resume();
@@ -1504,7 +1521,7 @@
       if (el.closest('.cta')) return $('#phoneBtn');                       // REQUEST A CALL + phone: the circle takes the fill
       return el.closest('.pill, .btn-view, .logo, .replay');
     };
-    const fillable = el => !!el && el.matches('.pill');                   // the menu pills take the cursor's fill
+    const fillable = () => false;                                          // no fill on hover anywhere (menu hover is text-only)
     const toStage = (cx, cy) => { const r = stage.getBoundingClientRect(), s = scale(); return [(cx - r.left) / s, (cy - r.top) / s]; };
     function frame() {
       const s = scale();
