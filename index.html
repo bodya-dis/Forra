@@ -26,6 +26,8 @@
   .layer { position: absolute; pointer-events: none; display: block; }
   /* Photographic layers (still, house cut-out, film) — one transform for all three, so they stay registered */
   .scene { left: 0; top: 0; width: 1920px; height: 1080px; transform: translate(var(--scx), var(--scy)) scale(var(--sck)); transform-origin: 0 0; }
+  /* the photo is muted (less saturation, softer highlights) so it reads less like a render */
+  .bg, .house, .film { filter: saturate(.72) brightness(.86) contrast(.94); }
   .bg { left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; }
   .house { left: 0; top: -1px; width: 1920px; height: 1081px; object-fit: cover; }
   .shade { left: 0; top: calc(792px + var(--dy)); width: var(--sw); height: 288px; background: linear-gradient(to bottom, rgba(0,0,0,0), #000); }
@@ -37,15 +39,15 @@
   .headline * { font-family: inherit !important; font-weight: inherit !important; }
   /* Layout as in the design (Figma «architect»): FORRA top left, RESIDENCE on the second line to the right; the roof of the house
      cut-out overlaps RESIDENCE */
-  .forra { left: 40px; top: 118px; }
-  .residence { left: 728px; top: 265px; }   /* tied to FORRA (no --dx): the pair never drifts apart */
+  .forra { left: 40px; top: 90px; }
+  .residence { left: 728px; top: 237px; }   /* tied to FORRA (no --dx): the pair never drifts apart */
 
   .small { position: absolute; font-size: 16px; line-height: .95; letter-spacing: -.64px; text-transform: uppercase; white-space: nowrap; color: #fff; opacity: .8; }
-  .slogan { left: 51px; top: 324px; }
+  .slogan { left: 51px; top: 296px; }
   .slogan .ln { display: block; white-space: pre; }
-  .location { left: calc(1648px + var(--dx)); top: 486px; width: 222px; text-align: right; white-space: normal; }
+  .location { left: calc(1648px + var(--dx)); top: 458px; width: 222px; text-align: right; white-space: normal; }
 
-  .header { position: absolute; left: 50px; top: 50px; width: calc(1820px + var(--dx)); display: flex; align-items: center; justify-content: space-between; }
+  .header { position: absolute; left: 50px; top: 34px; width: calc(1820px + var(--dx)); display: flex; align-items: center; justify-content: space-between; }
   .logo { display: block; width: 60px; height: 41px; }
   .logo img { display: block; width: 60px; height: 41px; }
   .menu { width: 1040px; display: flex; align-items: center; justify-content: space-between; }
@@ -58,17 +60,23 @@
   /* REQUEST A CALL: inside the glass panel, after the figures — one white pill with the phone as an ink circle at its end;
      a thin divider separates it from the price */
   /* REQUEST A CALL back at its design place under the slogan (Figma: x51 y460, 220 × 54), phone circle inside the pill */
-  .cta { position: absolute; left: 51px; top: 460px; display: flex; align-items: center; }
-  .btn-call { height: 54px; width: auto; padding: 4px 4px 4px 28px; gap: 20px; }
-  .btn-call .btn-phone { display: flex; align-items: center; justify-content: center; flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--ink); }
-  .btn-phone img { display: block; width: 30px; height: 30px; filter: brightness(0) invert(1); }
+  .cta { position: absolute; left: 51px; top: 432px; display: flex; align-items: center; }
+  /* Button family: both CTAs are pills with the same type (Poppins, uppercase, 16 px) and the same white/ink pair.
+     SCHEDULE A VIEWING is the solid white pill; REQUEST A CALL is its glass twin — the same glass as the figures panel,
+     a thin white contour, white label and a white phone circle. Each has its own hover:
+     the white pill opens into ink (sliding doors), the glass pill fills with white from the phone circle. */
+  .btn-call { position: relative; isolation: isolate; height: 54px; width: auto; padding: 4px 4px 4px 28px; gap: 20px; color: #fff;
+    background: linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.05)); border: .5px solid rgba(255,255,255,.62);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 1px 0 rgba(255,255,255,.18); }
+  .btn-call .btn-phone { display: flex; align-items: center; justify-content: center; flex: none; width: 46px; height: 46px; border-radius: 50%; background: #fff; }
+  .btn-phone img { display: block; width: 30px; height: 30px; filter: brightness(0); }
 
   /* ---------- Hover states ----------
-     · Menu: plain text links, no fill. A short, faint line under each label grows to the label's full width on hover.
+     · Menu: outlined pills; on hover the label and outline turn white, no fill.
      · SCHEDULE A VIEWING: sliding doors — the white face splits at the centre and both halves slide apart,
        revealing ink behind a white label, like doors opening onto a viewing.
-     · REQUEST A CALL + phone: a ringing phone — the circle turns ink, the receiver turns white with a short ring-shake,
-       and thin rings pulse outward while hovered; the REQUEST A CALL pill shows a thin inner frame. Clicking either
+     · REQUEST A CALL (glass pill): white fills the pill from the phone circle, the label turns ink, the circle turns ink
+       and its receiver rings, with thin rings pulsing outward. Clicking either
        part gives the pair a short buzz (and a 25 ms vibration on phones that support it).
      Keyboard focus shows the same states plus a white outline. (.is-hot is set by the cursor script.) */
   .logo, .pill, .btn, .replay { cursor: pointer; -webkit-tap-highlight-color: transparent; }
@@ -79,9 +87,15 @@
   /* menu hover (design pills): the label and the outline turn full white — no fill, the background stays as it is */
   .pill.is-hot, .pill:hover, .pill:focus-visible { color: #fff; border-color: #fff; background: transparent; }
 
-  /* REQUEST A CALL pill: a thin ink frame draws inward around the inside of the pill (double contour) while hovered */
-  .btn-call { outline: 1px solid rgba(41,42,45,0); outline-offset: 0; transition: outline-offset .35s cubic-bezier(.2,.7,.2,1), outline-color .3s ease; }
-  .cta:hover .btn-call { outline-color: var(--ink); outline-offset: -4px; }
+  /* REQUEST A CALL hover: white spreads out of the phone circle and fills the glass pill, the label turns ink,
+     the circle turns ink with a white receiver that rings (pulsing rings outside the pill) */
+  .btn-call { transition: color .3s ease .05s, border-color .3s ease; }
+  .btn-call::before { content: ""; position: absolute; inset: -1px; z-index: -1; border-radius: inherit; background: #fff;
+    clip-path: circle(0 at calc(100% - 27px) 50%); transition: clip-path .55s cubic-bezier(.65,0,.25,1); }
+  .cta:hover .btn-call, .cta:focus-within .btn-call, .btn-call:has(.is-hot) { color: var(--ink); border-color: #fff; }
+  .cta:hover .btn-call::before, .cta:focus-within .btn-call::before, .btn-call:has(.is-hot)::before { clip-path: circle(260px at calc(100% - 27px) 50%); }
+  .cta:hover .btn-phone, .cta:focus-within .btn-phone { background-color: var(--ink); }
+  .cta:hover .btn-phone img, .cta:focus-within .btn-phone img, .btn-phone.is-hot img { filter: brightness(0) invert(1); }
   /* Buzz: a short, small side-to-side shake of the call button when it is activated (click, tap or Enter) */
   .cta.buzz { animation: forra-buzz .34s linear; }
   @keyframes forra-buzz {
@@ -123,7 +137,7 @@
 
   .logo:focus-visible, .pill:focus-visible, .btn:focus-visible { outline: 1px solid #fff; outline-offset: 4px; }
   @media (prefers-reduced-motion: reduce) {
-    .pill, .pill::after, .btn-view, .btn-view::before, .btn-view::after, .btn-view span::after, .btn-phone, .btn-phone img, .btn-call, .card, .card-img img, .replay svg, .replay span::after { transition-duration: .01s; transition-delay: 0s; }
+    .pill, .pill::after, .btn-view, .btn-view::before, .btn-view::after, .btn-view span::after, .btn-phone, .btn-phone img, .btn-call, .btn-call::before, .card, .card-img img, .replay svg, .replay span::after { transition-duration: .01s; transition-delay: 0s; }
     .card:hover, .card:hover .card-img img, .replay:hover svg, .replay.is-hot svg { transform: none; }
     .cta.buzz { animation: none; }
     .btn-phone.is-hot, .btn-phone.is-hot img, .cta:focus-within .btn-phone, .cta:focus-within .btn-phone img { animation: none; }
