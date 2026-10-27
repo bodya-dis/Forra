@@ -27,7 +27,7 @@
   /* Photographic layers (still, house cut-out, film) — one transform for all three, so they stay registered */
   .scene { left: 0; top: 0; width: 1920px; height: 1080px; transform: translate(var(--scx), var(--scy)) scale(var(--sck)); transform-origin: 0 0; }
   /* the photo is muted (less saturation, softer highlights) so it reads less like a render */
-  .bg, .house, .film { filter: saturate(.72) brightness(.86) contrast(.94); }
+  .bg, .house, .film { filter: saturate(.86) brightness(.94) contrast(.97); }   /* a light touch: warm light kept, the glare taken down */
   .bg { left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; }
   .house { left: 0; top: -1px; width: 1920px; height: 1081px; object-fit: cover; }
   .shade { left: 0; top: calc(792px + var(--dy)); width: var(--sw); height: 288px; background: linear-gradient(to bottom, rgba(0,0,0,0), #000); }

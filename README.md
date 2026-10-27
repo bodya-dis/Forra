@@ -224,4 +224,4 @@ Screen readers get the slogan and facts as plain text. Reduced motion / no GSAP:
 - The two buttons now form a family: the same pill shape and the same uppercase Poppins 16 px in white and ink.
   - SCHEDULE A VIEWING is the solid white pill. Its hover is unchanged: sliding doors that open to ink.
   - REQUEST A CALL is the glass twin: the glass of the figures panel, a thin white outline, a white label and a white phone circle. On hover, white spreads from the phone circle until it fills the pill, the label turns ink, and the circle turns ink with a ringing white receiver. Keyboard focus shows the same state.
-- The photo (background, house cut-out and the end of the film) is muted with `saturate(.72) brightness(.86) contrast(.94)`, so it reads less like an AI render.
+- The photo (background, house cut-out and the end of the film) is muted lightly with `saturate(.86) brightness(.94) contrast(.97)`: the glare is gone, the warm light remains.
