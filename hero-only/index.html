@@ -1,0 +1,1234 @@
+<!doctype html>
+<html lang="en" class="is-intro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forra Residence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anta&family=Montserrat:wght@600&family=Poppins:wght@300;400;600&display=block" rel="stylesheet">
+<link rel="preload" as="image" href="assets/bg.jpg" imagesrcset="assets/bg.jpg 1920w, assets/bg-3840.webp 3840w" imagesizes="(max-width: 899px) 280vw, 100vw">
+<link rel="preload" as="image" href="assets/house.webp" imagesrcset="assets/house.webp 1920w, assets/house-3840.webp 3840w" imagesizes="(max-width: 899px) 280vw, 100vw">
+<style>
+  :root { --s: 1; --sw: 1920px; --sh: 1080px; --dx: 0px; --dy: 0px; --scx: 0px; --scy: 0px; --sck: 1; --ink: #292a2d; --line: #dcdcdc; --head: #e1e0e0; --label: #c5c5c5; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #000; color: #fff; }
+  body { overflow-x: hidden; }
+
+  /* One full-window hero, two compositions of the same elements:
+     · desktop — the 1920 × 1080 Figma frame; text and controls keep their design size (scaled down only on smaller screens)
+     · mobile  — a 390 × 844 composition (windows narrower than 900 px)
+     The photo layers cover the whole window; the text is anchored to its corners, so nothing is stretched. */
+  .viewport { position: relative; width: 100%; height: calc(var(--sh) * var(--s)); overflow: hidden; background: #000; }
+  .stage { position: absolute; left: 0; top: 0; width: var(--sw); height: var(--sh); transform: scale(var(--s)); transform-origin: 0 0; overflow: hidden; }
+  .stage * { font-family: 'Poppins', sans-serif; font-weight: 600; }
+
+  .layer { position: absolute; pointer-events: none; display: block; }
+  /* Photographic layers (still, house cut-out, film) — one transform for all three, so they stay registered */
+  .scene { left: 0; top: 0; width: 1920px; height: 1080px; transform: translate(var(--scx), var(--scy)) scale(var(--sck)); transform-origin: 0 0; }
+  /* the photo is muted (less saturation, softer highlights) so it reads less like a render */
+  .bg, .house, .film { filter: saturate(.86) brightness(.94) contrast(.97); }   /* a light touch: warm light kept, the glare taken down */
+  .bg { left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; }
+  .house { left: 0; top: -1px; width: 1920px; height: 1081px; object-fit: cover; }
+  .shade { left: 0; top: calc(792px + var(--dy)); width: var(--sw); height: 288px; background: linear-gradient(to bottom, rgba(0,0,0,0), #000); }
+  /* Last video frame registers to the hero at scale 1.00552, offset (+0.81, −1.37) */
+  .film { left: 0.81px; top: -1.37px; width: 2047.24px; height: 1021.61px; object-fit: fill; background: #000; }
+  .film-shade { left: 0; top: 0; width: var(--sw); height: var(--sh); background: #000; }
+
+  .headline { position: absolute; font-family: 'Anta', sans-serif !important; font-weight: 400 !important; font-size: 215px; line-height: .95; letter-spacing: -8.6px; color: var(--head); text-transform: uppercase; white-space: nowrap; mix-blend-mode: luminosity; }
+  .headline * { font-family: inherit !important; font-weight: inherit !important; }
+  /* Layout as in the design (Figma «architect»): FORRA top left, RESIDENCE on the second line to the right; the roof of the house
+     cut-out overlaps RESIDENCE */
+  .forra { left: 40px; top: 90px; }
+  .residence { left: 728px; top: 237px; }   /* tied to FORRA (no --dx): the pair never drifts apart */
+
+  .small { position: absolute; font-size: 16px; line-height: .95; letter-spacing: -.64px; text-transform: uppercase; white-space: nowrap; color: #fff; opacity: .8; }
+  .slogan { left: 51px; top: 296px; }
+  .slogan .ln { display: block; white-space: pre; }
+  .location { left: calc(1648px + var(--dx)); top: 458px; width: 222px; text-align: right; white-space: normal; }
+
+  .header { position: absolute; left: 50px; top: 34px; width: calc(1820px + var(--dx)); display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: block; width: 60px; height: 41px; }
+  .logo img { display: block; width: 60px; height: 41px; }
+  .menu { width: 1040px; display: flex; align-items: center; justify-content: space-between; }
+  .nav { display: flex; gap: 12px; align-items: center; list-style: none; }
+  .pill { position: relative; display: flex; align-items: center; justify-content: center; padding: 16px 24px; border: .5px solid var(--line); border-radius: 100px; color: var(--line); text-decoration: none; font-size: 16px; line-height: .95; letter-spacing: -.64px; text-transform: uppercase; white-space: nowrap; }
+  .pill span { display: block; }
+  .btn { display: flex; align-items: center; justify-content: center; background: #fff; color: var(--ink); border: 0; border-radius: 100px; padding: 10px 20px; font-size: 16px; line-height: 1.45; letter-spacing: -.64px; text-transform: uppercase; white-space: nowrap; text-decoration: none; cursor: pointer; }
+  .btn span { display: block; }
+  .btn-view { height: 48px; }
+  /* REQUEST A CALL: inside the glass panel, after the figures — one white pill with the phone as an ink circle at its end;
+     a thin divider separates it from the price */
+  /* REQUEST A CALL back at its design place under the slogan (Figma: x51 y460, 220 × 54), phone circle inside the pill */
+  .cta { position: absolute; left: 51px; top: 432px; display: flex; align-items: center; }
+  /* Button family: both CTAs are pills with the same type (Poppins, uppercase, 16 px) and the same white/ink pair.
+     SCHEDULE A VIEWING is the solid white pill; REQUEST A CALL is its glass twin — the same glass as the figures panel,
+     a thin white contour, white label and a white phone circle. Each has its own hover:
+     the white pill opens into ink (sliding doors), the glass pill fills with white from the phone circle. */
+  .btn-call { position: relative; isolation: isolate; height: 54px; width: auto; padding: 4px 4px 4px 28px; gap: 20px; color: #fff;
+    background: linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.05)); border: .5px solid rgba(255,255,255,.62);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 1px 0 rgba(255,255,255,.18); }
+  .btn-call .btn-phone { display: flex; align-items: center; justify-content: center; flex: none; width: 46px; height: 46px; border-radius: 50%; background: #fff; }
+  .btn-phone img { display: block; width: 30px; height: 30px; filter: brightness(0); }
+
+  /* ---------- Hover states ----------
+     · Menu: outlined pills; on hover the label and outline turn white, no fill.
+     · SCHEDULE A VIEWING: sliding doors — the white face splits at the centre and both halves slide apart,
+       revealing ink behind a white label, like doors opening onto a viewing.
+     · REQUEST A CALL (glass pill): white fills the pill from the phone circle, the label turns ink, the circle turns ink
+       and its receiver rings, with thin rings pulsing outward. Clicking either
+       part gives the pair a short buzz (and a 25 ms vibration on phones that support it).
+     Keyboard focus shows the same states plus a white outline. (.is-hot is set by the cursor script.) */
+  .logo, .pill, .btn, .replay { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .logo { transition: opacity .3s ease; }
+  .logo.is-hot { opacity: .72; }
+
+  .pill { transition: color .25s ease, border-color .3s ease, background-color .3s ease; }
+  /* menu hover (design pills): the label and the outline turn full white — no fill, the background stays as it is */
+  .pill.is-hot, .pill:hover, .pill:focus-visible { color: #fff; border-color: #fff; background: transparent; }
+
+  /* REQUEST A CALL hover: white spreads out of the phone circle and fills the glass pill, the label turns ink,
+     the circle turns ink with a white receiver that rings (pulsing rings outside the pill) */
+  .btn-call { transition: color .3s ease .05s, border-color .3s ease; }
+  .btn-call::before { content: ""; position: absolute; inset: -1px; z-index: -1; border-radius: inherit; background: #fff;
+    clip-path: circle(0 at calc(100% - 27px) 50%); transition: clip-path .55s cubic-bezier(.65,0,.25,1); }
+  .cta:hover .btn-call, .cta:focus-within .btn-call, .btn-call:has(.is-hot) { color: var(--ink); border-color: #fff; }
+  .cta:hover .btn-call::before, .cta:focus-within .btn-call::before, .btn-call:has(.is-hot)::before { clip-path: circle(260px at calc(100% - 27px) 50%); }
+  .cta:hover .btn-phone, .cta:focus-within .btn-phone { background-color: var(--ink); }
+  .cta:hover .btn-phone img, .cta:focus-within .btn-phone img, .btn-phone.is-hot img { filter: brightness(0) invert(1); }
+  /* Buzz: a short, small side-to-side shake of the call button when it is activated (click, tap or Enter) */
+  .cta.buzz { animation: forra-buzz .34s linear; }
+  @keyframes forra-buzz {
+    0%, 100% { transform: translateX(0); } 14% { transform: translateX(-2px); } 28% { transform: translateX(2px); }
+    42% { transform: translateX(-1.5px); } 56% { transform: translateX(1.5px); } 70% { transform: translateX(-.6px); } 84% { transform: translateX(.6px); }
+  }
+
+  /* sliding doors */
+  .btn-view { position: relative; overflow: hidden; isolation: isolate; transition: background-color 0s linear .45s; }   /* leaving: back to white once the doors have closed */
+  .btn-view::before, .btn-view::after { content: ""; position: absolute; top: 0; bottom: 0; width: 50.5%; z-index: -1; background: #fff;
+    transition: transform .45s cubic-bezier(.65,0,.25,1); }
+  .btn-view::before { left: 0; transform-origin: 0 50%; }
+  .btn-view::after { right: 0; transform-origin: 100% 50%; }
+  /* the label stays ink; a white copy (data-label) is revealed exactly inside the opening between the doors.
+     Its mask runs from the centre to the button's edge (--pad = the button's side padding) with the doors' timing,
+     so the label is white wherever the doors are open and ink wherever they are closed — at every instant. */
+  .btn-view { --pad: 20px; }
+  .btn-view span { position: relative; }
+  .btn-view span::after { content: attr(data-label); position: absolute; inset: 0; color: #fff; white-space: nowrap;
+    clip-path: inset(0 50% 0 50%); transition: clip-path .45s cubic-bezier(.65,0,.25,1); }
+  .btn-view.is-hot, .btn-view:focus-visible { background-color: var(--ink); transition: background-color 0s; }
+  .btn-view.is-hot::before, .btn-view.is-hot::after, .btn-view:focus-visible::before, .btn-view:focus-visible::after { transform: scaleX(0); }
+  .btn-view.is-hot span::after, .btn-view:focus-visible span::after { clip-path: inset(0 calc(0px - var(--pad)) 0 calc(0px - var(--pad))); }
+
+  /* ringing phone */
+  .btn-phone { transition: background-color .3s ease; }
+  .btn-phone img { transition: filter .25s ease; }
+  .btn-phone.is-hot, .cta:focus-within .btn-phone { background-color: var(--ink); animation: forra-ring 1.6s cubic-bezier(.2,.7,.2,1) .15s infinite; }
+  .btn-phone.is-hot img, .cta:focus-within .btn-phone img { animation: forra-shake 1.6s ease-in-out .1s infinite; }
+  @keyframes forra-ring {
+    0%   { box-shadow: 0 0 0 0 rgba(255,255,255,.55), 0 0 0 0 rgba(255,255,255,.35); }
+    70%  { box-shadow: 0 0 0 16px rgba(255,255,255,0), 0 0 0 30px rgba(255,255,255,0); }
+    100% { box-shadow: 0 0 0 16px rgba(255,255,255,0), 0 0 0 30px rgba(255,255,255,0); }
+  }
+  @keyframes forra-shake {
+    0%, 32%, 100% { transform: rotate(0); }
+    4% { transform: rotate(-16deg); } 10% { transform: rotate(12deg); } 16% { transform: rotate(-10deg); } 22% { transform: rotate(6deg); }
+  }
+
+  .logo:focus-visible, .pill:focus-visible, .btn:focus-visible { outline: 1px solid #fff; outline-offset: 4px; }
+  @media (prefers-reduced-motion: reduce) {
+    .pill, .pill::after, .btn-view, .btn-view::before, .btn-view::after, .btn-view span::after, .btn-phone, .btn-phone img, .btn-call, .btn-call::before, .card, .card-img img, .replay svg, .replay span::after { transition-duration: .01s; transition-delay: 0s; }
+    .card:hover, .card:hover .card-img img, .replay:hover svg, .replay.is-hot svg { transform: none; }
+    .cta.buzz { animation: none; }
+    .btn-phone.is-hot, .btn-phone.is-hot img, .cta:focus-within .btn-phone, .cta:focus-within .btn-phone img { animation: none; }
+  }
+
+  .stats-glass { position: absolute; left: 51px; bottom: 45px; width: 708px; height: 135px; border-radius: 24px;
+    background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04)); border: .5px solid rgba(255,255,255,.24);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 24px 48px rgba(0,0,0,.28);
+    -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); }
+  .stats { position: absolute; left: 66px; bottom: 76px; display: flex; gap: 42px; align-items: center; }
+  .grp { display: flex; gap: 42px; position: relative; }
+  .grp-a { align-items: flex-end; }
+  .grp-b { align-items: center; }
+  .stat { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; line-height: .95; text-transform: uppercase; }
+  .stat dt { color: var(--label); font-size: 16px; letter-spacing: -.64px; }
+  .stat dd { color: #fff; font-size: 41.939px; letter-spacing: -1.6776px; white-space: nowrap; }
+  .stat-date { width: 226.732px; }
+  .stat-size { width: 110.09px; }
+  .stat-price { width: 172.998px; }
+  .stat dt, .stat dd { display: block; }
+  .size-val { display: inline-grid; grid-template: max-content / max-content; place-items: start; }
+  .size-val > span { grid-area: 1 / 1; line-height: .95; }
+  .size-val .unit { font-size: 20.969px; letter-spacing: -.8388px; margin: 14.42px 0 0 74.7px; }
+  .sep { width: 1.31px; background: rgba(197,197,197,.66); flex: none; }
+  .sep-a { height: 76px; }
+  .sep-b { height: 82px; }
+
+  /* scroll cue above the plan card: scrolling opens the pictures in this corner */
+  /* scroll cue: low on the page, between the glass panel and the plan card, its line pointing down */
+  /* scroll cue: just above the plan card, a small margin over its top edge, aligned with the card */
+  .scroll-cue { position: absolute; z-index: 3; left: calc(1555px + var(--dx)); top: calc(758px + var(--dy)); width: 315px; display: flex; align-items: center; gap: 12px;
+    color: #fff; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; opacity: 0; visibility: hidden; pointer-events: none; }
+  .scroll-cue b { font-weight: 400; text-transform: none; letter-spacing: 0; color: rgba(255,255,255,.8); }
+  .scroll-cue span, .scroll-cue b { text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+  .scroll-cue i { position: relative; width: 40px; height: 1px; background: rgba(255,255,255,.35); overflow: hidden; }
+  .scroll-cue i::after { content: ""; position: absolute; left: 0; top: -40%; width: 1px; height: 40%; background: #fff; animation: forra-cue 1.6s cubic-bezier(.65,0,.35,1) infinite; }
+  @keyframes forra-cue { to { top: 100%; } }
+  @media (prefers-reduced-motion: reduce) { .scroll-cue i::after { animation: none; top: 30%; } }
+  .card { position: absolute; left: calc(1555px + var(--dx)); top: calc(800px + var(--dy)); width: 315px; background: #fff; border-radius: 24px; padding: 12px 8px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+  .card-img { width: 100%; aspect-ratio: 1774 / 887; border-radius: 20px; overflow: hidden; }
+  .card-img img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* a gentle lift on hover, the plan drifts closer */
+  .card { transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s ease; }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,.35); }
+  .card-img img { transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+  .card:hover .card-img img { transform: scale(1.04); }
+  .card p { width: calc(100% - 27px); color: var(--ink); opacity: .8; font-size: 16px; line-height: .95; letter-spacing: -.64px; text-transform: uppercase; }
+  .dots { width: calc(100% - 27px); display: flex; gap: 3px; align-items: center; }
+  .dots i { flex: 1 0 0; min-width: 1px; height: 3px; border-radius: 100px; background: var(--line); display: block; }
+  .dots i:first-child { background: #2f2f2f; }
+
+  /* Animation helpers (temporary, removed when each segment finishes) */
+  .ch { display: inline-block; }
+  .fx { left: 0; top: 0; width: var(--sw); height: var(--sh); }
+  .dial { display: inline-block; position: relative; height: .95em; vertical-align: top; }
+  .dial-win { position: absolute; left: -.1em; right: -.1em; top: -.62em; height: 2.19em; perspective: 420px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent); }
+  .dial-drum { position: absolute; left: .1em; right: .1em; top: .62em; height: .95em; transform-style: preserve-3d; }
+  .dial-face { position: absolute; left: 0; top: 0; width: 100%; height: .95em; line-height: .95; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+
+  /* Room tour (scroll): the floor-plan frame grows into full-screen room photos */
+  .tour { left: 0; top: 0; z-index: 3; width: var(--sw); height: var(--sh); visibility: hidden; }
+  .tour-frame { position: absolute; overflow: hidden; background: #111; }
+  .tour-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; will-change: transform, opacity; }
+  .tour-img.plan { opacity: 1; object-fit: contain; background: #f8f7f5; image-rendering: auto; }
+  .tour-grade { position: absolute; left: 0; right: 0; bottom: 0; height: 320px; background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.72)); opacity: 0; }
+  .tour-hud { position: absolute; left: 62px; top: calc(958px + var(--dy)); width: 272px; display: flex; flex-direction: column; gap: 12px; opacity: 0;
+    font-size: 16px; line-height: .95; letter-spacing: -.64px; text-transform: uppercase; color: #fff; }
+  .tour-hud .row { display: flex; justify-content: space-between; opacity: .8; }
+  .tour-hud .bars { display: flex; gap: 3px; }
+  .tour-hud .bars i { flex: 1 0 0; height: 3px; border-radius: 100px; background: rgba(255,255,255,.3); display: block; }
+  .tour-hud .bars i.on { background: #fff; }
+
+  /* Segment player (open the page with #segments) */
+  .seg-panel { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 20; display: none; flex-wrap: wrap; justify-content: center; gap: 6px;
+    max-width: calc(100% - 32px); padding: 8px; border-radius: 14px; background: rgba(20,20,22,.86); backdrop-filter: blur(8px); font: 600 12px/1 'Poppins', sans-serif; }
+  .seg-panel.on { display: flex; }
+  .seg-panel button { font: inherit; text-transform: uppercase; letter-spacing: .02em; color: #eee; background: transparent; border: .5px solid #666; border-radius: 100px; padding: 8px 12px; cursor: pointer; }
+  .seg-panel button:hover, .seg-panel button:focus-visible { border-color: #fff; color: #fff; outline: none; }
+  html.lock, html.lock body { overflow: hidden; }
+
+  /* «Ещё раз» — replays everything from the house film; same outline pill as the navigation */
+  /* A quiet secondary control: a thin drafting circle with the replay arrow and a text label with the same growing
+     line as the menu. Centred on the grid's middle line and on the bottom row (the glass block's height). */
+  .replay { display: none !important; }   /* «Ещё раз» is not shown any more (FORRA.playAll() still replays) */
+  .replay-unused { position: absolute; z-index: 1; left: calc(960px + var(--dx) / 2); bottom: 95px; transform: translateX(-50%); display: flex; align-items: center; gap: 12px;
+    height: 40px; padding: 0; border: 0; background: transparent; color: var(--line); cursor: pointer;
+    font-family: 'Montserrat', 'Poppins', sans-serif !important; font-size: 15px; line-height: .95; letter-spacing: -.3px; text-transform: uppercase; white-space: nowrap;
+    opacity: 0; visibility: hidden; transition: color .25s ease; }
+  .replay svg { width: 40px; height: 40px; padding: 13px; flex: none; border: .5px solid rgba(220,220,220,.55); border-radius: 50%; box-sizing: border-box;
+    transition: transform .7s cubic-bezier(.65,0,.25,1), border-color .3s ease; }
+  .replay span { position: relative; padding: 6px 0; }
+  .replay span::after { content: ""; position: absolute; left: 0; bottom: 0; width: 14px; height: 1px; background: currentColor; opacity: .35;
+    transition: width .45s cubic-bezier(.65,0,.25,1), opacity .3s ease; }
+  .replay:hover, .replay.is-hot, .replay:focus-visible { color: #fff; }
+  .replay:hover svg, .replay.is-hot svg { transform: rotate(-360deg); border-color: #fff; }
+  .replay:hover span::after, .replay.is-hot span::after, .replay:focus-visible span::after { width: 100%; opacity: .9; }
+  .replay:focus-visible { outline: 1px solid #fff; outline-offset: 4px; }
+
+  /* ---------- Mobile composition (390 × 844), same elements, same animation ---------- */
+  .m .scene {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 230px, #000 92%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 230px, #000 92%, transparent); }
+  .m .shade { top: calc(600px + var(--dy)); height: 244px; }
+  .m .header { left: 16px; top: 16px; width: calc(358px + var(--dx)); flex-wrap: wrap; row-gap: 12px; }
+  .m .menu { display: contents; }
+  .m .logo, .m .logo img { width: 40px; height: 27px; }
+  .m .btn-view { --pad: 14px; order: 1; margin-left: auto; height: 34px; padding: 6px 14px; font-size: 11px; letter-spacing: -.3px; }
+  .m .nav { order: 2; width: 100%; justify-content: space-between; gap: 5px; }
+  .m .pill { padding: 8px 7px; font-size: 10.5px; letter-spacing: -.3px; }
+  .m .forra { left: 12px; top: 150px; font-size: 104px; letter-spacing: -4.16px; }
+  .m .residence { left: 12px; top: 350px; font-size: 66px; letter-spacing: -2.64px; }
+  .m .slogan { left: 16px; top: 256px; font-size: 12px; letter-spacing: -.4px; }
+  .m .cta { left: 16px; top: 300px; }
+  .m .btn-call { height: 40px; padding: 3px 3px 3px 16px; gap: 12px; font-size: 12px; letter-spacing: -.4px; }
+  .m .btn-call .btn-phone { width: 34px; height: 34px; }
+  .m .btn-phone img { width: 22px; height: 22px; }
+  .m .location { left: calc(214px + var(--dx)); top: 308px; width: 160px; font-size: 11px; letter-spacing: -.35px; }
+  .m .scroll-cue { left: calc(201px + var(--dx)); top: auto; bottom: 292px; width: 173px; gap: 8px; font-size: 10px; }
+  .m .scroll-cue i { width: 24px; }
+  .m .scroll-cue b { display: none; }
+  .m .card { left: calc(201px + var(--dx)); top: auto; bottom: 143px; width: 173px; padding: 8px 6px 12px; border-radius: 16px; gap: 7px; }
+  .m .card-img { border-radius: 12px; }
+  .m .card p { width: calc(100% - 20px); font-size: 10.5px; letter-spacing: -.3px; }
+  .m .dots { width: calc(100% - 20px); }
+  .m .stats-glass { left: 16px; bottom: 60px; width: 358px; height: 71px; border-radius: 16px; }
+  .m .stats { left: 28px; bottom: 72px; gap: 10px; }
+  .m .grp { gap: 10px; }
+  .m .stat { gap: 12px; }
+  .m .stat dt { font-size: 10px; letter-spacing: -.4px; }
+  .m .stat dd { font-size: 24px; letter-spacing: -.96px; }
+  .m .stat-date { width: 129.7px; }
+  .m .stat-size { width: 63px; }
+  .m .stat-price { width: 99px; }
+  .m .size-val .unit { font-size: 12px; letter-spacing: -.48px; margin: 8.25px 0 0 42.7px; }
+  .m .sep-a { height: 44px; }
+  .m .sep-b { height: 47px; }
+  .m .replay { left: calc(195px + var(--dx) / 2); bottom: 16px; height: 32px; gap: 10px; font-size: 12px; }
+  .m .replay svg { width: 32px; height: 32px; padding: 10px; }
+  .m .tour-hud { left: 20px; top: calc(790px + var(--dy)); width: 200px; font-size: 12px; gap: 9px; }
+  .m .tour-grade { height: 220px; }
+
+  /* ---------- Ring cursor + shared fill (mouse and trackpad only) ---------- */
+  html.has-cursor, html.has-cursor * { cursor: none !important; }
+  /* the cursor: a small line-drawn house (the FORRA A-frame); its roof apex is the pointing tip */
+  .cursor-ring { position: fixed; left: 0; top: 0; width: 14px; height: 15.3px; margin: -.6px 0 0 -7px; z-index: 60; pointer-events: none;
+    mix-blend-mode: difference; opacity: 0; transform-origin: 7px .6px; transition: opacity .2s ease; will-change: transform; }
+  .cursor-ring svg { display: block; width: 100%; height: 100%; overflow: visible; transform-origin: 7px .6px; transition: transform .3s cubic-bezier(.2,.7,.2,1); }
+  html.has-cursor .cursor-ring.on { opacity: 1; }
+  .cursor-ring.btn-hot svg { transform: scale(.8); }                      /* over the menu and the buttons: a modest step down */
+  .cursor-fill { position: absolute; left: 0; top: 0; width: 14px; height: 14px; border-radius: 100px; background: #fff;
+    pointer-events: none; opacity: 0; transition: opacity .25s ease; will-change: transform, width, height; }
+  .cursor-fill.on { opacity: 1; }
+
+  /* Temporary drafting marks of the headline reveal (removed when it finishes) */
+  .draft { position: absolute; z-index: 2; overflow: visible; pointer-events: none; }
+  .draft line { stroke: rgba(236,234,230,.9); stroke-width: var(--fine, 1px); stroke-linecap: square; shape-rendering: geometricPrecision; }
+
+  /* Before the intro reaches the final frame, the interface stays out of view */
+  .is-intro .ui { visibility: hidden; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+</style>
+</head>
+<body>
+<main class="viewport">
+  <div class="stage" id="stage">
+    <div class="layer scene"><img class="layer bg" src="assets/bg.jpg" srcset="assets/bg.jpg 1920w, assets/bg-3840.webp 3840w" sizes="(max-width: 899px) 280vw, 100vw" alt=""></div>
+    <!-- Opening film: directly above the still, below the headlines and the house cut-out. Its last frame is the still,
+         so the title can start on that exact frame with the roof already occluding it. -->
+    <div class="layer film-shade" id="filmShade"></div>
+    <div class="layer scene"><video class="layer film" id="film" src="assets/construction.mp4" poster="assets/poster.jpg" muted playsinline preload="auto" aria-hidden="true"></video></div>
+
+    <h1 class="sr-only">Forra Residence</h1>
+    <p class="headline forra ui" id="forra" aria-hidden="true">Forra</p>
+    <p class="headline residence ui" id="residence" aria-hidden="true">Residence</p>
+
+    <p class="small slogan ui" id="slogan"><span class="ln">                                      We don't  </span><span class="ln">design PLACES TO LIVE</span><span class="ln">We design HOUSES</span></p>
+
+    <!-- the cursor's fill: sits behind the header and call buttons, flows into the hovered button's shape -->
+    <div class="cursor-fill" id="cursorFill" aria-hidden="true"></div>
+    <header class="header">
+      <a class="logo ui" id="logo" href="#" aria-label="Forra home"><img src="assets/logo.png" alt=""></a>
+      <nav class="menu">
+        <ul class="nav">
+          <li><a class="pill ui" href="#about"><span>About project</span></a></li>
+          <li><a class="pill ui" href="#projects"><span>Our projects</span></a></li>
+          <li><a class="pill ui" href="#progress"><span>Our progress</span></a></li>
+          <li><a class="pill ui" href="#gallery"><span>Gallery</span></a></li>
+        </ul>
+        <a class="btn btn-view ui" id="viewBtn" href="#viewing"><span data-label="Schedule a viewing">Schedule a viewing</span></a>
+      </nav>
+    </header>
+
+
+    <!-- House cutout sits above the headlines: the roofline occludes the lettering -->
+    <!-- REQUEST A CALL: one pill with the phone circle inside, under the slogan as in the design -->
+    <div class="cta">
+      <a class="btn btn-call ui" id="callBtn" href="#call"><span>Request a call</span><span class="btn-phone" id="phoneBtn" aria-hidden="true"><img src="assets/call.png" alt=""></span></a>
+    </div>
+    <canvas class="layer fx" id="fx" aria-hidden="true"></canvas>
+    <div class="layer scene" id="houseCut"><img class="layer house" src="assets/house.webp" srcset="assets/house.webp 1920w, assets/house-3840.webp 3840w" sizes="(max-width: 899px) 280vw, 100vw" alt=""></div>
+    <div class="layer shade"></div>
+
+    <div class="stats-glass ui" id="statsGlass" aria-hidden="true"></div>
+    <dl class="stats">
+      <div class="grp grp-a">
+        <div class="stat stat-date"><dt class="ui lbl">Completion</dt><dd class="ui val" data-roll>12 Dec.2027</dd></div>
+        <div class="sep sep-a ui"></div>
+      </div>
+      <div class="grp grp-b">
+        <div class="stat stat-size"><dt class="ui lbl">House size</dt><dd class="ui val"><span class="size-val"><span data-roll>200</span><span class="unit">m²</span></span></dd></div>
+        <div class="sep sep-b ui"></div>
+      </div>
+      <div class="stat stat-price"><dt class="ui lbl">Price </dt><dd class="ui val" data-roll>80.000 $</dd></div>
+    </dl>
+
+    <aside class="card ui" id="card">
+      <div class="card-img" id="cardImg"><img src="assets/floorplan-hd.jpg" alt="Floor plan of Forra Residence"></div>
+      <p id="cardText">Get a home that fits your lifestyle</p>
+      <div class="dots" id="dots"><i></i><i></i><i></i><i></i></div>
+    </aside>
+
+    <p class="small location ui" id="location">// Carpathians, Hirne Village, Ukraine</p>
+
+    <div class="scroll-cue ui" id="scrollCue" aria-hidden="true"><span>Scroll down</span><i></i><b>to open the rooms</b></div>
+    <button class="replay" id="replay" type="button" aria-label="Ещё раз — показать анимацию с начала">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.7-4"/><path d="M2.5 2.2v3.2h3.2"/></svg>
+      <span>Ещё раз</span>
+    </button>
+
+    <!-- Scroll room tour: the floor plan grows into the rooms -->
+    <div class="layer tour" id="tour" aria-label="Room tour">
+      <div class="tour-frame" id="tourFrame">
+        <img class="tour-img plan" src="assets/floorplan-hd.jpg" alt="Floor plan" data-name="Floor plan">
+        <img class="tour-img" src="assets/room-living.jpg" alt="Living room" data-name="Living room">
+        <img class="tour-img" src="assets/room-bedroom.jpg" alt="Bedroom" data-name="Bedroom">
+        <img class="tour-img" src="assets/room-bath.jpg" alt="Bathroom" data-name="Bathroom">
+        <div class="tour-grade"></div>
+      </div>
+      <div class="tour-hud" id="tourHud"><div class="row"><span id="tourName">Floor plan</span><span id="tourNum">01 / 04</span></div><div class="bars"><i class="on"></i><i></i><i></i><i></i></div></div>
+    </div>
+
+    <!-- Opening film: the house being built, ending on the hero frame -->
+  </div>
+</main>
+
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"><svg viewBox="0 0 22 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="square"><path d="M11 1 L21 11 M11 1 L1 11"/><path d="M4 8.5 V23 H18 V8.5"/><path d="M9 23 V16.5 H13 V23"/></svg></div>
+<div class="seg-panel" id="segPanel" aria-label="Replay one animation"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const root = document.documentElement;
+  const stage = $('#stage');
+  const film = $('#film');
+  // The house film plays 12 % faster than recorded (5.04 s → 4.5 s); the footage itself is unchanged.
+  const FILM_RATE = 1.12;
+  film.defaultPlaybackRate = FILM_RATE;
+  film.playbackRate = FILM_RATE;
+  // The camera moves until the very last frame, so the title starts on that frame — not earlier (the picture
+  // would freeze) and not on the browser's 'ended' event (it can arrive late). Frame-accurate where the browser
+  // supports requestVideoFrameCallback (Chrome, Edge, Safari); otherwise checked every animation frame.
+  const FILM_FPS = 24;
+  const LAST_FRAME = 1.5 / FILM_FPS;         // the last frame is on screen once less than ~1.5 frames remain
+  function whenFilmEnds(cb) {
+    let done = false;
+    const fire = () => { if (done) return; done = true; cb(); };
+    film.addEventListener('ended', fire, { once: true });
+    if (film.requestVideoFrameCallback) {
+      const onFrame = (now, meta) => {
+        if (done) return;
+        const d = film.duration;
+        if (d && meta.mediaTime >= d - LAST_FRAME) return fire();
+        film.requestVideoFrameCallback(onFrame);
+      };
+      film.requestVideoFrameCallback(onFrame);
+    } else {
+      const tick = () => {
+        if (done) return;
+        const d = film.duration;
+        if (d && !film.paused && film.currentTime >= d - LAST_FRAME) return fire();
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+  }
+  // Rewind and play from the first frame. The film is only shown once its first frame is actually playing,
+  // so the old last frame never flashes and there is no black gap: it dissolves in over the current picture.
+  function startFilm(onEnd) {
+    gsap.killTweensOf([film, '#filmShade', '#houseCut']);
+    gsap.set([film, '#filmShade'], { autoAlpha: 0 });
+    film.pause();
+    film.currentTime = 0;
+    film.addEventListener('playing', () => {
+      gsap.to([film, '#filmShade'], { autoAlpha: 1, duration: .35, ease: 'power1.out' });
+      gsap.to('#houseCut', { autoAlpha: 0, duration: .35, ease: 'power1.out' });      // the finished house gives way to the construction
+    }, { once: true });
+    whenFilmEnds(onEnd);
+    const p = film.play(); if (p && p.catch) p.catch(onEnd);
+  }
+
+  /* ---------- fit the hero to the browser window ---------- */
+  // The hero fills the window. On desktop the whole composition scales with the window width, so the layout
+  // keeps the design proportions; any extra height goes to --dy, and the photo covers the window without distortion.
+  const MOBILE_MAX = 900;                  // below this width the 390 × 844 mobile composition is used
+  let stageW = 1920, stageH = 1080, mobile = false, heroScale = 1;
+  const fit = () => {
+    const W = root.clientWidth, H = innerHeight;
+    mobile = W < MOBILE_MAX;
+    const baseW = mobile ? 390 : 1920, baseH = mobile ? 844 : 1080;
+    const s = mobile ? Math.min(W / 390, H / 844) : Math.min(W / 1920, H / 900);   // desktop: proportional to the width (height only limits very wide, short windows)
+    heroScale = s;
+    stageW = W / s; stageH = H / s;                          // the window, in design pixels
+    const dx = stageW - baseW, dy = stageH - baseH;
+    let k, tx, ty;
+    if (mobile) { k = .56; tx = -150 + dx * .5; ty = 250 + dy * .6; }        // house cropped around the gable
+    else {                                                                     // cover the window, house kept in view
+      k = Math.max(stageW / 1920, stageH / 1080);
+      tx = (stageW - 1920 * k) / 2; ty = (stageH - 1080 * k) * .15;   // crop mostly from the ground, keeping the roof's designed overlap with the headline
+    }
+    root.classList.toggle('m', mobile);
+    const set = (n, v) => root.style.setProperty(n, v);
+    set('--s', s); set('--sw', stageW + 'px'); set('--sh', stageH + 'px');
+    set('--dx', dx + 'px'); set('--dy', dy + 'px');
+    set('--scx', tx + 'px'); set('--scy', ty + 'px'); set('--sck', k);
+  };
+  fit();
+  addEventListener('resize', fit);
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- helpers ---------- */
+  // Keep originals so every element can be restored to its exact markup at the end.
+  const originals = new Map();
+  const keep = el => { if (!originals.has(el)) originals.set(el, el.innerHTML); };
+  const temporaries = [];
+
+  function splitChars(el) {
+    keep(el);
+    const text = el.textContent;
+    el.textContent = '';
+    const out = [];
+    [...text].forEach(c => {
+      if (/\s/.test(c)) { el.appendChild(document.createTextNode(c)); return; }   // spaces stay as text so they never collapse
+      const s = document.createElement('span');
+      s.className = 'ch';
+      s.textContent = c;
+      el.appendChild(s);
+      out.push(s);
+    });
+    return out;
+  }
+
+  function splitWords(el) {
+    keep(el);
+    const words = [];
+    const walk = node => {
+      [...node.childNodes].forEach(n => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(tok => {
+            if (!tok) return;
+            if (/^\s+$/.test(tok)) { frag.appendChild(document.createTextNode(tok)); return; }
+            const s = document.createElement('span');
+            s.className = 'w';
+            s.textContent = tok;
+            frag.appendChild(s);
+            words.push(s);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1) walk(n);
+      });
+    };
+    walk(el);
+    return words;
+  }
+
+  const scale = () => parseFloat(getComputedStyle(root).getPropertyValue('--s')) || 1;
+
+  // Position of a node relative to a positioned ancestor, in stage pixels.
+  function offsetIn(node, host = stage) {
+    const s = scale();
+    const a = node.getBoundingClientRect(), b = host.getBoundingClientRect();
+    return { x: (a.left - b.left) / s, y: (a.top - b.top) / s, w: a.width / s, h: a.height / s };
+  }
+
+  // Small deterministic random generator, so every replay of a segment looks the same.
+  function rng(seed) {
+    return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  }
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const io3 = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const out3 = t => 1 - Math.pow(1 - t, 3);
+
+  /* =====================================================================
+     PARTICLE CANVAS — dots that assemble text
+     ===================================================================== */
+  const fx = $('#fx');
+  const ctx = fx.getContext('2d');
+  const systems = new Set();
+  function sizeCanvas() {
+    const r = Math.min(2, scale() * (devicePixelRatio || 1));
+    fx.width = Math.round(stageW * r); fx.height = Math.round(stageH * r);
+    ctx.setTransform(r, 0, 0, r, 0, 0);
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, stageW, stageH);
+    systems.forEach(sys => sys.draw(ctx));
+  }
+  addEventListener('resize', sizeCanvas);
+
+  // Rasterise an element's text (exact font, case and spacing) and return points on the glyphs.
+  function sampleText(el, step) {
+    const cs = getComputedStyle(el);
+    const box = offsetIn(el);
+    const pad = 8;
+    const off = document.createElement('canvas');
+    off.width = Math.ceil(box.w + pad * 2); off.height = Math.ceil(box.h + pad * 2);
+    const c = off.getContext('2d');
+    c.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    if ('letterSpacing' in c) c.letterSpacing = cs.letterSpacing;
+    c.fillStyle = '#fff';
+    c.textBaseline = 'alphabetic';
+    const upper = cs.textTransform === 'uppercase';
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const range = document.createRange();
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+      const re = /\S+/g; let m;
+      while ((m = re.exec(n.textContent))) {
+        range.setStart(n, m.index); range.setEnd(n, m.index + m[0].length);
+        const r = offsetIn(range);
+        const word = upper ? m[0].toUpperCase() : m[0];
+        const asc = c.measureText(word).fontBoundingBoxAscent || parseFloat(cs.fontSize) * 1.05;
+        c.fillText(word, r.x - box.x + pad, r.y - box.y + pad + asc);
+      }
+    }
+    const data = c.getImageData(0, 0, off.width, off.height).data;
+    const pts = [];
+    for (let y = 0; y < off.height; y += step) for (let x = 0; x < off.width; x += step) {
+      if (data[(y * off.width + x) * 4 + 3] > 110) pts.push({ x: box.x - pad + x, y: box.y - pad + y });
+    }
+    return { pts, box, fs: parseFloat(cs.fontSize) };
+  }
+
+  // Text assembled from points: a few large dots appear, then release fine dots that fly into the letters.
+  function dotsSystem(el, { seed = 1, seeds = 5, spread = 120, step = 2, color = '255,255,255', alpha = .9 } = {}) {
+    const { pts, box, fs } = sampleText(el, step);
+    const rand = rng(seed);
+    const S = [];
+    // keep the seed dots off the big headlines
+    const avoid = ['#forra', '#residence'].map(q => offsetIn($(q))).map(b => ({ x0: b.x, y0: b.y + b.h * .12, x1: b.x + b.w, y1: b.y + b.h * .88 }));
+    const blocked = (x, y, r) => avoid.some(b => x + r > b.x0 && x - r < b.x1 && y + r > b.y0 && y - r < b.y1);
+    for (let i = 0; i < seeds; i++) {
+      let seedDot, tries = 0;
+      do {
+        const a = (i / seeds) * Math.PI * 2 + rand() * .9 + tries * .7;
+        seedDot = { x: box.x + box.w * (.5 + Math.cos(a) * (.2 + rand() * .3)),
+                    y: box.y + box.h * .5 + Math.sin(a) * (box.h * .5 + spread * (.25 + rand() * .45)),
+                    r: fs * (.85 + rand() * .75), d: rand() * .12 };
+      } while (blocked(seedDot.x, seedDot.y, seedDot.r) && ++tries < 24);
+      S.push(seedDot);
+    }
+    let maxD = 1;
+    pts.forEach(p => {
+      let best = S[0], bd = Infinity;
+      S.forEach(s => { const d = Math.hypot(s.x - p.x, s.y - p.y); if (d < bd) { bd = d; best = s; } });
+      const a = rand() * Math.PI * 2, rr = Math.sqrt(rand()) * best.r * .85;
+      p.sx = best.x + Math.cos(a) * rr; p.sy = best.y + Math.sin(a) * rr;
+      p.dist = bd; maxD = Math.max(maxD, bd);
+      p.bend = (rand() - .5) * 40; p.j = rand();
+    });
+    pts.forEach(p => { p.delay = p.dist / maxD * .22 + p.j * .08; });
+    const sys = {
+      p: 0, a: 1,
+      draw(c) {
+        const p = this.p; if (p <= 0 || this.a <= 0) return;
+        c.fillStyle = `rgba(${color},${alpha * this.a})`;
+        // seed dots: grow, hold, then dissolve into fine dots
+        S.forEach(s => {
+          const g = out3(clamp((p - s.d) / .2)), k = io3(clamp((p - .22 - s.d) / .4));
+          const r = s.r * g * (1 - k);
+          if (r > .2) { c.beginPath(); c.arc(s.x, s.y, r, 0, 6.283); c.fill(); }
+        });
+        for (const q of pts) {
+          const t = clamp((p - .24 - q.delay) / .5);
+          if (t <= 0) continue;
+          const e = io3(t), arc = Math.sin(Math.PI * e) * q.bend;
+          const dx = q.x - q.sx, dy = q.y - q.sy, len = Math.hypot(dx, dy) || 1;
+          const x = q.sx + dx * e - dy / len * arc, y = q.sy + dy * e + dx / len * arc;
+          const r = 1.7 - .75 * e;
+          c.fillRect(x - r, y - r, r * 2, r * 2);
+        }
+      }
+    };
+    return sys;
+  }
+
+  // Register a system for the span of a tween.
+  const track = sys => () => { systems.add(sys); draw(); };
+  const untrack = sys => () => { systems.delete(sys); draw(); };
+
+  /* =====================================================================
+     SEGMENTS — each builds its own timeline and its own cleanup, so any of
+     them can play inside the full sequence or on its own.
+     ===================================================================== */
+  const ui = s => $$(s);
+
+  function restore(els) { els.forEach(el => { if (originals.has(el)) { el.innerHTML = originals.get(el); originals.delete(el); } }); }
+
+  // 1 · House film → finished house
+  function segFilm() {
+    const tl = gsap.timeline();
+    const parts = [film, $('#filmShade')];
+    const house = $('#houseCut');
+    gsap.set(parts, { autoAlpha: 1 });
+    gsap.set(house, { autoAlpha: 0 });                      // hidden while the house is being built
+    // On the last frame the cut-out appears over the identical film frame (registered to ~1 px), so nothing changes
+    // visibly; the film then fades out underneath it, over the matching still.
+    tl.set(house, { autoAlpha: 1 }, 0)
+      .to('#filmShade', { autoAlpha: 0, duration: .35, ease: 'none' }, 0)
+      .to(film, { autoAlpha: 0, duration: .45, ease: 'power1.inOut' }, 0)
+      .add(() => film.pause(), .45);
+    return { tl, cleanup() { gsap.set(parts, { autoAlpha: 0 }); gsap.set(house, { clearProps: 'opacity,visibility' }); } };
+  }
+
+  // Cinematic text reveal: a clipping mask opens in the direction of travel while the text glides a few pixels
+  // into place and fades in. Blocks made of lines (.ln) reveal line by line as one composition.
+  //   dir  — 'up' (rises into place, mask opens upward) or 'down' (settles from above, mask opens downward)
+  //   dist — travel in design pixels; dur — duration per line (s); stagger — delay between lines (s)
+  function reveal(tl, el, at, { dir = 'up', dist = 12, dur = 1, stagger = .12 } = {}) {
+    const lines = $$('.ln', el);
+    const targets = lines.length ? lines : [el];
+    const op = lines.length ? 1 : (parseFloat(getComputedStyle(el).opacity) || 1);   // keep the design opacity (e.g. 0.8)
+    const open = 'inset(-25% -4% -25% -4%)';
+    const shut = dir === 'up' ? 'inset(125% -4% -25% -4%)' : 'inset(-25% -4% 125% -4%)';
+    gsap.set(el, { visibility: 'hidden' });
+    tl.set(el, { visibility: 'visible' }, at)
+      .fromTo(targets, { clipPath: shut, y: dir === 'up' ? dist : -dist },
+        { clipPath: open, y: 0, duration: dur, ease: 'expo.out', stagger }, at)
+      .fromTo(targets, { opacity: 0 }, { opacity: op, duration: dur * .7, ease: 'power1.out', stagger }, at);
+    return () => gsap.set([el, ...targets], { clearProps: 'clipPath,transform,opacity,visibility' });
+  }
+
+  // Understated reveal for supporting text: a soft fade with an optional few-pixel rise, line by line where lines exist.
+  function fadeIn(tl, el, at, { dist = 6, dur = .9, stagger = .1 } = {}) {
+    const lines = $$('.ln', el);
+    const targets = lines.length ? lines : [el];
+    const op = lines.length ? 1 : (parseFloat(getComputedStyle(el).opacity) || 1);
+    gsap.set(el, { visibility: 'hidden' });
+    tl.set(el, { visibility: 'visible' }, at)
+      .fromTo(targets, { opacity: 0, y: dist }, { opacity: op, y: 0, duration: dur, ease: 'power2.out', stagger }, at);
+    return () => gsap.set([el, ...targets], { clearProps: 'transform,opacity,visibility' });
+  }
+
+  // 2 · FORRA / 3 · RESIDENCE — "Expanding boundaries" as a drafting gesture.
+  // A temporary drawing frames the word as if it were being measured: a centre line draws out with end ticks,
+  // opens into two boundaries with vertical extension lines at the word's edges, a measuring scale ticks along the
+  // lower guide, a dimension line with architectural slashes sits above, and corner crosshairs lock on. The word is
+  // clipped to exactly the space between the boundaries. Then the drawing retracts and fades and is removed.
+  // The word itself never moves or scales. One state object drives everything, so lines and mask stay in sync.
+  //   draw / open / fade — durations (s) of the three phases
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  function boundaryReveal(tl, el, at, { draw = .3, open = .8, fade = .45 } = {}) {
+    const box = offsetIn(el);                                    // final box in stage pixels (layout already defined)
+    const w = box.w, h = box.h, E = 40;                          // E: room around the word for extension lines
+    const fine = mobile ? .9 : 1.3;                               // line weight, design px
+    const svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('class', 'draft'); svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('width', w + E * 2); svg.setAttribute('height', h + E * 2);
+    svg.setAttribute('viewBox', `0 0 ${w + E * 2} ${h + E * 2}`);
+    svg.style.left = (box.x - E) + 'px'; svg.style.top = (box.y - E) + 'px';
+    const line = () => { const l = document.createElementNS(SVGNS, 'line'); svg.appendChild(l); return l; };
+    const set = (l, x1, y1, x2, y2, o) => { l.setAttribute('x1', x1); l.setAttribute('y1', y1); l.setAttribute('x2', x2); l.setAttribute('y2', y2); l.style.opacity = o; };
+    const hTop = line(), hBot = line(), vL = line(), vR = line();
+    const capL = [line(), line()], capR = [line(), line()];      // perpendicular end ticks of the two boundaries
+    const dim = line(), dimL = line(), dimR = line();            // dimension line above, with slashes at its ends
+    const N = 24, ticks = Array.from({ length: N + 1 }, line);   // measuring scale on the lower boundary
+    const cross = Array.from({ length: 8 }, line);               // four corner crosshairs (2 strokes each)
+    svg.style.setProperty('--fine', fine + 'px');
+    el.after(svg);
+
+    const st = { draw: 0, open: 0, fade: 0 };
+    const cx = E + w / 2, cy = E + h / 2, x0 = E, x1 = E + w;
+    const reach = h / 2 + 4;
+    const sm = (a, b, v) => { const t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
+    const apply = () => {
+      const d = reach * st.open;
+      const yT = cy - d, yB = cy + d;
+      const k = 1 - st.fade;                                      // global fade
+      const L = (w / 2 + E * .7) * out3(st.draw) * (1 - .35 * st.fade);   // half-length of the boundaries (retract while fading)
+      // the word: visible only between the boundaries
+      const inset = ((h / 2 - d) / h) * 100;
+      el.style.clipPath = st.open >= 1 && st.fade > 0 ? 'none' : `inset(${inset}% -4% ${inset}% -4%)`;
+      // boundaries + their end ticks
+      const lo = k * sm(0, .06, st.draw);                         // no dot before the line has length
+      set(hTop, cx - L, yT, cx + L, yT, lo);
+      set(hBot, cx - L, yB, cx + L, yB, lo * sm(0, .04, st.open));
+      const tk = 5;
+      set(capL[0], cx - L, yT - tk, cx - L, yT + tk, k * sm(.5, 1, st.draw));
+      set(capR[0], cx + L, yT - tk, cx + L, yT + tk, k * sm(.5, 1, st.draw));
+      set(capL[1], cx - L, yB - tk, cx - L, yB + tk, k * sm(.5, 1, st.draw) * sm(.05, .2, st.open));
+      set(capR[1], cx + L, yB - tk, cx + L, yB + tk, k * sm(.5, 1, st.draw) * sm(.05, .2, st.open));
+      // vertical extension lines at the word's edges, growing with the opening
+      const ext = 12 * sm(0, .3, st.open);
+      const vo = k * sm(.6, 1, st.draw);
+      set(vL, x0, yT - ext, x0, yB + ext, vo * sm(0, .15, st.open));
+      set(vR, x1, yT - ext, x1, yB + ext, vo * sm(0, .15, st.open));
+      // measuring scale on the lower boundary, sweeping left to right as the space opens
+      ticks.forEach((t, i) => {
+        const x = x0 + (w * i) / N, major = i % 6 === 0;
+        const on = sm(i / N * .7, i / N * .7 + .12, st.open);
+        set(t, x, yB, x, yB + (major ? 15 : 7) * on, k * on);
+      });
+      // dimension line above the frame, with architectural slashes
+      const yD = yT - 18, dop = k * sm(.45, .85, st.open);
+      set(dim, x0, yD, x0 + w * sm(.45, .85, st.open), yD, dop);
+      set(dimL, x0 - 4, yD + 4, x0 + 4, yD - 4, dop);
+      set(dimR, x1 - 4, yD + 4, x1 + 4, yD - 4, dop * sm(.8, .9, st.open));
+      // corner crosshairs lock on as the frame reaches its size
+      const co = k * sm(.75, 1, st.open), a = 10;
+      [[x0, yT], [x1, yT], [x0, yB], [x1, yB]].forEach(([x, y], n) => {
+        set(cross[n * 2], x - a, y, x + a, y, co);
+        set(cross[n * 2 + 1], x, y - a, x, y + a, co);
+      });
+    };
+    gsap.set(el, { visibility: 'hidden' });
+    apply();
+    const T1 = at + draw * .6;                                    // the frame starts opening before the draw has finished
+    tl.set(el, { visibility: 'visible' }, at)
+      .fromTo(st, { draw: 0 }, { draw: 1, duration: draw, ease: 'power2.out', onUpdate: apply, immediateRender: false }, at)
+      .fromTo(st, { open: 0 }, { open: 1, duration: open, ease: 'power3.inOut', onUpdate: apply, immediateRender: false }, T1)
+      .fromTo(st, { fade: 0 }, { fade: 1, duration: fade, ease: 'power2.inOut', onUpdate: apply, immediateRender: false }, T1 + open - .05);
+    return () => { svg.remove(); gsap.set(el, { clearProps: 'clipPath,visibility' }); };
+  }
+  function segForra(el) {
+    const tl = gsap.timeline();
+    return { tl, cleanup: boundaryReveal(tl, el, 0, { draw: .3, open: .8, fade: .45 }) };
+  }
+  function segResidence(el) {
+    const tl = gsap.timeline();
+    return { tl, cleanup: boundaryReveal(tl, el, 0, { draw: .3, open: .85, fade: .45 }) };
+  }
+
+  // 4 · Small texts — the slogan rises line by line through its mask, the location fades in
+  function segSmallText() {
+    const tl = gsap.timeline();
+    const c1 = reveal(tl, $('#slogan'),   0,   { dir: 'up', dist: 12, dur: 1.1, stagger: .12 });
+    const c3 = fadeIn(tl, $('#location'), .9,  { dist: 0, dur: 1.0 });
+    return { tl, cleanup() { c1(); c3(); } };
+  }
+
+  // 5 · Numbers: one after another, each digit spins on a dial and stops on its value
+  function buildDial(el, seed) {
+    keep(el);
+    const chars = splitChars(el);
+    const widths = chars.map(c => offsetIn(c).w);
+    const fs = parseFloat(getComputedStyle(el).fontSize);
+    const R = fs * .95 / (2 * Math.tan(Math.PI / 10));        // drum radius for 10 faces, one line tall
+    const drums = [], statics = [];
+    chars.forEach((c, i) => {
+      if (!/\d/.test(c.textContent)) { statics.push(c); return; }
+      const final = +c.textContent;
+      const dial = document.createElement('span'); dial.className = 'dial'; dial.style.width = widths[i] + 'px';
+      const win = document.createElement('span'); win.className = 'dial-win';
+      const drum = document.createElement('span'); drum.className = 'dial-drum';
+      const others = [];
+      for (let k = 0; k < 10; k++) {
+        const f = document.createElement('span'); f.className = 'dial-face'; f.textContent = k;
+        f.style.transform = `rotateX(${k * 36}deg) translateZ(${R}px)`;
+        drum.appendChild(f);
+        if (k !== final) others.push(f);
+      }
+      win.appendChild(drum); dial.appendChild(win); c.replaceWith(dial);
+      drums.push({ drum, final, turns: 2 + ((i + seed) % 2), R, others });
+    });
+    return { drums, statics };
+  }
+  function segNumbers() {
+    const tl = gsap.timeline();
+    const vals = $$('[data-roll]');
+    const dds = vals.map(v => v.closest('dd'));
+    const glass = $('#statsGlass');                          // the glass panel rises first, then the dials spin on it
+    gsap.set([glass, ...dds], { visibility: 'hidden' });
+    const r = mobile ? 16 : 24;
+    tl.fromTo(glass, { clipPath: `inset(100% 0% 0% 0% round ${r}px)`, visibility: 'visible' }, { clipPath: `inset(0% 0% 0% 0% round ${r}px)`, duration: .7, ease: 'expo.out' }, 0);
+    vals.forEach((el, g) => {
+      const { drums, statics } = buildDial(el, g);
+      const at = g * .5;
+      tl.set(dds[g], { visibility: 'visible' }, at);
+      tl.fromTo(dds[g], { opacity: 0 }, { opacity: 1, duration: .25 }, at);
+      drums.forEach(({ drum, final, turns, R, others }, i) => {
+        const d = 1.35 + i * .05, t = at + i * .04;
+        tl.fromTo(drum, { z: -R, rotationX: -(final * 36) - turns * 360 },
+          { z: -R, rotationX: -(final * 36), duration: d, ease: 'power3.inOut' }, t);
+        tl.to(others, { opacity: 0, duration: .3, ease: 'power1.in' }, t + d - .12);   // the dial closes on its value
+      });
+      if (statics.length) tl.fromTo(statics, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .4, stagger: .04 }, at + .5);
+      const unit = dds[g].querySelector('.unit');
+      if (unit) tl.fromTo(unit, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: .4 }, at + 1.1);
+    });
+    return { tl, cleanup() { restore(vals); gsap.set([glass, ...dds], { clearProps: 'clipPath,opacity,visibility' }); gsap.set($$('.unit'), { clearProps: 'all' }); } };
+  }
+
+  // 6 · Remaining details: separators, labels, logo, navigation, buttons
+  function segDetails() {
+    const tl = gsap.timeline();
+    const seps = ui('.sep'), lbls = ui('.lbl'), pills = ui('.pill');
+    const masked = ['#logo', '#viewBtn', '#callBtn', '#phoneBtn'].map(s => $(s));
+    gsap.set([...seps, ...pills, ...masked], { visibility: 'hidden' });
+    tl.fromTo(seps, { scaleY: 0, transformOrigin: '50% 100%', visibility: 'visible' }, { scaleY: 1, duration: .55, ease: 'power3.inOut', stagger: .12 }, 0);
+    const ls = lbls.map((l, i) => fadeIn(tl, l, .1 + i * .14, { dist: 4, dur: .8 }));
+    tl.fromTo('#logo', { clipPath: 'inset(100% 0% 0% 0%)', visibility: 'visible' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: .55, ease: 'power3.inOut' }, .5);
+    tl.fromTo(pills, { clipPath: 'inset(0% 100% 0% 0% round 100px)', visibility: 'visible' },
+      { clipPath: 'inset(0% 0% 0% 0% round 100px)', duration: .5, ease: 'power3.inOut', stagger: .17 }, .6);
+    tl.fromTo(pills.map(p => p.firstElementChild), { x: -10, opacity: 0 }, { x: 0, opacity: 1, duration: .45, stagger: .17 }, .7);
+    tl.fromTo('#viewBtn', { clipPath: 'inset(0% 50% 0% 50% round 100px)', visibility: 'visible' }, { clipPath: 'inset(0% 0% 0% 0% round 100px)', duration: .55, ease: 'power3.inOut' }, 1.0);
+    tl.fromTo('#viewBtn span', { opacity: 0 }, { opacity: 1, duration: .35 }, 1.2);
+    tl.fromTo('#callBtn', { clipPath: 'inset(0% 100% 0% 0% round 100px)', visibility: 'visible' }, { clipPath: 'inset(0% 0% 0% 0% round 100px)', duration: .5, ease: 'power3.inOut' }, 1.25);
+    tl.fromTo('#callBtn span', { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: .4 }, 1.4);
+    tl.fromTo('#phoneBtn', { clipPath: 'circle(0% at 50% 50%)', visibility: 'visible' }, { clipPath: 'circle(71% at 50% 50%)', duration: .45, ease: 'power3.inOut' }, 1.5);
+    const kids = [...pills.map(p => p.firstElementChild), $('#viewBtn span'), $('#callBtn span')];
+    return { tl, cleanup() { ls.forEach(c => c()); gsap.set([...seps, ...lbls, ...pills, ...masked, ...kids], { clearProps: 'all' }); } };
+  }
+
+  // 7 · Floor-plan frame, bottom right — the last element
+  function segMap() {
+    const tl = gsap.timeline();
+    const card = $('#card'), img = $('#cardImg'), txt = $('#cardText'), dots = $$('#dots i');
+    gsap.set(card, { visibility: 'hidden' });
+    tl.fromTo(card, { clipPath: 'inset(100% 0% 0% 0% round 24px)', visibility: 'visible' }, { clipPath: 'inset(0% 0% 0% 0% round 24px)', duration: .7, ease: 'expo.out' }, 0);
+    tl.fromTo(img, { clipPath: 'inset(0% 0% 100% 0% round 20px)' }, { clipPath: 'inset(0% 0% 0% 0% round 20px)', duration: .6, ease: 'power3.inOut' }, .2);
+    const c = fadeIn(tl, txt, .45, { dist: 4, dur: .8 });
+    tl.fromTo(dots, { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, duration: .35, ease: 'power2.out', stagger: .1 }, .9);
+    return { tl, cleanup() { c(); gsap.set([card, img, txt, ...dots], { clearProps: 'all' }); } };
+  }
+
+  /* =====================================================================
+     ROOM TOUR — scroll grows the floor plan into the rooms. Each change of
+     room picks its own transition from the two photos themselves.
+     ===================================================================== */
+  // Read a photo as a 16×9 luminance grid plus its mean colour.
+  function profile(img) {
+    const c = document.createElement('canvas'); c.width = 16; c.height = 9;
+    const g = c.getContext('2d'); g.drawImage(img, 0, 0, 16, 9);
+    const d = g.getImageData(0, 0, 16, 9).data, lum = []; let r = 0, gg = 0, b = 0;
+    for (let i = 0; i < d.length; i += 4) { lum.push(.2126 * d[i] + .7152 * d[i + 1] + .0722 * d[i + 2]); r += d[i]; gg += d[i + 1]; b += d[i + 2]; }
+    const n = d.length / 4;
+    // focal point: the brightest 3×3 block (usually the window or the light source)
+    let best = -1, fx0 = .5, fy0 = .5;
+    for (let y = 1; y < 8; y++) for (let x = 1; x < 15; x++) {
+      let s = 0; for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) s += lum[(y + j) * 16 + x + i];
+      if (s > best) { best = s; fx0 = (x + .5) / 16; fy0 = (y + .5) / 9; }
+    }
+    return { lum, mean: [r / n, gg / n, b / n], focal: [fx0, fy0] };
+  }
+  // 1 = same light and composition, 0 = unrelated
+  function similarity(a, b) {
+    let d = 0; a.lum.forEach((v, i) => d += Math.abs(v - b.lum[i]));
+    const layout = 1 - d / a.lum.length / 255;
+    const tone = 1 - Math.hypot(a.mean[0] - b.mean[0], a.mean[1] - b.mean[1], a.mean[2] - b.mean[2]) / 441;
+    return layout * .6 + tone * .4;
+  }
+  const TOUR_THRESHOLD = .88;  // ≥ threshold → walk through (room tour); below → dissolve
+
+  const HOLD = .6, CHANGE = 1.1;   // per photo: time held on screen, then the length of the change to the next one (scroll units)
+  function buildTour() {
+    const frame = $('#tourFrame'), imgs = $$('.tour-img', frame), hud = $('#tourHud');
+    const bars = $$('.bars i', hud), nameEl = $('#tourName'), numEl = $('#tourNum');
+    const cardImg = () => offsetIn($('#cardImg'));
+    const profs = imgs.map(profile);
+    const modes = [];
+    const tl = gsap.timeline({ defaults: { ease: 'none' } });
+    const setRoom = i => {
+      nameEl.textContent = imgs[i].dataset.name; numEl.textContent = `0${i + 1} / 0${imgs.length}`;
+      bars.forEach((b, k) => b.classList.toggle('on', k <= i));
+    };
+    gsap.set(imgs.slice(1), { opacity: 0, scale: 1 });
+    gsap.set(imgs[0], { opacity: 1, scale: 1 });
+
+    // 0 → 1: the plan grows from the card to full screen (shown whole, at full resolution)
+    tl.set('#tour', { visibility: 'visible' }, .001)      // hidden while the scroll is exactly at the start
+      .to('#card', { opacity: 0, duration: .25 }, 0)
+      .fromTo(frame, { left: () => cardImg().x, top: () => cardImg().y, width: () => cardImg().w, height: () => cardImg().h, borderRadius: 20 },
+        { left: 0, top: 0, width: () => stageW, height: () => stageH, borderRadius: 0, duration: 1, ease: 'power2.inOut' }, 0)
+      .to(hud, { opacity: 1, duration: .25 }, .8)
+      .call(setRoom, [0], .01);
+
+    // every photo, the plan included: hold, then change to the next one
+    let t = 1;
+    for (let i = 0; i < imgs.length - 1; i++) {
+      const a = imgs[i], b = imgs[i + 1], at = t + HOLD;
+      const sim = similarity(profs[i], profs[i + 1]);
+      const mode = sim >= TOUR_THRESHOLD ? 'tour' : 'dissolve';
+      modes.push({ from: a.dataset.name, to: b.dataset.name, similarity: +sim.toFixed(3), mode });
+      tl.to(a, { scale: i ? 1.03 : 1.02, duration: HOLD + .2, ease: 'power1.inOut' }, t);          // slow drift while held
+      if (mode === 'tour') {
+        // walk toward the brightest opening of this room, and arrive in the next one
+        const [fxp, fyp] = profs[i].focal, [nx, ny] = profs[i + 1].focal;
+        tl.to(a, { scale: 1.12, transformOrigin: `${fxp * 100}% ${fyp * 100}%`, duration: CHANGE, ease: 'power2.in' }, at)
+          .to(a, { opacity: 0, duration: CHANGE * .45, ease: 'power1.in' }, at + CHANGE * .45)
+          .fromTo(b, { opacity: 0, scale: 1.06, transformOrigin: `${nx * 100}% ${ny * 100}%` }, { opacity: 1, scale: 1, duration: CHANGE, ease: 'power2.out' }, at + CHANGE * .35);
+      } else {
+        tl.fromTo(b, { opacity: 0, scale: 1.02 }, { opacity: 1, scale: 1, duration: CHANGE * .85, ease: 'sine.inOut' }, at + CHANGE * .1)
+          .to(a, { opacity: 0, duration: CHANGE * .4, ease: 'none' }, at + CHANGE * .6);
+      }
+      if (i === 0) tl.to('.tour-grade', { opacity: 1, duration: CHANGE * .5 }, at + CHANGE * .4);  // legibility shade for photos only
+      tl.call(setRoom, [i], at + CHANGE * .5).call(setRoom, [i + 1], at + CHANGE * .55);
+      t = at + CHANGE;
+    }
+    const last = imgs[imgs.length - 1];
+    // hold on the last room, then everything goes and the hero remains
+    const out = t + HOLD + .3;
+    tl.to(last, { scale: 1.03, duration: HOLD + .3 }, t)
+      .to(hud, { opacity: 0, duration: .25 }, out)
+      .to(frame, { opacity: 0, duration: .7, ease: 'power2.inOut' }, out)
+      .to('#card', { opacity: 1, duration: .4 }, out + .4)
+      .set('#tour', { visibility: 'hidden' }, out + .7)
+      .set(frame, { opacity: 1, scale: 1 }, out + .7)    // ready for scrolling back up
+      .to({}, { duration: .5 }, out + .7);               // a short rest on the bare hero before the scroll ends
+    tl.modes = modes;
+    return tl;
+  }
+
+  let tourTrigger = null;
+  let pendingScroll = null;                            // a scroll asked for while the intro still held the page
+  function flushScroll() {
+    const p = pendingScroll; pendingScroll = null;
+    if (!p) return;
+    requestAnimationFrame(() => {
+      if (p.target) p.target.scrollIntoView({ behavior: 'smooth' });
+      else if (p.dy) window.scrollBy({ top: Math.min(p.dy, innerHeight), behavior: 'smooth' });
+    });
+  }
+  function enableTour() {
+    if (tourTrigger) { root.classList.remove('lock'); ScrollTrigger.refresh(); flushScroll(); return; }
+    if (!window.ScrollTrigger) { root.classList.remove('lock'); flushScroll(); return; }
+    gsap.registerPlugin(ScrollTrigger);
+    const imgs = $$('.tour-img');
+    Promise.all(imgs.map(im => (im.decode ? im.decode() : Promise.resolve()).catch(() => {}))).then(() => {
+      const tl = buildTour();
+      window.FORRA.tourModes = tl.modes;
+      if (master && master.progress() < 1) { tl.kill(); return; }   // a replay started meanwhile
+      tourTrigger = ScrollTrigger.create({
+        trigger: '.viewport', pin: true,
+        start: 'top top',
+        end: () => '+=' + Math.round(innerHeight * tl.duration() * .9),
+        scrub: .8, animation: tl, invalidateOnRefresh: true
+      });
+      root.classList.remove('lock');
+      flushScroll();
+    });
+  }
+
+  /* =====================================================================
+     SEQUENCE — the segments in order, with room to breathe between them
+     ===================================================================== */
+  const SEGMENTS = {
+    film:      { label: 'House film',     build: segFilm },
+    forra:     { label: 'Forra',          build: () => segForra($('#forra')) },
+    residence: { label: 'Residence',      build: () => segResidence($('#residence')) },
+    text:      { label: 'Small text',     build: segSmallText },
+    numbers:   { label: 'Numbers',        build: segNumbers },
+    details:   { label: 'Details',        build: segDetails },
+    map:       { label: 'Floor-plan map', build: segMap }
+  };
+  const T0 = 0;                                 // FORRA begins on the film's last frame — no hold
+  // TEXT_SPEED: one knob for the pace of every text/UI reveal (1 = the original, slower pace). Each segment's own
+  // timeline plays this much faster and the start times below are compressed by the same factor, so the rhythm is kept.
+  const TEXT_SPEED = 1.45;
+  const START = Object.fromEntries(Object.entries({ film: 0, forra: T0, residence: T0 + .28, text: T0 + 1.85, numbers: T0 + 3.45, details: T0 + 5.0, map: T0 + 6.75 })
+    .map(([k, t]) => [k, t / TEXT_SPEED]));
+  Object.keys(SEGMENTS).forEach(k => {
+    if (k === 'film') return;                    // the film's own fade stays as it is
+    const build = SEGMENTS[k].build;
+    SEGMENTS[k].build = () => { const b = build(); b.tl.timeScale(TEXT_SPEED); return b; };
+  });
+
+  function showFinal() {
+    gsap.set([film, '#filmShade'], { autoAlpha: 0 });
+    root.classList.remove('is-intro');
+  }
+
+  let master = null, solo = null;
+  function buildMaster() {
+    const tl = gsap.timeline({ paused: true });
+    const built = {};
+    Object.keys(SEGMENTS).forEach(k => { built[k] = SEGMENTS[k].build(); tl.add(built[k].tl, START[k]); });
+    root.classList.remove('is-intro');
+    tl.eventCallback('onComplete', () => {
+      Object.values(built).forEach(b => b.cleanup());
+      root.classList.add('intro-done');
+      showReplay(true);
+      enableTour();
+    });
+    return tl;
+  }
+
+  // Replay one segment on its own, over the finished page.
+  function playSegment(name) {
+    if (master && master.progress() < 1) master.progress(1);
+    if (solo) { solo.progress(1); solo = null; }
+    window.scrollTo(0, 0);
+    const seg = SEGMENTS[name]; if (!seg) return;
+    const b = seg.build();
+    solo = b.tl;
+    solo.eventCallback('onComplete', () => { b.cleanup(); solo = null; });
+    if (name === 'film') {
+      solo.pause(0);
+      startFilm(() => solo && solo.play(0));
+    } else solo.play(0);
+  }
+  function playAll() {
+    if (solo) { solo.progress(1); solo = null; }
+    if (master && master.progress() < 1) return;
+    window.scrollTo(0, 0);
+    master = buildMaster();
+    startFilm(() => master.play(0));
+  }
+
+  // «Ещё раз»: back to the top, tour reset, then the whole sequence from the house film.
+  const replayBtn = $('#replay');
+  // «Ещё раз» is no longer shown; its place is taken by a scroll cue above the plan card (the room tour opens from it)
+  const cue = $('#scrollCue');
+  function showReplay(on) {
+    gsap.to(cue, { autoAlpha: on && scrollY < 40 ? 1 : 0, duration: on ? .7 : .2, ease: 'power1.out', overwrite: true });
+  }
+  addEventListener('scroll', () => { if (root.classList.contains('intro-done')) gsap.to(cue, { autoAlpha: scrollY < 40 ? 1 : 0, duration: .35, overwrite: true }); }, { passive: true });
+  function restart() {
+    if (!master) return;                                     // fonts still loading
+    if (paused) resume();
+    if (solo) { solo.progress(1); solo = null; }
+    if (master.progress() < 1) master.progress(1);          // replay at any moment: finish the current run cleanly first
+    showReplay(false);
+    root.classList.add('lock');
+    window.scrollTo(0, 0);
+    if (tourTrigger) {                                       // jump the scrubbed tour back to its start, no easing
+      const tw = tourTrigger.getTween && tourTrigger.getTween();
+      if (tw) tw.progress(1);
+      tourTrigger.animation.progress(0);
+      gsap.set('#tour', { visibility: 'hidden' });
+      gsap.set('#card', { clearProps: 'opacity' });
+    }
+    playAll();
+  }
+  replayBtn.addEventListener('click', restart);
+
+  /* ---------- Ring cursor and the shared hover fill ---------- */
+  (() => {
+    const ring = $('#cursorRing'), fill = $('#cursorFill');
+    if (!ring || !fill) return;
+    const RING = 14;   // size the fill shrinks back to when leaving the menu
+    let x = -100, y = -100, fx = 0, fy = 0, fw = RING, fh = RING, target = null, running = false;
+    const pick = el => {
+      if (!el || !el.closest) return null;
+      if (el.closest('.cta')) return $('#phoneBtn');                       // REQUEST A CALL + phone: the circle takes the fill
+      return el.closest('.pill, .btn-view, .logo, .replay');
+    };
+    const fillable = el => false;                                         // no fills: the menu is plain text with a growing line
+    const toStage = (cx, cy) => { const r = stage.getBoundingClientRect(), s = scale(); return [(cx - r.left) / s, (cy - r.top) / s]; };
+    function frame() {
+      const s = scale();
+      let tx, ty, tw, th;
+      if (fillable(target) && target.isConnected) {                       // the button's exact box, in stage pixels
+        const r = target.getBoundingClientRect(); [tx, ty] = toStage(r.left, r.top); tw = r.width / s; th = r.height / s;
+      } else {                                                               // otherwise: the ring, under the pointer
+        const [mx, my] = toStage(x, y); tw = th = RING / s; tx = mx - tw / 2; ty = my - th / 2;
+      }
+      const k = reduce ? 1 : .26;
+      fx += (tx - fx) * k; fy += (ty - fy) * k; fw += (tw - fw) * k; fh += (th - fh) * k;
+      fill.style.transform = `translate(${fx}px, ${fy}px)`; fill.style.width = fw + 'px'; fill.style.height = fh + 'px';
+      ring.style.transform = `translate(${x}px, ${y}px)`;
+      requestAnimationFrame(frame);
+    }
+    function setTarget(t) {
+      if (t === target) return;
+      if (target) target.classList.remove('is-hot');
+      target = t;
+      if (t) t.classList.add('is-hot');
+      ring.classList.toggle('hot', fillable(t));
+      ring.classList.toggle('btn-hot', !!t && t.matches('.pill, .btn-view, .btn-phone'));
+      fill.classList.toggle('on', fillable(t));
+    }
+    addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse') return;
+      if (!root.classList.contains('has-cursor')) {
+        root.classList.add('has-cursor');
+        [fx, fy] = toStage(e.clientX - RING / 2, e.clientY - RING / 2);
+      }
+      x = e.clientX; y = e.clientY;
+      ring.classList.add('on');
+      if (!running) { running = true; requestAnimationFrame(frame); }
+    }, { passive: true });
+    addEventListener('pointerover', e => { if (e.pointerType === 'mouse') setTarget(pick(e.target)); }, { passive: true });
+    addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') { root.classList.remove('has-cursor'); setTarget(null); } }, { passive: true });
+    document.documentElement.addEventListener('mouseleave', () => { ring.classList.remove('on'); setTarget(null); });
+  })();
+
+  /* ---------- Buzz on the call button ---------- */
+  (() => {
+    const cta = $('.cta');
+    if (!cta) return;
+    cta.addEventListener('click', () => {
+      try { if (navigator.vibrate) navigator.vibrate(25); } catch (e) {}   // phones that support it: a 25 ms buzz
+      if (reduce) return;
+      cta.classList.remove('buzz'); void cta.offsetWidth; cta.classList.add('buzz');
+    });
+    cta.addEventListener('animationend', e => { if (e.animationName === 'forra-buzz') cta.classList.remove('buzz'); });
+  })();
+
+  // Pause / resume everything: every GSAP timeline and the film.
+  let paused = false, filmWasPlaying = false;
+  function pause() {
+    if (paused) return;
+    paused = true;
+    gsap.globalTimeline.pause();
+    filmWasPlaying = !film.paused && !film.ended;
+    if (filmWasPlaying) film.pause();
+  }
+  function resume() {
+    if (!paused) return;
+    paused = false;
+    gsap.globalTimeline.resume();
+    if (filmWasPlaying) { filmWasPlaying = false; const p = film.play(); if (p && p.catch) p.catch(() => {}); }
+  }
+  // Where the intro is: 'film' (house film playing), 'intro' (reveal), 'done' (final hero)
+  function status() {
+    if (!master) return { phase: 'loading', paused };
+    const mp = master.progress();
+    if (mp === 0 && !master.isActive()) return { phase: 'film', time: film.currentTime || 0, duration: film.duration || 0, paused, layout: mobile ? 'mobile' : 'desktop' };
+    if (mp < 1) return { phase: 'intro', time: master.time(), duration: master.duration(), paused, layout: mobile ? 'mobile' : 'desktop' };
+    return { phase: 'done', time: master.duration(), duration: master.duration(), paused, layout: mobile ? 'mobile' : 'desktop' };
+  }
+
+  window.FORRA = { segments: Object.keys(SEGMENTS), play: playSegment, playAll: restart, replay: restart, pause, resume, status, tourModes: [] };
+
+  if (location.hash === '#segments') {
+    const panel = $('#segPanel');
+    panel.classList.add('on');
+    [['all', 'Full sequence'], ...Object.entries(SEGMENTS).map(([k, v]) => [k, v.label])].forEach(([k, label]) => {
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = label;
+      b.addEventListener('click', () => k === 'all' ? restart() : playSegment(k));
+      panel.appendChild(b);
+    });
+  }
+
+  if (reduce) { showFinal(); sizeCanvas(); showReplay(true); enableTour(); return; }
+
+  root.classList.add('lock');
+  let started = false, safety;
+  const begin = () => { if (started) return; started = true; clearTimeout(safety); master.play(0); };
+
+  // Scrolling is never held back by the intro. The first scroll intent — wheel, swipe, scroll keys or a menu link —
+  // finishes the intro at once on its final frame (the approved hero), the page unlocks and the scroll carries on.
+  const SCROLL_KEYS = ['ArrowDown', 'PageDown', 'End', ' ', 'Spacebar'];
+  let touchY = null;
+  function skipIntro(dy, target) {
+    if (!root.classList.contains('lock') || !master) return;
+    pendingScroll = { dy: (pendingScroll ? pendingScroll.dy : 0) + (dy || 0), target: target || (pendingScroll && pendingScroll.target) };
+    if (!film.paused) film.pause();
+    if (!started) { started = true; clearTimeout(safety); }
+    if (solo) { solo.progress(1); solo = null; }
+    if (master.progress() < 1) master.progress(1);     // onComplete: cleanup, «Ещё раз», enableTour() → unlock
+  }
+  addEventListener('wheel', e => { if (e.deltaY > 0) skipIntro(e.deltaY); }, { passive: true });
+  addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
+  addEventListener('touchmove', e => { if (touchY != null && touchY - e.touches[0].clientY > 8) { skipIntro(touchY - e.touches[0].clientY); touchY = null; } }, { passive: true });
+  addEventListener('keydown', e => { if (SCROLL_KEYS.includes(e.key) && !e.target.closest('button, a, input, textarea')) skipIntro(innerHeight * .8); });
+  document.addEventListener('click', e => {
+    const a = e.target.closest && e.target.closest('a[href^="#"]');
+    const t = a && a.getAttribute('href').length > 1 && document.querySelector(a.getAttribute('href'));
+    if (t && root.classList.contains('lock')) { e.preventDefault(); skipIntro(0, t); }
+  });
+
+  // Fonts must be ready before measuring glyph positions and sampling text.
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+    sizeCanvas();
+    master = buildMaster();
+    if (location.hash === '#debug') { window.forraIntro = master; return; }   // dev hook: scrub from the console
+    whenFilmEnds(begin);
+    film.addEventListener('error', begin, { once: true });
+    const p = film.play();
+    if (p && p.catch) p.catch(begin);                    // autoplay blocked → go straight to the reveal
+    safety = setTimeout(begin, 15000);                    // never leave the page hidden
+  });
+})();
+</script>
+
+</body>
+</html>
